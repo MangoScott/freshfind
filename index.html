@@ -614,6 +614,22 @@
       }
     }
 
+    /* ─── TABLET ─── */
+    @media (max-width: 1024px) {
+      .wrap {
+        padding: 0 36px;
+      }
+
+      .stats-inner {
+        padding: 0 36px;
+      }
+
+      .section {
+        padding: 80px 0;
+      }
+    }
+
+    /* ─── MOBILE ─── */
     @media (max-width: 768px) {
       nav {
         padding: 14px 20px;
@@ -624,26 +640,94 @@
       }
 
       .wrap {
-        padding: 0 24px;
+        padding: 0 20px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 100px 0 60px;
+      }
+
+      .hero h1 {
+        font-size: clamp(48px, 14vw, 72px);
+        margin-bottom: 12px;
+      }
+
+      .hero-sub {
+        font-size: 17px;
+        margin-bottom: 32px;
+      }
+
+      .hero-illustration svg {
+        width: 100%;
+        height: auto;
+        max-width: 360px;
+      }
+
+      .hero-meta {
+        flex-direction: column;
+        gap: 12px;
+        padding-top: 28px;
+      }
+
+      .hero-meta-right {
+        text-align: left;
+      }
+
+      .section {
+        padding: 60px 0;
+      }
+
+      .section h2 {
+        font-size: clamp(32px, 9vw, 42px);
+      }
+
+      .section p {
+        font-size: 15.5px;
+      }
+
+      p.lead {
+        font-size: 17px;
+      }
+
+      .stats-banner {
+        padding: 40px 0;
       }
 
       .stats-inner {
         flex-direction: column;
-        gap: 24px;
-        padding: 0 24px;
+        gap: 28px;
+        padding: 0 20px;
       }
 
       .layer {
         flex-direction: column;
         gap: 12px;
+        margin-bottom: 32px;
+        padding-bottom: 32px;
       }
 
       .layer-sketch {
         width: auto;
       }
 
+      .layer-content h3 {
+        font-size: 26px;
+      }
+
+      .layer-content p {
+        font-size: 15px;
+      }
+
+      .tools-callout {
+        padding: 24px 20px;
+        margin: 28px 0;
+      }
+
       .channel-grid {
         grid-template-columns: 1fr;
+        gap: 14px;
+        margin: 24px 0;
       }
 
       .case-study {
@@ -653,20 +737,24 @@
 
       .case-location {
         min-width: auto;
+        font-size: 22px;
       }
 
       .metric-row {
         flex-direction: column;
         gap: 4px;
+        padding: 16px 0;
       }
 
       .metric-name {
         min-width: auto;
+        font-size: 24px;
       }
 
       .timeline-phase {
         flex-direction: column;
         gap: 4px;
+        padding: 20px 0;
       }
 
       .phase-label,
@@ -674,17 +762,22 @@
         min-width: auto;
       }
 
-      .hero-meta {
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .hero-meta-right {
-        text-align: left;
-      }
-
       .tool-links {
         flex-direction: column;
+      }
+
+      .closing {
+        padding: 60px 0 80px;
+      }
+
+      .closing-quote {
+        font-size: 17px;
+      }
+
+      .section-illustration svg {
+        width: 100%;
+        height: auto;
+        max-width: 300px;
       }
     }
   </style>
