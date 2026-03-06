@@ -1213,6 +1213,36 @@
       <p>We built it on top of tools we already had in the field. It works with local governments, not around them. And
         it does four specific things:</p>
 
+      <div class="tools-callout reveal">
+        <div class="tools-callout-label">already built · not vaporware</div>
+        <h3>the first two layers are live right now</h3>
+        <p>The <strong>Food Assistance Calculator</strong> is live on our site — it checks SNAP eligibility, estimates
+          benefits, and connects people to nearby resources. The <strong>Food Desert Analyzer</strong> scores grocery
+          access, fresh food availability, and transit barriers for any zip code. These aren't mockups. They're working
+          tools in use today.</p>
+        <p>FreshFind wraps these into a <strong>generative AI</strong> layer — a conversational interface that walks
+          users through the system in plain language, the way a knowledgeable caseworker would. The multi-step work
+          (checking eligibility across programs, routing to real food sources, pre-filling applications, monitoring
+          policy changes) is handled by <strong>agentic AI</strong> that acts on the user's behalf without requiring
+          them to understand any of the underlying complexity.</p>
+        <div class="tool-links">
+          <a href="https://finmango.org/food-assistance-calculator" class="tool-link" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+              <path d="M6 6 L6 10 M8 8 L10 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+            </svg>
+            Food Assistance Calculator →
+          </a>
+          <a href="https://finmango.org/food-desert-analyzer" class="tool-link" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="7" r="5" stroke="currentColor" stroke-width="1.5" fill="none" />
+              <path d="M8 12 L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+            Food Desert Analyzer →
+          </a>
+        </div>
+      </div>
+
       <div class="layer reveal">
         <div class="layer-sketch">
           <svg class="sketch-filter" width="100" height="100" viewBox="0 0 100 100" fill="none">
@@ -1299,32 +1329,6 @@
         </div>
       </div>
 
-      <div class="tools-callout reveal">
-        <div class="tools-callout-label">already built</div>
-        <h3>this isn't a pitch deck — we've already started</h3>
-        <p>The first two layers? They exist. The <strong>Food Assistance Calculator</strong> is live on our site right
-          now — it checks SNAP eligibility, estimates your benefits, and connects you to nearby resources. The
-          <strong>Food Desert Analyzer</strong> scores grocery access, fresh food availability, and transportation
-          barriers for any zip code. FreshFind takes these tools and adds AI on top to make the whole experience feel
-          like talking to someone who actually knows the system.
-        </p>
-        <div class="tool-links">
-          <a href="https://finmango.org/food-assistance-calculator" class="tool-link" target="_blank">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" />
-              <path d="M6 6 L6 10 M8 8 L10 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
-            </svg>
-            Food Assistance Calculator →
-          </a>
-          <a href="https://finmango.org/food-desert-analyzer" class="tool-link" target="_blank">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <circle cx="8" cy="7" r="5" stroke="currentColor" stroke-width="1.5" fill="none" />
-              <path d="M8 12 L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-            </svg>
-            Food Desert Analyzer →
-          </a>
-        </div>
-      </div>
     </section>
 
     <!-- ═══════ 03 · RESEARCH ═══════ -->
@@ -1454,9 +1458,11 @@
         City), a growing rural hub (Twin Falls), and a deep-rural Appalachian county (Wolfe County, KY). The same
         approach worked in all of them.</p>
 
-      <p>Here's why it scales: each time we add a community, we feed FreshFind the local data — which stores accept
-        SNAP, where the food pantries are, how transit works, what the state rules are. The AI builds a local model on
-        top of the same core platform. We don't rebuild anything. We just teach it a new place.</p>
+      <p>Here's why it scales for governments: FreshFind is built as a replicable toolkit, not a custom project. Any
+        state SNAP agency, county health department, or city 211 system can deploy it by supplying their local data —
+        which stores accept SNAP, where food pantries are, how transit works, what the state rules are. The AI builds a
+        local model on the same core infrastructure. No rebuilding. No new codebase. Just a new deployment. One
+        government's success becomes another government's starting point.</p>
 
       <div class="section-illustration">
         <svg width="300" height="95" viewBox="0 0 300 95" fill="none">
@@ -1472,14 +1478,16 @@
             stroke-dasharray="3 3" />
           <circle cx="160" cy="48" r="50" stroke="#2a7d5b" stroke-width="0.6" fill="none" opacity="0.12"
             stroke-dasharray="3 3" />
-          <text x="85" y="90" font-family="Caveat, cursive" font-size="15" fill="#7a7a7a">5 communities → any U.S.
-            county</text>
+          <text x="70" y="90" font-family="Caveat, cursive" font-size="15" fill="#7a7a7a">5 pilots → any government
+            deployment</text>
         </svg>
       </div>
 
-      <p>And eventually, this goes beyond the U.S. FinMango already operates in 13+ countries, and the navigation
-        problem is the same everywhere. India's Public Distribution System, Brazil's Bolsa Família — different programs,
-        same frustration. People who need help can't find it.</p>
+      <p>And the model travels. FinMango already operates in 13+ countries, and the government navigation problem is
+        universal. India's Public Distribution System, Brazil's Bolsa Família — the FreshFind architecture is designed
+        so that any government running a social benefits program can replicate it. At the end of the 18-month grant
+        period, we'll publish a full open-source toolkit so any city, state, or national government can deploy this
+        without starting from scratch.</p>
     </section>
 
     <!-- ═══════ 07 · ABOUT ═══════ -->
