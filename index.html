@@ -258,11 +258,17 @@
       align-items: flex-start;
       margin-bottom: 48px;
       padding-bottom: 48px;
-      border-bottom: 1px dashed var(--light);
+      position: relative;
     }
 
-    .layer:last-child {
-      border-bottom: none;
+    .layer:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-bottom: 1.5px dashed var(--light);
+      filter: url(#hand-drawn);
     }
 
     .layer-sketch {
@@ -312,9 +318,20 @@
     /* ─── TOOLS CALLOUT ─── */
     .tools-callout {
       background: var(--green-pale);
-      border-left: 3px solid var(--green);
       padding: 32px 36px;
       margin: 44px 0;
+      position: relative;
+      border-radius: 4px;
+    }
+
+    .tools-callout::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-left: 3px solid var(--green);
+      border-radius: 8px 255px 12px 25px / 255px 8px 225px 10px;
+      pointer-events: none;
+      filter: url(#hand-drawn);
     }
 
     .tools-callout-label {
@@ -355,17 +372,19 @@
       gap: 8px;
       padding: 10px 18px;
       border: 1.5px solid var(--green);
-      border-radius: 3px;
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
       color: var(--green);
       text-decoration: none;
       transition: all 0.2s;
+      position: relative;
     }
 
     .tool-link:hover {
       background: var(--green);
       color: white;
+      transform: translateY(-2px);
     }
 
     /* ─── CASE STUDIES ─── */
@@ -377,12 +396,18 @@
       display: flex;
       gap: 24px;
       padding: 22px 0;
-      border-bottom: 1px dashed var(--light);
       align-items: baseline;
+      position: relative;
     }
 
-    .case-study:last-child {
-      border-bottom: none;
+    .case-study:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-bottom: 1.5px dashed var(--light);
+      filter: url(#hand-drawn);
     }
 
     .case-location {
@@ -410,8 +435,17 @@
 
     .channel {
       padding: 22px;
+      position: relative;
+    }
+
+    .channel::before {
+      content: '';
+      position: absolute;
+      inset: 0;
       border: 1.5px solid var(--lighter);
-      border-radius: 2px;
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+      pointer-events: none;
+      filter: url(#hand-drawn);
     }
 
     .channel h4 {
@@ -434,11 +468,17 @@
       gap: 20px;
       align-items: baseline;
       padding: 20px 0;
-      border-bottom: 1px dashed var(--light);
+      position: relative;
     }
 
-    .metric-row:last-child {
-      border-bottom: none;
+    .metric-row:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-bottom: 1.5px dashed var(--light);
+      filter: url(#hand-drawn);
     }
 
     .metric-name {
@@ -462,11 +502,17 @@
       gap: 28px;
       align-items: flex-start;
       padding: 28px 0;
-      border-bottom: 1px dashed var(--light);
+      position: relative;
     }
 
-    .timeline-phase:last-child {
-      border-bottom: none;
+    .timeline-phase:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-bottom: 1.5px dashed var(--light);
+      filter: url(#hand-drawn);
     }
 
     .phase-label {
