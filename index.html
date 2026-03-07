@@ -119,12 +119,13 @@
     }
 
     .hero h1 {
-      font-family: 'Caveat', cursive;
-      font-size: clamp(72px, 10vw, 120px);
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(60px, 9vw, 100px);
+      letter-spacing: -3px;
       font-weight: 700;
       color: var(--ink);
-      line-height: 0.9;
-      margin-bottom: 20px;
+      line-height: 0.95;
+      margin-bottom: 24px;
       opacity: 0;
       animation: fadeUp 0.8s ease forwards;
     }
@@ -184,12 +185,23 @@
     }
 
     .section h2 {
-      font-family: 'Caveat', cursive;
-      font-size: clamp(42px, 6vw, 54px);
-      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(38px, 5vw, 48px);
+      letter-spacing: -1.5px;
+      font-weight: 700;
       color: var(--ink);
       line-height: 1.05;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+    }
+
+    .annotation {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(20px, 4vw, 24px);
+      color: var(--amber);
+      transform: rotate(-3deg);
+      display: inline-block;
+      margin-left: 12px;
+      font-weight: 500;
     }
 
     .section p {
@@ -216,10 +228,9 @@
 
     /* ─── STATS BANNER ─── */
     .stats-banner {
-      background: var(--green-pale);
-      border-top: 1px solid var(--green-light);
-      border-bottom: 1px solid var(--green-light);
-      padding: 56px 0;
+      background: var(--ink);
+      padding: 64px 0;
+      color: var(--bg);
     }
 
     .stats-inner {
@@ -232,22 +243,25 @@
     }
 
     .stat {
-      text-align: center;
+      text-align: left;
       flex: 1;
+      padding-left: 24px;
+      border-left: 2px solid var(--green);
     }
 
     .stat-number {
-      font-family: 'Caveat', cursive;
-      font-size: clamp(42px, 5vw, 56px);
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(48px, 6vw, 64px);
       font-weight: 700;
-      color: var(--green);
+      letter-spacing: -2px;
+      color: var(--bg);
       line-height: 1;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
     }
 
     .stat-label {
-      font-size: 13px;
-      color: var(--muted);
+      font-size: 15.5px;
+      color: var(--light);
       line-height: 1.5;
     }
 
@@ -1332,23 +1346,37 @@
 
       <div class="layer reveal">
         <div class="layer-sketch">
-          <svg class="sketch-filter" width="100" height="100" viewBox="0 0 100 100" fill="none">
-            <rect x="22" y="15" width="45" height="60" rx="3" stroke="#1a1a1a" stroke-width="1.8" fill="none" />
-            <line x1="32" y1="30" x2="57" y2="30" stroke="#c8c8c8" stroke-width="1.2" />
-            <line x1="32" y1="40" x2="57" y2="40" stroke="#c8c8c8" stroke-width="1.2" />
-            <line x1="32" y1="50" x2="50" y2="50" stroke="#c8c8c8" stroke-width="1.2" />
-            <path d="M30 58 L34 62 L42 54" stroke="#2a7d5b" stroke-width="1.8" fill="none" stroke-linecap="round" />
-            <path d="M62 55 L78 30 L82 34 L66 59 Z" stroke="#1a1a1a" stroke-width="1.3" fill="none" />
-            <path d="M62 55 L60 65 L66 59" stroke="#1a1a1a" stroke-width="1.3" fill="none" />
-          </svg>
+          <!-- Sleek, SMS-like UI representation instead of hand-drawn sketch -->
+          <div
+            style="background: white; border: 1px solid var(--lighter); border-radius: 16px; padding: 14px; width: 150px; box-shadow: 0 12px 30px rgba(0,0,0,0.06); font-family: 'DM Sans', sans-serif;">
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+              <div
+                style="width: 24px; height: 24px; border-radius: 12px; background: var(--green-light); display: flex; align-items: center; justify-content: center;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--green)">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
+                </svg>
+              </div>
+              <div style="flex:1; background: var(--lighter); border-radius: 4px; height: 12px; margin-top: 6px;"></div>
+            </div>
+            <div
+              style="background: var(--green-pale); border-radius: 12px 12px 12px 2px; padding: 10px; font-size: 11px; color: var(--green-dark); margin-bottom: 8px; line-height: 1.4;">
+              Your SNAP app is drafted and ready to submit!
+            </div>
+            <div
+              style="background: var(--green); border-radius: 8px; color: white; text-align: center; padding: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s;">
+              Tap to Sign
+            </div>
+          </div>
         </div>
         <div class="layer-content">
           <div class="layer-number">layer three</div>
-          <h3>it helps you actually apply</h3>
+          <h3>it helps you actually apply <span class="annotation">the real magic ✨</span></h3>
           <p>This is where the real impact happens. Most people drop off during the application process because it's
             confusing, the forms are long, and nobody tells you what documents you need until you've already waited in
-            line. FreshFind pre-fills what it can, walks you through the rest, flags deadlines, and sends reminders when
-            it's time to recertify. Caseworkers spend less time on paperwork; families actually get enrolled.</p>
+            line. FreshFind pre-fills what it can, walks you through the rest via a simple text interface, flags
+            deadlines, and sends reminders when
+            it's time to recertify. It's not a frustrating portal—it's a helpful digital caseworker right on your phone.
+          </p>
         </div>
       </div>
 
@@ -1381,11 +1409,24 @@
     <!-- ═══════ 03 · RESEARCH ═══════ -->
     <section class="section reveal" id="research">
       <div class="section-label">03</div>
-      <h2>research foundation</h2>
-      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
+      <h2>research foundation <span class="annotation">built on real data</span></h2>
+      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8" style="margin-bottom: 16px;">
         <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2"
           fill="none" />
       </svg>
+
+      <!-- ADD CREDIBILITY BADGE -->
+      <div
+        style="display: inline-flex; align-items: center; gap: 12px; padding: 10px 20px; background: #fff; border: 1.5px solid var(--lighter); border-radius: 100px; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+        <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3Zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-2.33v8.02Z"
+            fill="var(--green)" />
+        </svg>
+        <span
+          style="font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 600; color: var(--ink); letter-spacing: 0.5px; text-transform: uppercase;">In
+          Collaboration with the University of Virginia</span>
+      </div>
 
       <p>We didn't just read about food insecurity. In collaboration with the University of Virginia, we went to five
         very different places and mapped what was actually
