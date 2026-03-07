@@ -393,6 +393,8 @@
       text-decoration: none;
       transition: all 0.2s;
       position: relative;
+      background-color: transparent;
+      cursor: pointer;
     }
 
     .tool-link:hover {
@@ -1551,39 +1553,13 @@
         program in your area, and can walk you through the entire process from "do I qualify?" to "your application is
         submitted."</p>
 
-      <p>We built it on top of tools we already had in the field. It works with local governments, not around them. And
-        it does four specific things:</p>
+      <p>We built this infrastructure on top of tools we already had in the field. It works with local governments, not
+        around them. FreshFind wraps these foundational tools into a <strong>generative AI</strong> layer — a
+        conversational interface that walks users through the system in plain language, the way a knowledgeable
+        caseworker would.</p>
 
-      <div class="tools-callout reveal">
-        <div class="tools-callout-label">already built · not vaporware</div>
-        <h3>the first two layers are live right now</h3>
-        <p>The <strong>Food Assistance Calculator</strong> is live on our site — it checks SNAP eligibility, estimates
-          benefits, and connects people to nearby resources. The <strong>Food Desert Analyzer</strong> scores grocery
-          access, fresh food availability, and transit barriers for any zip code. These aren't mockups. They're working
-          tools in use today.</p>
-        <p>FreshFind wraps these into a <strong>generative AI</strong> layer — a conversational interface that walks
-          users through the system in plain language, the way a knowledgeable caseworker would. The multi-step work
-          (checking eligibility across programs, routing to real food sources, pre-filling applications, monitoring
-          policy changes) is handled by <strong>agentic AI</strong> that acts on the user's behalf without requiring
-          them to understand any of the underlying complexity.</p>
-        <div class="tool-links">
-          <button onclick="openModal('calcModal')" class="tool-link" style="background: transparent; cursor: pointer;">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" />
-              <path d="M6 6 L6 10 M8 8 L10 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
-            </svg>
-            Food Assistance Calculator →
-          </button>
-          <button onclick="openModal('desertModal')" class="tool-link"
-            style="background: transparent; cursor: pointer;">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <circle cx="8" cy="7" r="5" stroke="currentColor" stroke-width="1.5" fill="none" />
-              <path d="M8 12 L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-            </svg>
-            Food Desert Analyzer →
-          </button>
-        </div>
-      </div>
+      <p>The multi-step work is handled by <strong>agentic AI</strong> that acts on the user's behalf without requiring
+        them to understand the underlying complexity. So it does four specific things:</p>
 
       <div class="layer reveal">
         <div class="layer-sketch">
@@ -1599,7 +1575,15 @@
           <p>You answer a few questions. FreshFind checks everything at once: SNAP, WIC, free school meals, food
             pantries, utility assistance, Medicaid nutrition programs. Instead of applying to six different places and
             hoping for the best, you get one clear picture of every resource available to you.</p>
-          <div class="layer-tag">✦ we already built this — it's live right now</div>
+          <div style="margin-top: 20px;">
+            <button onclick="openModal('calcModal')" class="tool-link">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" />
+                <path d="M6 6 L6 10 M8 8 L10 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+              </svg>
+              Try the Food Assistance Calculator →
+            </button>
+          </div>
         </div>
       </div>
 
@@ -1621,7 +1605,15 @@
           <p>Knowing you qualify doesn't put groceries on the table. So FreshFind goes further: it finds the nearest
             stores that accept SNAP and actually carry fresh produce, pulls up food pantry hours, figures out how you'd
             get there, and checks what's in season. All based on your exact location.</p>
-          <div class="layer-tag">✦ we already built this too — also live</div>
+          <div style="margin-top: 20px;">
+            <button onclick="openModal('desertModal')" class="tool-link">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <circle cx="8" cy="7" r="5" stroke="currentColor" stroke-width="1.5" fill="none" />
+                <path d="M8 12 L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+              </svg>
+              Try the Food Desert Analyzer →
+            </button>
+          </div>
         </div>
       </div>
 
