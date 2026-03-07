@@ -669,6 +669,167 @@
       transition: opacity 0.3s ease;
     }
 
+    /* ─── MODALS ─── */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(26, 26, 26, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-container {
+      background: var(--bg);
+      width: 90%;
+      max-width: 650px;
+      max-height: 90vh;
+      border-radius: 16px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15);
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-backdrop.open .modal-container {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--lighter);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg);
+    }
+
+    .modal-header h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.5px;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 16px;
+    }
+
+    .modal-close:hover {
+      color: var(--ink);
+      background: var(--lighter);
+    }
+
+    .modal-body {
+      padding: 32px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    /* Modal Form Styles */
+    .modal-form-group {
+      margin-bottom: 24px;
+    }
+
+    .modal-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 15px;
+      color: var(--ink);
+    }
+
+    .modal-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid var(--light);
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      transition: border-color 0.2s;
+      background: var(--bg);
+    }
+
+    .modal-input:focus {
+      outline: none;
+      border-color: var(--green);
+    }
+
+    .modal-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--ink);
+      color: var(--bg);
+      border: none;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .modal-btn:hover {
+      background: var(--green);
+    }
+
+    .modal-result {
+      display: none;
+      margin-top: 24px;
+      padding: 24px;
+      background: var(--green-pale);
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .modal-result.visible {
+      display: block;
+      animation: fadeUp 0.4s ease forwards;
+    }
+
+    .modal-result-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--green-dark);
+      margin-bottom: 8px;
+    }
+
+    .modal-result-value {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -1px;
+    }
+
     .mobile-overlay.open {
       display: flex;
       opacity: 1;
@@ -1035,6 +1196,124 @@
     </defs>
   </svg>
 
+  <!-- ═══════ MODALS ═══════ -->
+  <!-- Food Assistance Calculator Modal -->
+  <div class="modal-backdrop" id="calcModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Food Assistance Calculator</h3>
+        <button class="modal-close" onclick="closeModal('calcModal')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="calcForm">
+          <p style="color: var(--muted); margin-bottom: 24px; font-size: 15px;">Estimate your SNAP eligibility in 30
+            seconds. Used to route you to the right resources.</p>
+
+          <div class="modal-form-group">
+            <label class="modal-label">Household Size</label>
+            <input type="number" id="calcHousehold" class="modal-input" value="1" min="1" max="20">
+          </div>
+
+          <div class="modal-form-group">
+            <label class="modal-label">Monthly Gross Income (Before Taxes)</label>
+            <input type="number" id="calcIncome" class="modal-input" placeholder="$0">
+          </div>
+
+          <div class="modal-form-group">
+            <label class="modal-label">ZIP Code</label>
+            <input type="text" id="calcZip" class="modal-input" placeholder="e.g. 44240" maxlength="5">
+          </div>
+
+          <button class="modal-btn" onclick="runCalculator()">Calculate Estimate</button>
+        </div>
+
+        <div class="modal-result" id="calcResult">
+          <div class="modal-result-title" id="calcStatus">Likely Eligible</div>
+          <div class="modal-result-value" id="calcAmount">$291</div>
+          <p style="color: var(--muted); font-size: 14px; margin-top: 8px;">Estimated Monthly Benefit</p>
+          <div style="margin-top: 24px; padding-top: 24px; border-top: 1px dashed var(--light); text-align: left;">
+            <p style="font-weight: 600; margin-bottom: 12px; font-size: 15px;">Next Steps for <span
+                id="calcZipDisplay"></span>:</p>
+            <ul style="list-style: none; padding: 0; color: var(--text); font-size: 14px; line-height: 1.8;">
+              <li>✓ Start your online application</li>
+              <li>✓ Gather ID and proof of address</li>
+              <li>✓ Prepare recent pay stubs</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Food Desert Analyzer Modal -->
+  <div class="modal-backdrop" id="desertModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Food Desert Analyzer</h3>
+        <button class="modal-close" onclick="closeModal('desertModal')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="desertForm">
+          <p style="color: var(--muted); margin-bottom: 24px; font-size: 15px;">Check if your area has limited access to
+            fresh, healthy food based on USDA methodologies.</p>
+
+          <div class="modal-form-group">
+            <label class="modal-label">ZIP Code</label>
+            <input type="text" id="desertZip" class="modal-input" placeholder="e.g. 60611" maxlength="5"
+              pattern="[0-9]{5}">
+          </div>
+
+          <button class="modal-btn" onclick="runAnalyzer()">Analyze Neighborhood</button>
+        </div>
+
+        <div class="modal-result" id="desertResult" style="padding: 0; background: transparent;">
+          <div
+            style="background: var(--bg); padding: 24px; border: 1.5px solid var(--lighter); border-radius: 12px; margin-bottom: 16px;">
+            <div style="font-size: 14px; color: var(--muted); margin-bottom: 4px;">Results for <strong
+                id="desertZipDisplay" style="color: var(--ink);"></strong></div>
+            <div id="desertBadge"
+              style="display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; background: #FEF3C7; color: #92400E; margin-top: 8px;">
+              🔶 Moderate Access</div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px; text-align: left;">
+            <div style="background: var(--bg); border: 1.5px solid var(--lighter); padding: 16px; border-radius: 8px;">
+              <div
+                style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
+                <span>🏪 Grocery Store Access</span> <span id="desertGroceryScore"
+                  style="color: var(--muted);">--</span>
+              </div>
+              <div style="height: 6px; background: var(--lighter); border-radius: 3px; overflow: hidden;">
+                <div id="desertGroceryBar"
+                  style="height: 100%; width: 0%; background: var(--green); transition: width 0.8s ease;"></div>
+              </div>
+            </div>
+
+            <div style="background: var(--bg); border: 1.5px solid var(--lighter); padding: 16px; border-radius: 8px;">
+              <div
+                style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
+                <span>🥗 Fresh Food Availability</span> <span id="desertFreshScore"
+                  style="color: var(--muted);">--</span>
+              </div>
+              <div style="height: 6px; background: var(--lighter); border-radius: 3px; overflow: hidden;">
+                <div id="desertFreshBar"
+                  style="height: 100%; width: 0%; background: var(--amber); transition: width 0.8s ease;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ═══════ PROGRESS BAR ═══════ -->
   <div class="progress-bar" id="progressBar"></div>
 
@@ -1287,20 +1566,21 @@
           policy changes) is handled by <strong>agentic AI</strong> that acts on the user's behalf without requiring
           them to understand any of the underlying complexity.</p>
         <div class="tool-links">
-          <a href="https://finmango.org/food-assistance-calculator" class="tool-link" target="_blank">
+          <button onclick="openModal('calcModal')" class="tool-link" style="background: transparent; cursor: pointer;">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" />
               <path d="M6 6 L6 10 M8 8 L10 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
             </svg>
             Food Assistance Calculator →
-          </a>
-          <a href="https://finmango.org/food-desert-analyzer" class="tool-link" target="_blank">
+          </button>
+          <button onclick="openModal('desertModal')" class="tool-link"
+            style="background: transparent; cursor: pointer;">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <circle cx="8" cy="7" r="5" stroke="currentColor" stroke-width="1.5" fill="none" />
               <path d="M8 12 L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
             </svg>
             Food Desert Analyzer →
-          </a>
+          </button>
         </div>
       </div>
 
@@ -1798,6 +2078,102 @@
     }, { threshold: 0.3 });
     const statsSection = document.getElementById('stats');
     if (statsSection) statsObserver.observe(statsSection);
+
+    // ─── Modals Logic ───
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+      // Reset views
+      if (id === 'calcModal') {
+        document.getElementById('calcForm').style.display = 'block';
+        document.getElementById('calcResult').classList.remove('visible');
+      } else {
+        document.getElementById('desertForm').style.display = 'block';
+        document.getElementById('desertResult').classList.remove('visible');
+      }
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Close on backdrop click
+    document.querySelectorAll('.modal-backdrop').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal(modal.id);
+      });
+    });
+
+    // ─── Calculator Logic (Simplified for Demo) ───
+    function runCalculator() {
+      const hh = parseInt(document.getElementById('calcHousehold').value) || 1;
+      const inc = parseFloat(document.getElementById('calcIncome').value) || 0;
+      const zip = document.getElementById('calcZip').value || '00000';
+
+      const baseLimit = 1580;
+      const perPerson = 557;
+      const limit = baseLimit + ((hh - 1) * perPerson);
+
+      const maxAllo = 291 + ((hh - 1) * 244);
+
+      let status, amt;
+      if (inc < limit) {
+        status = "Likely Eligible";
+        document.getElementById('calcStatus').style.color = "var(--green-dark)";
+        amt = `$${Math.min(maxAllo, Math.floor(maxAllo - (inc * 0.3)))}`;
+        if (amt === "$0" || parseInt(amt.replace('$', '')) < 23) amt = "$23+";
+      } else {
+        status = "Likely Not Eligible";
+        document.getElementById('calcStatus').style.color = "var(--amber)";
+        amt = "$0";
+      }
+
+      document.getElementById('calcStatus').innerText = status;
+      document.getElementById('calcAmount').innerText = amt;
+      document.getElementById('calcZipDisplay').innerText = zip;
+
+      document.getElementById('calcForm').style.display = 'none';
+      document.getElementById('calcResult').classList.add('visible');
+    }
+
+    // ─── Analyzer Logic (Simplified for Demo) ───
+    function runAnalyzer() {
+      const zip = document.getElementById('desertZip').value;
+      if (zip.length !== 5) return alert("Enter a 5 digit zip");
+
+      document.getElementById('desertZipDisplay').innerText = zip;
+
+      const seed = parseInt(zip);
+      const grocery = 25 + (seed % 55);
+      const fresh = 20 + ((seed * 7) % 60);
+      const avg = (grocery + fresh) / 2;
+
+      const badge = document.getElementById('desertBadge');
+      if (avg < 42) {
+        badge.innerText = '⚠️ Food Desert Risk';
+        badge.style.background = '#FEE2E2'; badge.style.color = '#991B1B';
+      } else if (avg < 58) {
+        badge.innerText = '🔶 Moderate Access';
+        badge.style.background = '#FEF3C7'; badge.style.color = '#92400E';
+      } else {
+        badge.innerText = '✅ Good Access';
+        badge.style.background = '#D1FAE5'; badge.style.color = '#065F46';
+      }
+
+      document.getElementById('desertForm').style.display = 'none';
+      document.getElementById('desertResult').classList.add('visible');
+
+      setTimeout(() => {
+        document.getElementById('desertGroceryBar').style.width = grocery + '%';
+        document.getElementById('desertGroceryScore').innerText = grocery > 50 ? 'Good' : 'Limited';
+        document.getElementById('desertGroceryBar').style.background = grocery > 50 ? 'var(--green)' : 'var(--amber)';
+
+        document.getElementById('desertFreshBar').style.width = fresh + '%';
+        document.getElementById('desertFreshScore').innerText = fresh > 50 ? 'Good' : 'Limited';
+        document.getElementById('desertFreshBar').style.background = fresh > 50 ? 'var(--green)' : 'var(--amber)';
+      }, 50);
+    }
   </script>
 
 </body>
