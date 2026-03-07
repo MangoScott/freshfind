@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshFind — The Quick Version</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --green: #2a7d5b;
+            --green-dark: #1e5e42;
+            --green-light: #e8f5ee;
+            --green-pale: #f4faf7;
+            --ink: #1a1a1a;
+            --text: #3a3a3a;
+            --muted: #7a7a7a;
+            --light: #d0d0d0;
+            --lighter: #e8e8e8;
+            --bg: #fefefe;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .pitch {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 80px 32px 100px;
+        }
+
+        /* Top bar */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 64px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--lighter);
+        }
+
+        .top-bar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .top-bar-logo img {
+            height: 24px;
+        }
+
+        .top-bar-logo span {
+            font-family: 'Caveat', cursive;
+            font-size: 15px;
+            color: var(--muted);
+            padding-left: 10px;
+            border-left: 1px solid var(--lighter);
+        }
+
+        .top-bar-meta {
+            font-size: 12px;
+            color: var(--muted);
+            text-align: right;
+            line-height: 1.4;
+        }
+
+        /* Header */
+        .pitch h1 {
+            font-family: 'Caveat', cursive;
+            font-size: 64px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .pitch .tagline {
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 48px;
+        }
+
+        /* Section dividers */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 48px 0 24px;
+        }
+
+        .divider-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--green);
+            white-space: nowrap;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: var(--lighter);
+        }
+
+        /* Body copy */
+        .pitch p {
+            margin-bottom: 20px;
+            font-size: 17px;
+            color: var(--text);
+        }
+
+        .pitch p strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .pitch .highlight {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        /* Big stat */
+        .stat-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 24px 16px;
+            background: var(--green-pale);
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        /* Layers */
+        .layers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 28px 0;
+        }
+
+        .layer-card {
+            padding: 20px;
+            border: 1.5px solid var(--lighter);
+            border-radius: 10px;
+            background: var(--bg);
+        }
+
+        .layer-num {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--green);
+            margin-bottom: 6px;
+        }
+
+        .layer-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .layer-desc {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        /* Callout */
+        .callout {
+            background: var(--green-pale);
+            border-left: 3px solid var(--green);
+            padding: 20px 24px;
+            border-radius: 0 10px 10px 0;
+            margin: 32px 0;
+            font-size: 16px;
+            color: var(--ink);
+            line-height: 1.6;
+        }
+
+        .callout strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 14px;
+            color: var(--green-dark);
+        }
+
+        /* Bottom CTA */
+        .bottom {
+            margin-top: 56px;
+            padding-top: 40px;
+            border-top: 1px solid var(--lighter);
+            text-align: center;
+        }
+
+        .bottom p {
+            font-size: 15px;
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            text-decoration: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--ink);
+            color: var(--bg);
+        }
+
+        .btn-primary:hover {
+            background: var(--green);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--ink);
+            border: 1.5px solid var(--lighter);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--ink);
+        }
+
+        /* Footer */
+        .pitch-footer {
+            margin-top: 64px;
+            padding-top: 24px;
+            border-top: 1px solid var(--lighter);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .pitch-footer a {
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .pitch-footer a:hover {
+            color: var(--green);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .pitch {
+                padding: 48px 20px 72px;
+            }
+
+            .pitch h1 {
+                font-size: 48px;
+            }
+
+            .pitch .tagline {
+                font-size: 18px;
+            }
+
+            .stat-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 16px;
+            }
+
+            .stat-number {
+                font-size: 28px;
+            }
+
+            .layers {
+                grid-template-columns: 1fr;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .top-bar-meta {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="pitch">
+
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <a href="index.html" class="top-bar-logo">
+                <img src="finmango.png" alt="FinMango">
+                <span>freshfind</span>
+            </a>
+            <div class="top-bar-meta">
+                <div><strong style="color: var(--ink);">FinMango</strong> · 501(c)(3)</div>
+                <div>Google.org Impact Challenge · AI for Government Innovation</div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <h1>freshfind</h1>
+        <p class="tagline">An AI tool that helps people find the food assistance they already qualify for.</p>
+
+        <!-- ═══ THE PROBLEM ═══ -->
+        <div class="divider">
+            <span class="divider-label">The Problem</span>
+            <div class="divider-line"></div>
+        </div>
+
+        <p>Millions of Americans qualify for food assistance but never receive it — not because they don't need help,
+            but because <strong>the system is too hard to navigate.</strong></p>
+
+        <div class="stat-row">
+            <div class="stat-card">
+                <div class="stat-number">42M</div>
+                <div class="stat-label">food insecure Americans</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$12B</div>
+                <div class="stat-label">in SNAP benefits go unclaimed each year</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1 in 4</div>
+                <div class="stat-label">eligible people never apply</div>
+            </div>
+        </div>
+
+        <p>The barriers aren't about awareness — they're about <strong>complexity</strong>. The average person must
+            navigate 30+ page applications, in-person interviews, and shifting eligibility rules that vary by state and
+            county. For rural communities without broadband or bilingual residents facing language barriers, the process
+            is even harder.</p>
+
+        <!-- ═══ THE SOLUTION ═══ -->
+        <div class="divider">
+            <span class="divider-label">The Solution</span>
+            <div class="divider-line"></div>
+        </div>
+
+        <p><strong>FreshFind is an AI-powered platform</strong> that connects people with the food assistance programs
+            they're eligible for — instantly, in plain language, in their community.</p>
+
+        <p>It works in four layers:</p>
+
+        <div class="layers">
+            <div class="layer-card">
+                <div class="layer-num">Layer 1</div>
+                <div class="layer-title">Am I eligible?</div>
+                <div class="layer-desc">Answers in 30 seconds, not 30 pages. Checks SNAP, WIC, food pantries, and local
+                    programs simultaneously.</div>
+            </div>
+            <div class="layer-card">
+                <div class="layer-num">Layer 2</div>
+                <div class="layer-title">Where's the food?</div>
+                <div class="layer-desc">Maps every food resource nearby — not just grocery stores, but pantries, farmers
+                    markets, and SNAP retailers that carry real food.</div>
+            </div>
+            <div class="layer-card">
+                <div class="layer-num">Layer 3</div>
+                <div class="layer-title">Help me apply</div>
+                <div class="layer-desc">Walks through the actual application process step by step. Pre-fills where
+                    possible. Explains what documents you need and why.</div>
+            </div>
+            <div class="layer-card">
+                <div class="layer-num">Layer 4</div>
+                <div class="layer-title">Keep me enrolled</div>
+                <div class="layer-desc">Monitors policy changes and recertification deadlines. Alerts users before they
+                    lose benefits, not after.</div>
+            </div>
+        </div>
+
+        <!-- ═══ THE PROOF ═══ -->
+        <div class="divider">
+            <span class="divider-label">The Research</span>
+            <div class="divider-line"></div>
+        </div>
+
+        <p>In collaboration with the University of Virginia, we conducted field research across five diverse communities
+            — from Chicago's South Side to rural Appalachian Kentucky — mapping the actual on-the-ground barriers to
+            food access.</p>
+
+        <p>Each community revealed different challenges but the same core finding: <strong>the programs exist, the money
+                exists, but the navigation layer between people and help is broken.</strong> FreshFind is that layer.
+        </p>
+
+        <!-- ═══ THE IMPACT ═══ -->
+        <div class="divider">
+            <span class="divider-label">The Impact</span>
+            <div class="divider-line"></div>
+        </div>
+
+        <div class="callout">
+            <strong>Every $1 of SNAP benefits generates $1.54 in local GDP.</strong>
+            When we help one family enroll, we aren't just feeding them — we're putting money into the local economy.
+            FreshFind turns government investment into community impact.
+        </div>
+
+        <p>The platform is designed as a <strong>replicable toolkit</strong>, not a custom build. Any state SNAP agency,
+            county health department, or 211 system can deploy it by supplying their local data. At the end of the
+            18-month grant period, we'll publish a full open-source toolkit so any government can deploy this without
+            starting from scratch.</p>
+
+        <!-- ═══ WHO WE ARE ═══ -->
+        <div class="divider">
+            <span class="divider-label">Who We Are</span>
+            <div class="divider-line"></div>
+        </div>
+
+        <p><strong>FinMango</strong> is a 501(c)(3) nonprofit that's operated in 13+ countries, building tools that
+            solve the navigation gap between people and the financial programs they need. FreshFind is our flagship
+            project, supported by Google.org's AI for Government Innovation Impact Challenge.</p>
+
+        <!-- CTAs -->
+        <div class="bottom">
+            <p>Want the full story?</p>
+            <div class="btn-row">
+                <a href="index.html" class="btn btn-primary">Read the Full Overview →</a>
+                <a href="https://finmango.org" class="btn btn-secondary">Visit FinMango.org</a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="pitch-footer">
+            <span>© 2025 FinMango. All rights reserved.</span>
+            <span>
+                <a href="mailto:scott@finmango.org">scott@finmango.org</a>
+            </span>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
