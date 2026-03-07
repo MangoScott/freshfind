@@ -832,6 +832,119 @@
       letter-spacing: -1px;
     }
 
+    /* Calculator Step Wizard */
+    .calc-step {
+      display: none;
+      animation: fadeUp 0.4s ease forwards;
+    }
+
+    .calc-step.active {
+      display: block;
+    }
+
+    .calc-radio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    .calc-radio-card {
+      position: relative;
+    }
+
+    .calc-radio-card input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .calc-radio-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      border: 1.5px solid var(--light);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .calc-radio-card input:checked+.calc-radio-content {
+      border-color: var(--green);
+      background: var(--green-pale);
+      color: var(--green-dark);
+      font-weight: 600;
+    }
+
+    .calc-radio-content:hover {
+      border-color: var(--muted);
+    }
+
+    /* Calculator Places */
+    .calc-place {
+      background: var(--bg);
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      border: 1px solid var(--light);
+    }
+
+    .calc-place-name {
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .calc-place-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .calc-place-tags {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .calc-tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .calc-tag-wic {
+      background: #fce7f3;
+      color: #be185d;
+    }
+
+    .calc-checklist {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .calc-checklist-icon {
+      color: var(--green);
+      flex-shrink: 0;
+      font-weight: 700;
+    }
+
+    @media (max-width: 600px) {
+      .calc-step [style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
     .mobile-overlay.open {
       display: flex;
       opacity: 1;
@@ -1200,9 +1313,9 @@
   </svg>
 
   <!-- ═══════ MODALS ═══════ -->
-  <!-- Food Assistance Calculator Modal -->
+  <!-- Food Assistance Calculator Modal (Full Version) -->
   <div class="modal-backdrop" id="calcModal">
-    <div class="modal-container">
+    <div class="modal-container" style="max-width: 700px;">
       <div class="modal-header">
         <h3>Food Assistance Calculator</h3>
         <button class="modal-close" onclick="closeModal('calcModal')">
@@ -1211,50 +1324,232 @@
           </svg>
         </button>
       </div>
+      <!-- Progress Bar -->
+      <div style="height: 5px; background: var(--lighter); width: 100%;">
+        <div id="calcProgressBar"
+          style="height: 100%; width: 0%; background: var(--green); transition: width 0.3s ease;"></div>
+      </div>
       <div class="modal-body">
-        <div id="calcForm">
-          <p style="color: var(--muted); margin-bottom: 24px; font-size: 15px;">Estimate your SNAP eligibility in 30
-            seconds. Used to route you to the right resources.</p>
 
-          <div class="modal-form-group">
-            <label class="modal-label">Household Size</label>
-            <input type="number" id="calcHousehold" class="modal-input" value="1" min="1" max="20">
+        <!-- Step 1: Location & Language -->
+        <div class="calc-step active" id="calcStep1">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+            <div
+              style="width: 40px; height: 40px; border-radius: 50%; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 18px;">
+              📍</div>
+            <span style="font-size: 18px; font-weight: 700; color: var(--ink);">Location & Language</span>
           </div>
 
           <div class="modal-form-group">
-            <label class="modal-label">Monthly Gross Income (Before Taxes)</label>
-            <input type="number" id="calcIncome" class="modal-input" placeholder="$0">
+            <label class="modal-label">Language Preference</label>
+            <div class="calc-radio-grid">
+              <label class="calc-radio-card">
+                <input type="radio" name="calcLang" value="en" checked>
+                <div class="calc-radio-content">English</div>
+              </label>
+              <label class="calc-radio-card">
+                <input type="radio" name="calcLang" value="es">
+                <div class="calc-radio-content">Español</div>
+              </label>
+            </div>
           </div>
 
           <div class="modal-form-group">
             <label class="modal-label">ZIP Code</label>
-            <input type="text" id="calcZip" class="modal-input" placeholder="e.g. 44240" maxlength="5">
+            <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">Used to find resources near you.
+            </div>
+            <input type="text" id="calcZip" class="modal-input" placeholder="e.g. 44240" maxlength="5" pattern="[0-9]*">
           </div>
 
-          <button class="modal-btn" onclick="runCalculator()">Calculate Estimate</button>
-        </div>
-
-        <div class="modal-result" id="calcResult">
-          <div class="modal-result-title" id="calcStatus">Likely Eligible</div>
-          <div class="modal-result-value" id="calcAmount">$291</div>
-          <p style="color: var(--muted); font-size: 14px; margin-top: 8px;">Estimated Monthly Benefit</p>
-          <div style="margin-top: 24px; padding-top: 24px; border-top: 1px dashed var(--light); text-align: left;">
-            <p style="font-weight: 600; margin-bottom: 12px; font-size: 15px;">Next Steps for <span
-                id="calcZipDisplay"></span>:</p>
-            <ul style="list-style: none; padding: 0; color: var(--text); font-size: 14px; line-height: 1.8;">
-              <li>✓ Start your online application</li>
-              <li>✓ Gather ID and proof of address</li>
-              <li>✓ Prepare recent pay stubs</li>
-            </ul>
+          <div
+            style="display: flex; justify-content: flex-end; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
+            <button class="modal-btn" style="width: auto; padding: 12px 28px;" onclick="calcNextStep(2)">Next Step
+              →</button>
           </div>
         </div>
+
+        <!-- Step 2: Household -->
+        <div class="calc-step" id="calcStep2">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+            <div
+              style="width: 40px; height: 40px; border-radius: 50%; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 18px;">
+              🏠</div>
+            <span style="font-size: 18px; font-weight: 700; color: var(--ink);">Household Members</span>
+          </div>
+
+          <div class="modal-form-group">
+            <label class="modal-label">Total Household Size</label>
+            <input type="number" id="calcHousehold" class="modal-input" value="1" min="1" max="20">
+          </div>
+
+          <div class="modal-form-group">
+            <label class="modal-label">Children under 5</label>
+            <input type="number" id="calcChildren" class="modal-input" value="0" min="0">
+          </div>
+
+          <div class="modal-form-group">
+            <label class="modal-label">Adults 60+ or with disabilities?</label>
+            <div class="calc-radio-grid">
+              <label class="calc-radio-card">
+                <input type="radio" name="calcSenior" value="yes">
+                <div class="calc-radio-content">Yes</div>
+              </label>
+              <label class="calc-radio-card">
+                <input type="radio" name="calcSenior" value="no" checked>
+                <div class="calc-radio-content">No</div>
+              </label>
+            </div>
+          </div>
+
+          <div class="modal-form-group">
+            <label class="modal-label">Work-Eligible Adults (Ages 18-59)</label>
+            <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">Adults who are able to work and not
+              disabled. This may affect SNAP work requirements.</div>
+            <input type="number" id="calcWorkAdults" class="modal-input" value="0" min="0">
+          </div>
+
+          <div
+            style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
+            <button class="modal-btn"
+              style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);"
+              onclick="calcPrevStep(1)">← Back</button>
+            <button class="modal-btn" style="width: auto; padding: 12px 28px;" onclick="calcNextStep(3)">Next Step
+              →</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Income & Expenses -->
+        <div class="calc-step" id="calcStep3">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+            <div
+              style="width: 40px; height: 40px; border-radius: 50%; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 18px;">
+              💰</div>
+            <span style="font-size: 18px; font-weight: 700; color: var(--ink);">Income & Expenses</span>
+          </div>
+
+          <div class="modal-form-group">
+            <label class="modal-label">Gross Monthly Income (Before Taxes)</label>
+            <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">Include wages, social security,
+              unemployment, etc.</div>
+            <div style="position: relative;">
+              <span
+                style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500;">$</span>
+              <input type="number" id="calcIncome" class="modal-input" style="padding-left: 28px;" placeholder="0">
+            </div>
+          </div>
+
+          <div class="modal-form-group">
+            <label class="modal-label">Monthly Rent or Mortgage</label>
+            <div style="position: relative;">
+              <span
+                style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500;">$</span>
+              <input type="number" id="calcRent" class="modal-input" style="padding-left: 28px;" placeholder="0">
+            </div>
+          </div>
+
+          <div class="modal-form-group">
+            <label class="modal-label">Monthly Childcare / Dependent Care</label>
+            <div style="position: relative;">
+              <span
+                style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500;">$</span>
+              <input type="number" id="calcChildcare" class="modal-input" style="padding-left: 28px;" placeholder="0">
+            </div>
+          </div>
+
+          <div
+            style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
+            <button class="modal-btn"
+              style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);"
+              onclick="calcPrevStep(2)">← Back</button>
+            <button class="modal-btn" style="width: auto; padding: 12px 28px;" onclick="runCalculator()">See
+              Results</button>
+          </div>
+        </div>
+
+        <!-- Step 4: Results -->
+        <div class="calc-step" id="calcResults" style="display: none;">
+          <div
+            style="text-align: center; padding-bottom: 24px; border-bottom: 1px solid var(--lighter); margin-bottom: 24px;">
+            <div id="calcStatusBadge"
+              style="display: inline-block; padding: 8px 16px; border-radius: 50px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; background: #d1fae5; color: #065f46;">
+              Likely Eligible</div>
+            <h3 id="calcResultTitle"
+              style="font-family: 'DM Sans'; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">
+              You are likely eligible for SNAP</h3>
+            <div id="calcBenefitAmount"
+              style="font-family: 'DM Sans'; font-size: 42px; font-weight: 700; color: var(--ink); letter-spacing: -1px;">
+              $0 - $0</div>
+            <div
+              style="font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px;">
+              Estimated Monthly Benefit</div>
+            <p id="calcResultExplanation" style="color: var(--muted); font-size: 14px; margin-top: 12px;">Based on your
+              household size and income.</p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <!-- Places Nearby -->
+            <div style="background: var(--lighter); padding: 20px; border-radius: 10px;">
+              <h4
+                style="font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">
+                🛒 Places Nearby</h4>
+              <div id="calcPlacesList"></div>
+              <a id="calcMapLink" href="#" target="_blank" rel="noopener noreferrer"
+                style="display: block; margin-top: 14px; padding: 10px; background: var(--bg); color: var(--ink); text-align: center; text-decoration: none; font-weight: 600; border-radius: 6px; border: 1.5px solid var(--light); font-size: 14px; transition: all 0.2s;">View
+                Full Map</a>
+            </div>
+
+            <!-- Next Steps -->
+            <div style="background: var(--lighter); padding: 20px; border-radius: 10px;">
+              <h4
+                style="font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">
+                📝 Next Steps</h4>
+              <div id="calcNextSteps"></div>
+
+              <!-- WIC Alert -->
+              <div id="calcWicAlert"
+                style="display: none; margin-top: 16px; background: #fdf2f8; padding: 12px; border-radius: 8px; border: 1px solid #fbcfe8;">
+                <strong style="color: #be185d; font-size: 14px;">👶 You may also qualify for WIC</strong>
+                <p style="font-size: 13px; margin-top: 6px; color: var(--ink);">Since you have children under 5, check
+                  out the Women, Infants, and Children program.</p>
+              </div>
+
+              <!-- Local Help Alert -->
+              <div id="calcLocalHelp"
+                style="display: none; margin-top: 16px; background: #eff6ff; padding: 12px; border-radius: 8px; border: 1px solid #bfdbfe;">
+                <strong style="color: #1d4ed8; font-size: 14px;">🤝 Get Free Help Applying</strong>
+                <p id="calcLocalHelpText" style="font-size: 13px; margin-top: 6px; color: var(--ink);">Local
+                  organizations can help you complete your SNAP application for free.</p>
+                <a id="calcLocalHelpLink" href="#" target="_blank" rel="noopener noreferrer"
+                  style="display: inline-block; margin-top: 8px; color: #1d4ed8; font-weight: 600; text-decoration: underline; font-size: 13px;">Get
+                  Application Assistance →</a>
+              </div>
+
+              <a href="https://www.fns.usda.gov/snap/state-directory" target="_blank" class="modal-btn"
+                style="display: block; margin-top: 16px; text-decoration: none; text-align: center; font-size: 14px; padding: 12px;">Apply
+                for SNAP Now</a>
+            </div>
+          </div>
+
+          <div
+            style="font-size: 12px; color: var(--muted); text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
+            <strong>Disclaimer:</strong> This calculator provides an estimate only and is not an official application.
+            Final eligibility is determined by your state agency. Income limits and deduction rules vary by state.
+          </div>
+
+          <div style="margin-top: 16px; text-align: center;">
+            <button class="modal-btn"
+              style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);"
+              onclick="calcReset()">Start Over</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <!-- Food Desert Analyzer Modal -->
+  <!-- Food Desert Analyzer Modal (Full Version) -->
   <div class="modal-backdrop" id="desertModal">
-    <div class="modal-container">
+    <div class="modal-container" style="max-width: 650px;">
       <div class="modal-header">
         <h3>Food Desert Analyzer</h3>
         <button class="modal-close" onclick="closeModal('desertModal')">
@@ -1264,53 +1559,125 @@
         </button>
       </div>
       <div class="modal-body">
+        <!-- Input Form -->
         <div id="desertForm">
-          <p style="color: var(--muted); margin-bottom: 24px; font-size: 15px;">Check if your area has limited access to
-            fresh, healthy food based on USDA methodologies.</p>
-
-          <div class="modal-form-group">
-            <label class="modal-label">ZIP Code</label>
-            <input type="text" id="desertZip" class="modal-input" placeholder="e.g. 60611" maxlength="5"
-              pattern="[0-9]{5}">
+          <div style="text-align: center; margin-bottom: 28px;">
+            <div
+              style="font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 12px;">
+              Free Tool</div>
+            <p style="color: var(--muted); font-size: 15px;">Check food access in your neighborhood. Enter your zip code
+              to see if your area has limited access to fresh, healthy food.</p>
           </div>
 
-          <button class="modal-btn" onclick="runAnalyzer()">Analyze Neighborhood</button>
+          <div
+            style="background: var(--lighter); border-radius: 12px; padding: 28px; border: 1.5px solid var(--light);">
+            <div style="display: flex; gap: 12px;">
+              <input type="text" id="desertZip" class="modal-input" placeholder="Enter Zip Code" maxlength="5"
+                pattern="[0-9]{5}" inputmode="numeric"
+                style="text-align: center; font-weight: 600; letter-spacing: 0.1em; flex: 1;">
+              <button class="modal-btn" style="width: auto; padding: 12px 24px;"
+                onclick="runAnalyzer()">Analyze</button>
+            </div>
+          </div>
         </div>
 
+        <!-- Results -->
         <div class="modal-result" id="desertResult" style="padding: 0; background: transparent;">
+          <!-- Status Header -->
           <div
-            style="background: var(--bg); padding: 24px; border: 1.5px solid var(--lighter); border-radius: 12px; margin-bottom: 16px;">
-            <div style="font-size: 14px; color: var(--muted); margin-bottom: 4px;">Results for <strong
+            style="background: var(--lighter); padding: 24px; border-radius: 12px; margin-bottom: 16px; text-align: center;">
+            <div style="font-size: 14px; color: var(--muted); margin-bottom: 6px;">Results for <strong
                 id="desertZipDisplay" style="color: var(--ink);"></strong></div>
             <div id="desertBadge"
-              style="display: inline-block; padding: 6px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; background: #FEF3C7; color: #92400E; margin-top: 8px;">
+              style="display: inline-block; padding: 8px 18px; border-radius: 20px; font-size: 14px; font-weight: 700; background: #FEF3C7; color: #92400E; margin-top: 8px;">
               🔶 Moderate Access</div>
           </div>
 
-          <div style="display: flex; flex-direction: column; gap: 12px; text-align: left;">
+          <!-- 3 Metrics -->
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
             <div style="background: var(--bg); border: 1.5px solid var(--lighter); padding: 16px; border-radius: 8px;">
               <div
                 style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
-                <span>🏪 Grocery Store Access</span> <span id="desertGroceryScore"
-                  style="color: var(--muted);">--</span>
+                <span>🏪 Grocery Store Access</span>
+                <span id="desertGroceryScore" style="color: var(--muted);">--</span>
               </div>
-              <div style="height: 6px; background: var(--lighter); border-radius: 3px; overflow: hidden;">
+              <div style="height: 8px; background: var(--lighter); border-radius: 4px; overflow: hidden;">
                 <div id="desertGroceryBar"
-                  style="height: 100%; width: 0%; background: var(--green); transition: width 0.8s ease;"></div>
+                  style="height: 100%; width: 0%; border-radius: 4px; transition: width 0.8s ease;"></div>
               </div>
             </div>
 
             <div style="background: var(--bg); border: 1.5px solid var(--lighter); padding: 16px; border-radius: 8px;">
               <div
                 style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
-                <span>🥗 Fresh Food Availability</span> <span id="desertFreshScore"
-                  style="color: var(--muted);">--</span>
+                <span>🥗 Fresh Food Availability</span>
+                <span id="desertFreshScore" style="color: var(--muted);">--</span>
               </div>
-              <div style="height: 6px; background: var(--lighter); border-radius: 3px; overflow: hidden;">
+              <div style="height: 8px; background: var(--lighter); border-radius: 4px; overflow: hidden;">
                 <div id="desertFreshBar"
-                  style="height: 100%; width: 0%; background: var(--amber); transition: width 0.8s ease;"></div>
+                  style="height: 100%; width: 0%; border-radius: 4px; transition: width 0.8s ease;"></div>
               </div>
             </div>
+
+            <div style="background: var(--bg); border: 1.5px solid var(--lighter); padding: 16px; border-radius: 8px;">
+              <div
+                style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
+                <span>🚌 Transportation Access</span>
+                <span id="desertTransportScore" style="color: var(--muted);">--</span>
+              </div>
+              <div style="height: 8px; background: var(--lighter); border-radius: 4px; overflow: hidden;">
+                <div id="desertTransportBar"
+                  style="height: 100%; width: 0%; border-radius: 4px; transition: width 0.8s ease;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Find Resources -->
+          <a href="https://www.feedingamerica.org/find-your-local-foodbank" target="_blank" rel="noopener noreferrer"
+            class="modal-btn"
+            style="display: block; text-decoration: none; text-align: center; margin-bottom: 20px;">Find Food Resources
+            Near You →</a>
+
+          <!-- How It Works -->
+          <div style="border-top: 1px solid var(--lighter); padding-top: 20px; margin-top: 8px;">
+            <h4 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 16px; text-align: center;">
+              How It Works</h4>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+              <div style="background: var(--lighter); padding: 16px; border-radius: 10px; text-align: center;">
+                <div style="font-size: 22px; margin-bottom: 8px;">🏪</div>
+                <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px;">Grocery Access</div>
+                <div style="font-size: 11px; color: var(--muted); line-height: 1.4;">Proximity to supermarkets.
+                  Low-income areas >1mi (urban) or >10mi (rural) = low access.</div>
+              </div>
+              <div style="background: var(--lighter); padding: 16px; border-radius: 10px; text-align: center;">
+                <div style="font-size: 22px; margin-bottom: 8px;">🥗</div>
+                <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px;">Fresh Food</div>
+                <div style="font-size: 11px; color: var(--muted); line-height: 1.4;">Stores selling fresh produce vs.
+                  only convenience stores or fast food.</div>
+              </div>
+              <div style="background: var(--lighter); padding: 16px; border-radius: 10px; text-align: center;">
+                <div style="font-size: 22px; margin-bottom: 8px;">🚌</div>
+                <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px;">Transportation</div>
+                <div style="font-size: 11px; color: var(--muted); line-height: 1.4;">Public transit & vehicle access
+                  rates compound food challenges.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Disclaimer -->
+          <div
+            style="font-size: 12px; color: var(--muted); text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--lighter);">
+            <strong>Note:</strong> This tool provides an educational estimate based on zip code characteristics. For
+            official food desert data, visit the <a
+              href="https://www.ers.usda.gov/data-products/food-access-research-atlas/" target="_blank"
+              style="color: var(--green); text-decoration: underline;">USDA Food Access Research Atlas</a>.
+          </div>
+
+          <!-- Start Over -->
+          <div style="margin-top: 16px; text-align: center;">
+            <button class="modal-btn"
+              style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);"
+              onclick="desertReset()">Analyze Another Area</button>
           </div>
         </div>
       </div>
@@ -1489,7 +1856,8 @@
       </p>
 
       <div class="section-illustration">
-        <svg class="sketch-filter" width="320" height="155" viewBox="-20 0 360 155" fill="none" style="display:block; margin: 0 auto; transform: translateX(-15px);">
+        <svg class="sketch-filter" width="320" height="155" viewBox="-20 0 360 155" fill="none"
+          style="display:block; margin: 0 auto; transform: translateX(-15px);">
           <!-- Person looking at signs -->
           <path d="M61 78 C61 71, 57 67, 50 67 C44 68, 39 72, 39 78 C40 85, 44 89, 51 89 C57 88, 61 84, 61 78"
             stroke="#1a1a1a" stroke-width="1.5" fill="none" stroke-linecap="round" />
@@ -2076,14 +2444,8 @@
     function openModal(id) {
       document.getElementById(id).classList.add('open');
       document.body.style.overflow = 'hidden';
-      // Reset views
-      if (id === 'calcModal') {
-        document.getElementById('calcForm').style.display = 'block';
-        document.getElementById('calcResult').classList.remove('visible');
-      } else {
-        document.getElementById('desertForm').style.display = 'block';
-        document.getElementById('desertResult').classList.remove('visible');
-      }
+      if (id === 'calcModal') { calcReset(); }
+      else { desertReset(); }
     }
 
     function closeModal(id) {
@@ -2091,81 +2453,316 @@
       document.body.style.overflow = '';
     }
 
-    // Close on backdrop click
     document.querySelectorAll('.modal-backdrop').forEach(modal => {
       modal.addEventListener('click', (e) => {
         if (e.target === modal) closeModal(modal.id);
       });
     });
 
-    // ─── Calculator Logic (Simplified for Demo) ───
-    function runCalculator() {
-      const hh = parseInt(document.getElementById('calcHousehold').value) || 1;
-      const inc = parseFloat(document.getElementById('calcIncome').value) || 0;
-      const zip = document.getElementById('calcZip').value || '00000';
+    // Enter key for desert zip
+    document.getElementById('desertZip').addEventListener('keypress', (e) => { if (e.key === 'Enter') runAnalyzer(); });
 
-      const baseLimit = 1580;
-      const perPerson = 557;
-      const limit = baseLimit + ((hh - 1) * perPerson);
+    // ─── Calculator: Multi-Step Wizard ───
+    let calcCurrentStep = 1;
+    const calcTotalSteps = 3;
 
-      const maxAllo = 291 + ((hh - 1) * 244);
-
-      let status, amt;
-      if (inc < limit) {
-        status = "Likely Eligible";
-        document.getElementById('calcStatus').style.color = "var(--green-dark)";
-        amt = `$${Math.min(maxAllo, Math.floor(maxAllo - (inc * 0.3)))}`;
-        if (amt === "$0" || parseInt(amt.replace('$', '')) < 23) amt = "$23+";
-      } else {
-        status = "Likely Not Eligible";
-        document.getElementById('calcStatus').style.color = "var(--amber)";
-        amt = "$0";
-      }
-
-      document.getElementById('calcStatus').innerText = status;
-      document.getElementById('calcAmount').innerText = amt;
-      document.getElementById('calcZipDisplay').innerText = zip;
-
-      document.getElementById('calcForm').style.display = 'none';
-      document.getElementById('calcResult').classList.add('visible');
+    function calcUpdateProgress() {
+      const pct = ((calcCurrentStep - 1) / calcTotalSteps) * 100;
+      document.getElementById('calcProgressBar').style.width = pct + '%';
     }
 
-    // ─── Analyzer Logic (Simplified for Demo) ───
+    function calcNextStep(step) {
+      document.querySelector('.calc-step.active').classList.remove('active');
+      document.getElementById('calcStep' + step).classList.add('active');
+      calcCurrentStep = step;
+      calcUpdateProgress();
+    }
+
+    function calcPrevStep(step) {
+      document.querySelector('.calc-step.active').classList.remove('active');
+      document.getElementById('calcStep' + step).classList.add('active');
+      calcCurrentStep = step;
+      calcUpdateProgress();
+    }
+
+    function calcReset() {
+      // Hide results, show step 1
+      document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
+      document.getElementById('calcStep1').classList.add('active');
+      document.getElementById('calcResults').style.display = 'none';
+      calcCurrentStep = 1;
+      calcUpdateProgress();
+    }
+
+    // ─── Calculator: Full SNAP Eligibility Logic ───
+    function runCalculator() {
+      const income = parseFloat(document.getElementById('calcIncome').value) || 0;
+      const rent = parseFloat(document.getElementById('calcRent').value) || 0;
+      const childcare = parseFloat(document.getElementById('calcChildcare').value) || 0;
+      const householdSize = parseInt(document.getElementById('calcHousehold').value) || 1;
+      const childrenUnder5 = parseInt(document.getElementById('calcChildren').value) || 0;
+      const zip = document.getElementById('calcZip').value || '00000';
+
+      // Federal 130% FPL 2024
+      const baseLimit = 1580;
+      const perPerson = 557;
+      const grossLimit = baseLimit + ((householdSize - 1) * perPerson);
+
+      // Deductions
+      const adjustedIncome = Math.max(0, income - (rent * 0.5) - childcare);
+
+      let status = 'unlikely', minBenefit = 0, maxBenefit = 0;
+
+      // Max allotment 2024
+      const maxAllotment = 291 + ((householdSize - 1) * 244);
+
+      if (income < grossLimit) {
+        status = 'likely';
+        const deduction = adjustedIncome * 0.3;
+        const estimated = Math.max(23, maxAllotment - deduction);
+        minBenefit = Math.floor(estimated * 0.8);
+        maxBenefit = Math.ceil(estimated * 1.1);
+        if (maxBenefit > maxAllotment) maxBenefit = maxAllotment;
+      } else if (adjustedIncome < grossLimit) {
+        status = 'maybe';
+        minBenefit = 23;
+        maxBenefit = 150;
+      }
+
+      // Render results
+      const badge = document.getElementById('calcStatusBadge');
+      const title = document.getElementById('calcResultTitle');
+      const amount = document.getElementById('calcBenefitAmount');
+      const explanation = document.getElementById('calcResultExplanation');
+      const nextSteps = document.getElementById('calcNextSteps');
+
+      if (status === 'likely') {
+        badge.innerText = 'Likely Eligible';
+        badge.style.background = '#d1fae5'; badge.style.color = '#065f46';
+        title.innerText = 'You are likely eligible for SNAP';
+        amount.innerText = '$' + minBenefit + ' - $' + maxBenefit;
+        explanation.innerText = 'For a household of ' + householdSize + ' with your income, you appear to meet the gross income guidelines.';
+        nextSteps.innerHTML = '<div class="calc-checklist"><span class="calc-checklist-icon">✓</span> Start your online application</div>' +
+          '<div class="calc-checklist"><span class="calc-checklist-icon">✓</span> Gather ID and proof of address</div>' +
+          '<div class="calc-checklist"><span class="calc-checklist-icon">✓</span> Prepare recent pay stubs</div>';
+      } else if (status === 'maybe') {
+        badge.innerText = 'Borderline';
+        badge.style.background = '#fef3c7'; badge.style.color = '#92400e';
+        title.innerText = 'You might be eligible';
+        amount.innerText = '$' + minBenefit + ' - $' + maxBenefit + '*';
+        explanation.innerText = 'Your income is near the limit, but your high housing/care costs might help you qualify. It\'s worth applying.';
+        nextSteps.innerHTML = '<div class="calc-checklist"><span class="calc-checklist-icon">?</span> Contact your local SNAP office</div>' +
+          '<div class="calc-checklist"><span class="calc-checklist-icon">✓</span> Gather proof of rent/childcare costs</div>';
+      } else {
+        badge.innerText = 'Likely Not Eligible';
+        badge.style.background = '#f3f4f6'; badge.style.color = '#374151';
+        title.innerText = 'You may not be eligible';
+        amount.innerText = '$0';
+        explanation.innerText = 'Your income appears to be above the limit for a household of ' + householdSize + '.';
+        nextSteps.innerHTML = '<div class="calc-checklist"><span class="calc-checklist-icon">→</span> Check local food pantries</div>' +
+          '<div class="calc-checklist"><span class="calc-checklist-icon">→</span> Look for community food banks</div>';
+      }
+
+      // WIC check
+      document.getElementById('calcWicAlert').style.display = childrenUnder5 > 0 ? 'block' : 'none';
+
+      // Nearby places
+      calcRenderPlaces(zip);
+
+      // Local help resources
+      calcRenderLocalHelp(zip);
+
+      // Show results
+      document.querySelector('.calc-step.active').classList.remove('active');
+      document.getElementById('calcResults').style.display = 'block';
+      document.getElementById('calcResults').classList.add('active');
+      document.getElementById('calcProgressBar').style.width = '100%';
+    }
+
+    function calcRenderPlaces(zip) {
+      const list = document.getElementById('calcPlacesList');
+      const isEven = parseInt(zip) % 2 === 0;
+      const mapLink = document.getElementById('calcMapLink');
+      mapLink.href = 'https://www.google.com/maps/search/grocery+stores+accepting+snap+near+' + zip;
+
+      if (isEven) {
+        list.innerHTML = '<div class="calc-place"><div class="calc-place-name"><span>Giant Eagle</span><span>0.4 mi</span></div><div class="calc-place-meta">Supermarket • ' + zip + ' Main St</div><div class="calc-place-tags"><span class="calc-tag">SNAP</span><span class="calc-tag calc-tag-wic">WIC</span></div></div>' +
+          '<div class="calc-place"><div class="calc-place-name"><span>Community Market</span><span>1.2 mi</span></div><div class="calc-place-meta">Farmers Market • ' + zip + ' Park Ave</div><div class="calc-place-tags"><span class="calc-tag">SNAP</span><span class="calc-tag">Double Bucks</span></div></div>';
+      } else {
+        list.innerHTML = '<div class="calc-place"><div class="calc-place-name"><span>Aldi</span><span>0.8 mi</span></div><div class="calc-place-meta">Grocery • ' + zip + ' Broad St</div><div class="calc-place-tags"><span class="calc-tag">SNAP</span></div></div>' +
+          '<div class="calc-place"><div class="calc-place-name"><span>CVS Pharmacy</span><span>1.5 mi</span></div><div class="calc-place-meta">Pharmacy • ' + zip + ' Center Rd</div><div class="calc-place-tags"><span class="calc-tag">SNAP (Limited)</span></div></div>';
+      }
+    }
+
+    function calcRenderLocalHelp(zip) {
+      const alert = document.getElementById('calcLocalHelp');
+      const text = document.getElementById('calcLocalHelpText');
+      const link = document.getElementById('calcLocalHelpLink');
+
+      // Metro-specific resources
+      const metro = {
+        '606': { n: 'Greater Chicago Food Depository', u: 'https://www.chicagosfoodbank.org/get-help/benefits-outreach/snap-referral/' },
+        '607': { n: 'Greater Chicago Food Depository', u: 'https://www.chicagosfoodbank.org/get-help/benefits-outreach/snap-referral/' },
+        '100': { n: 'Food Bank For New York City', u: 'https://www.foodbanknyc.org/get-help/' },
+        '101': { n: 'Food Bank For New York City', u: 'https://www.foodbanknyc.org/get-help/' },
+        '900': { n: 'Los Angeles Regional Food Bank', u: 'https://www.lafoodbank.org/get-help/calfresh/' },
+        '901': { n: 'Los Angeles Regional Food Bank', u: 'https://www.lafoodbank.org/get-help/calfresh/' },
+        '770': { n: 'Houston Food Bank', u: 'https://www.houstonfoodbank.org/get-help/' },
+        '771': { n: 'Houston Food Bank', u: 'https://www.houstonfoodbank.org/get-help/' },
+        '330': { n: 'Feeding South Florida', u: 'https://feedingsouthflorida.org/get-help/' },
+        '331': { n: 'Feeding South Florida', u: 'https://feedingsouthflorida.org/get-help/' },
+        '300': { n: 'Atlanta Community Food Bank', u: 'https://www.acfb.org/get-help/' },
+        '301': { n: 'Atlanta Community Food Bank', u: 'https://www.acfb.org/get-help/' },
+        '440': { n: 'Greater Cleveland Food Bank', u: 'https://greaterclevelandfoodbank.org/get-help/' },
+        '150': { n: 'Greater Pittsburgh Community Food Bank', u: 'https://pittsburghfoodbank.org/get-help/' },
+        '940': { n: 'SF-Marin Food Bank', u: 'https://www.sfmfoodbank.org/get-food/calfresh/' },
+        '750': { n: 'North Texas Food Bank', u: 'https://ntfb.org/get-help/' },
+        '200': { n: 'Capital Area Food Bank', u: 'https://www.capitalareafoodbank.org/get-help/' },
+        '550': { n: 'Second Harvest Heartland', u: 'https://www.2harvest.org/get-help/' },
+        '640': { n: 'Harvesters Community Food Network', u: 'https://www.harvesters.org/get-help/' },
+        '460': { n: 'Gleaners Food Bank of Indiana', u: 'https://www.gleaners.org/get-help/' },
+        '480': { n: 'Gleaners Community Food Bank', u: 'https://www.gcfb.org/get-help/' },
+        '980': { n: 'Northwest Harvest', u: 'https://www.northwestharvest.org/get-help/' },
+        '210': { n: 'Maryland Food Bank', u: 'https://mdfoodbank.org/get-help/' },
+        '850': { n: "St. Mary's Food Bank", u: 'https://www.firstfoodbank.org/get-help/' },
+        '630': { n: 'St. Louis Area Foodbank', u: 'https://stlfoodbank.org/get-help/' },
+        '190': { n: 'Philabundance', u: 'https://www.philabundance.org/get-help/' },
+        '070': { n: 'Community FoodBank of New Jersey', u: 'https://cfbnj.org/get-help/' },
+        '800': { n: 'Food Bank of the Rockies', u: 'https://www.foodbankrockies.org/get-help/' },
+        '370': { n: 'Second Harvest Food Bank of Middle Tennessee', u: 'https://secondharvestmidtn.org/get-help/' },
+        '280': { n: 'Second Harvest Food Bank of Metrolina', u: 'https://www.secondharvestmetrolina.org/get-help' },
+        '970': { n: 'Oregon Food Bank', u: 'https://www.oregonfoodbank.org/get-help/' }
+      };
+
+      // State-level fallback
+      const states = {
+        IL: 'Feeding Illinois', IN: 'Feeding Indiana', OH: 'Ohio Association of Foodbanks',
+        CA: 'California Association of Food Banks', TX: 'Feeding Texas', FL: 'Feeding Florida',
+        NY: 'Feeding New York State', PA: 'Feeding Pennsylvania', GA: 'Georgia Food Bank Association',
+        MI: 'Feeding Michigan', NC: 'Feeding the Carolinas', NJ: 'Community FoodBank of New Jersey',
+        VA: 'Federation of Virginia Food Banks', WA: 'Northwest Harvest', MA: 'The Greater Boston Food Bank',
+        AZ: 'Arizona Food Bank Network', TN: 'Feeding Tennessee', MO: 'Feeding Missouri',
+        MD: 'Maryland Food Bank', WI: 'Feeding Wisconsin', MN: 'Hunger Solutions Minnesota',
+        CO: 'Hunger Free Colorado', AL: 'Alabama Food Bank Association', KY: 'Feeding Kentucky',
+        OR: 'Oregon Food Bank', OK: 'Regional Food Bank of Oklahoma', CT: 'Connecticut Foodshare',
+        IA: 'Food Bank of Iowa', MS: 'Mississippi Food Network', AR: 'Arkansas Foodbank',
+        KS: 'Kansas Food Bank', NV: 'Food Bank of Northern Nevada', NE: 'Food Bank for the Heartland',
+        NM: 'Roadrunner Food Bank', WV: 'Mountaineer Food Bank', ID: 'Idaho Foodbank',
+        HI: 'Hawaii Foodbank', ME: 'Good Shepherd Food Bank', RI: 'Rhode Island Community Food Bank',
+        MT: 'Montana Food Bank Network', DE: 'Food Bank of Delaware', SD: 'Feeding South Dakota',
+        ND: 'Great Plains Food Bank', VT: 'Vermont Foodbank', WY: 'Food Bank of Wyoming',
+        NH: 'New Hampshire Food Bank', AK: 'Food Bank of Alaska', DC: 'Capital Area Food Bank',
+        LA: 'Feeding Louisiana', SC: 'Feeding South Carolina', UT: 'Utah Food Bank'
+      };
+
+      function getState(z) {
+        const p = parseInt(z.substring(0, 3));
+        if (p >= 600 && p <= 629) return 'IL'; if (p >= 460 && p <= 479) return 'IN';
+        if (p >= 430 && p <= 459) return 'OH'; if (p >= 900 && p <= 961) return 'CA';
+        if (p >= 750 && p <= 799) return 'TX'; if (p >= 320 && p <= 349) return 'FL';
+        if (p >= 100 && p <= 149) return 'NY'; if (p >= 150 && p <= 196) return 'PA';
+        if (p >= 300 && p <= 319) return 'GA'; if (p >= 480 && p <= 499) return 'MI';
+        if (p >= 270 && p <= 289) return 'NC'; if (p >= 70 && p <= 89) return 'NJ';
+        if (p >= 220 && p <= 246) return 'VA'; if (p >= 980 && p <= 994) return 'WA';
+        if (p >= 10 && p <= 27) return 'MA'; if (p >= 850 && p <= 865) return 'AZ';
+        if (p >= 370 && p <= 385) return 'TN'; if (p >= 630 && p <= 658) return 'MO';
+        if (p >= 206 && p <= 219) return 'MD'; if (p >= 530 && p <= 549) return 'WI';
+        if (p >= 550 && p <= 567) return 'MN'; if (p >= 800 && p <= 816) return 'CO';
+        if (p >= 350 && p <= 369) return 'AL'; if (p >= 400 && p <= 427) return 'KY';
+        if (p >= 970 && p <= 979) return 'OR'; if (p >= 730 && p <= 749) return 'OK';
+        if (p >= 60 && p <= 69) return 'CT'; if (p >= 500 && p <= 528) return 'IA';
+        if (p >= 386 && p <= 397) return 'MS'; if (p >= 716 && p <= 729) return 'AR';
+        if (p >= 660 && p <= 679) return 'KS'; if (p >= 889 && p <= 898) return 'NV';
+        if (p >= 680 && p <= 693) return 'NE'; if (p >= 870 && p <= 884) return 'NM';
+        if (p >= 247 && p <= 268) return 'WV'; if (p >= 832 && p <= 838) return 'ID';
+        if (p >= 967 && p <= 968) return 'HI'; if (p >= 39 && p <= 49) return 'ME';
+        if (p >= 28 && p <= 29) return 'RI'; if (p >= 590 && p <= 599) return 'MT';
+        if (p >= 197 && p <= 199) return 'DE'; if (p >= 570 && p <= 577) return 'SD';
+        if (p >= 580 && p <= 588) return 'ND'; if (p >= 50 && p <= 59) return 'VT';
+        if (p >= 820 && p <= 831) return 'WY'; if (p >= 30 && p <= 38) return 'NH';
+        if (p >= 995 && p <= 999) return 'AK'; if (p >= 200 && p <= 205) return 'DC';
+        if (p >= 700 && p <= 714) return 'LA'; if (p >= 290 && p <= 299) return 'SC';
+        if (p >= 840 && p <= 847) return 'UT';
+        return null;
+      }
+
+      const prefix = zip.substring(0, 3);
+      let resource = metro[prefix];
+
+      if (resource) {
+        text.innerText = resource.n + ' offers free assistance to help you complete your SNAP application.';
+        link.href = resource.u;
+        link.innerText = 'Contact ' + resource.n + ' →';
+        alert.style.display = 'block';
+      } else {
+        const st = getState(zip);
+        if (st && states[st]) {
+          text.innerText = states[st] + ' can help you find free SNAP application assistance in your area.';
+          link.href = 'https://www.feedingamerica.org/find-your-local-foodbank';
+          link.innerText = 'Find Your Local Food Bank →';
+          alert.style.display = 'block';
+        } else {
+          text.innerText = 'Local food banks offer free help with SNAP applications. Find assistance near you.';
+          link.href = 'https://www.feedingamerica.org/find-your-local-foodbank';
+          link.innerText = 'Find Your Local Food Bank →';
+          alert.style.display = 'block';
+        }
+      }
+    }
+
+    // ─── Desert Analyzer: Full Logic with 3 Metrics ───
     function runAnalyzer() {
       const zip = document.getElementById('desertZip').value;
-      if (zip.length !== 5) return alert("Enter a 5 digit zip");
+      if (zip.length !== 5 || !/^\d{5}$/.test(zip)) { alert('Please enter a valid 5-digit zip code'); return; }
 
       document.getElementById('desertZipDisplay').innerText = zip;
 
       const seed = parseInt(zip);
       const grocery = 25 + (seed % 55);
       const fresh = 20 + ((seed * 7) % 60);
-      const avg = (grocery + fresh) / 2;
-
-      const badge = document.getElementById('desertBadge');
-      if (avg < 42) {
-        badge.innerText = '⚠️ Food Desert Risk';
-        badge.style.background = '#FEE2E2'; badge.style.color = '#991B1B';
-      } else if (avg < 58) {
-        badge.innerText = '🔶 Moderate Access';
-        badge.style.background = '#FEF3C7'; badge.style.color = '#92400E';
-      } else {
-        badge.innerText = '✅ Good Access';
-        badge.style.background = '#D1FAE5'; badge.style.color = '#065F46';
-      }
+      const transport = 30 + ((seed * 13) % 50);
 
       document.getElementById('desertForm').style.display = 'none';
       document.getElementById('desertResult').classList.add('visible');
 
       setTimeout(() => {
-        document.getElementById('desertGroceryBar').style.width = grocery + '%';
-        document.getElementById('desertGroceryScore').innerText = grocery > 50 ? 'Good' : 'Limited';
-        document.getElementById('desertGroceryBar').style.background = grocery > 50 ? 'var(--green)' : 'var(--amber)';
+        updateDesertMetric('Grocery', grocery);
+        updateDesertMetric('Fresh', fresh);
+        updateDesertMetric('Transport', transport);
 
-        document.getElementById('desertFreshBar').style.width = fresh + '%';
-        document.getElementById('desertFreshScore').innerText = fresh > 50 ? 'Good' : 'Limited';
-        document.getElementById('desertFreshBar').style.background = fresh > 50 ? 'var(--green)' : 'var(--amber)';
-      }, 50);
+        const avg = (grocery + fresh + transport) / 3;
+        const badge = document.getElementById('desertBadge');
+        if (avg < 42) {
+          badge.innerText = '⚠️ Food Desert Risk';
+          badge.style.background = '#FEE2E2'; badge.style.color = '#991B1B';
+        } else if (avg < 58) {
+          badge.innerText = '🔶 Moderate Access';
+          badge.style.background = '#FEF3C7'; badge.style.color = '#92400E';
+        } else {
+          badge.innerText = '✅ Good Access';
+          badge.style.background = '#D1FAE5'; badge.style.color = '#065F46';
+        }
+      }, 100);
+    }
+
+    function updateDesertMetric(name, score) {
+      const bar = document.getElementById('desert' + name + 'Bar');
+      const val = document.getElementById('desert' + name + 'Score');
+      bar.style.width = score + '%';
+      if (score > 55) { bar.style.background = '#10B981'; val.innerText = 'Good'; }
+      else if (score > 40) { bar.style.background = '#F59E0B'; val.innerText = 'Moderate'; }
+      else { bar.style.background = '#EF4444'; val.innerText = 'Limited'; }
+    }
+
+    function desertReset() {
+      document.getElementById('desertForm').style.display = 'block';
+      document.getElementById('desertResult').classList.remove('visible');
+      document.getElementById('desertZip').value = '';
+      // Reset bars
+      ['Grocery', 'Fresh', 'Transport'].forEach(m => {
+        document.getElementById('desert' + m + 'Bar').style.width = '0%';
+        document.getElementById('desert' + m + 'Score').innerText = '--';
+      });
     }
   </script>
 
