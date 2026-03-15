@@ -1,1770 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FreshFind — Proactive AI for Food Access</title>
+  <title>FreshFind — Predictive Food Security Intelligence for Government</title>
   <link rel="icon" type="image/png" href="favicon.png">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --green: #2a7d5b;
-      --green-dark: #1e5e42;
-      --green-light: #e8f5ee;
-      --green-pale: #f4faf7;
-      --ink: #1a1a1a;
-      --text: #3a3a3a;
-      --muted: #7a7a7a;
-      --light: #d0d0d0;
-      --lighter: #e8e8e8;
-      --bg: #faf9f6;
-      --amber: #d4933a;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      font-size: 17px;
-      overflow-x: hidden;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 18px 60px;
-      display: flex; justify-content: space-between; align-items: center;
-      background: rgba(250, 249, 246, 0.92);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.3s;
-    }
-    nav.scrolled { border-bottom-color: var(--lighter); }
-
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo img { height: 26px; }
-    .nav-logo span {
-      font-family: 'Caveat', cursive; font-size: 16px; color: var(--muted);
-      padding-left: 10px; border-left: 1px solid var(--lighter);
-    }
-    .nav-links { display: flex; align-items: center; gap: 36px; }
-    .nav-links a {
-      font-size: 13.5px; color: var(--muted); text-decoration: none;
-      font-weight: 400; transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--ink); }
-
-    /* CONTENT WRAPPER */
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 60px; }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh; display: flex; flex-direction: column;
-      justify-content: center; padding: 120px 0 80px;
-    }
-    .hero h1 {
-      font-family: 'DM Sans', sans-serif;
-      font-size: clamp(60px, 9vw, 100px);
-      letter-spacing: -3px; font-weight: 700; color: var(--ink);
-      line-height: 0.95; margin-bottom: 24px;
-      opacity: 0; animation: fadeUp 0.8s ease forwards;
-    }
-    .hero-sub {
-      font-size: clamp(18px, 2.5vw, 24px); color: var(--green);
-      font-weight: 400; margin-bottom: 50px; letter-spacing: 0.5px;
-      max-width: 700px;
-      opacity: 0; animation: fadeUp 0.8s ease 0.12s forwards;
-    }
-    .hero-illustration { opacity: 0; animation: fadeUp 0.8s ease 0.24s forwards; }
-    .hero-meta {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      padding-top: 40px; border-top: 1.5px solid var(--lighter);
-      opacity: 0; animation: fadeUp 0.8s ease 0.36s forwards;
-    }
-    .hero-meta p { font-size: 14px; color: var(--muted); line-height: 1.6; }
-    .hero-meta strong { color: var(--ink); font-weight: 500; }
-    .hero-meta-right { text-align: right; }
-
-    /* SECTIONS */
-    .section { padding: 100px 0; }
-    .section-label {
-      font-family: 'Caveat', cursive; font-size: 16px; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;
-    }
-    .section h2 {
-      font-family: 'DM Sans', sans-serif;
-      font-size: clamp(38px, 5vw, 48px);
-      letter-spacing: -1.5px; font-weight: 700; color: var(--ink);
-      line-height: 1.05; margin-bottom: 12px;
-    }
-    .annotation {
-      font-family: 'Caveat', cursive; font-size: clamp(20px, 4vw, 24px);
-      color: var(--amber); transform: rotate(-3deg);
-      display: inline-block; margin-left: 12px; font-weight: 500;
-    }
-    .section p {
-      font-size: 17px; line-height: 1.75; color: var(--text);
-      margin-bottom: 20px; max-width: 860px;
-    }
-    p.lead {
-      font-size: 20px; color: var(--ink); font-weight: 400;
-      line-height: 1.65; margin-bottom: 28px;
-    }
-    .wavy { display: block; margin: 6px 0 28px; opacity: 0.5; }
-
-    /* STATS BANNER */
-    .stats-banner { background: var(--ink); padding: 64px 0; color: var(--bg); }
-    .stats-inner {
-      max-width: 1100px; margin: 0 auto; padding: 0 60px;
-      display: flex; gap: 40px; justify-content: space-between;
-    }
-    .stat { text-align: left; flex: 1; padding-left: 24px; border-left: 2px solid var(--green); }
-    .stat-number {
-      font-family: 'DM Sans', sans-serif;
-      font-size: clamp(48px, 6vw, 64px); font-weight: 700;
-      letter-spacing: -2px; color: var(--bg); line-height: 1; margin-bottom: 12px;
-    }
-    .stat-label { font-size: 15.5px; color: var(--light); line-height: 1.5; }
-
-    /* AGENTIC LOOP DIAGRAM */
-    .loop-diagram {
-      display: flex; align-items: stretch; gap: 0;
-      margin: 48px 0; position: relative;
-    }
-    .loop-stage {
-      flex: 1; padding: 28px 24px; background: white;
-      border: 1.5px solid var(--lighter); position: relative;
-      border-radius: 12px;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .loop-stage:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(42,125,91,0.1);
-    }
-    .loop-stage-num {
-      font-family: 'Caveat', cursive; font-size: 14px;
-      color: var(--muted); text-transform: uppercase; letter-spacing: 1px;
-      margin-bottom: 4px;
-    }
-    .loop-stage-name {
-      font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700;
-      color: var(--green); margin-bottom: 8px;
-    }
-    .loop-stage-type {
-      font-size: 11px; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.08em; color: var(--muted); margin-bottom: 10px;
-    }
-    .loop-stage-desc { font-size: 14px; color: var(--text); line-height: 1.55; }
-    .loop-arrow {
-      display: flex; align-items: center; justify-content: center;
-      width: 36px; flex-shrink: 0; color: var(--green); font-size: 24px;
-    }
-    .loop-return {
-      text-align: center; margin-top: 12px;
-      font-family: 'Caveat', cursive; font-size: 18px; color: var(--green);
-    }
-
-    /* BACKEND VS FRONTEND */
-    .bvf-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
-      margin: 40px 0; border-radius: 12px; overflow: hidden;
-      border: 1.5px solid var(--lighter);
-    }
-    .bvf-col { padding: 32px; }
-    .bvf-col:first-child { background: var(--ink); color: var(--bg); }
-    .bvf-col:last-child { background: white; }
-    .bvf-title {
-      font-family: 'Caveat', cursive; font-size: 22px; font-weight: 600;
-      margin-bottom: 20px;
-    }
-    .bvf-col:first-child .bvf-title { color: var(--green-light); }
-    .bvf-col:last-child .bvf-title { color: var(--green); }
-    .bvf-item {
-      display: flex; align-items: flex-start; gap: 10px;
-      font-size: 15px; line-height: 1.5; margin-bottom: 14px;
-    }
-    .bvf-col:first-child .bvf-item { color: var(--light); }
-    .bvf-col:last-child .bvf-item { color: var(--text); }
-    .bvf-icon { flex-shrink: 0; margin-top: 2px; }
-
-    /* GAP EXAMPLES */
-    .gap-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-      margin: 32px 0;
-    }
-    .gap-card {
-      padding: 24px; background: white; border-radius: 12px;
-      border: 1.5px solid var(--lighter); position: relative;
-    }
-    .gap-card-location {
-      font-family: 'Caveat', cursive; font-size: 20px; font-weight: 600;
-      color: var(--ink); margin-bottom: 6px;
-    }
-    .gap-card-stat {
-      font-size: 15px; color: var(--text); line-height: 1.55;
-    }
-
-    /* STAGE DETAIL */
-    .stage-detail {
-      padding: 40px 0; margin-bottom: 20px;
-      position: relative;
-    }
-    .stage-detail:not(:last-child) { border-bottom: 1.5px dashed var(--light); }
-    .stage-detail-header {
-      display: flex; align-items: baseline; gap: 16px; margin-bottom: 16px;
-    }
-    .stage-detail-name {
-      font-family: 'Caveat', cursive; font-size: 32px; font-weight: 700;
-      color: var(--green);
-    }
-    .stage-detail-type {
-      font-size: 13px; font-weight: 600; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.05em;
-    }
-    .stage-detail p { font-size: 16px; max-width: 780px; }
-
-    /* NAVIGATE FEATURES */
-    .nav-features {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
-      margin: 24px 0;
-    }
-    .nav-feature {
-      display: flex; gap: 12px; padding: 16px; background: white;
-      border-radius: 8px; border: 1px solid var(--lighter);
-    }
-    .nav-feature-num {
-      font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700;
-      color: var(--green); flex-shrink: 0; width: 28px;
-    }
-    .nav-feature-text { font-size: 14px; color: var(--text); line-height: 1.5; }
-    .nav-feature-text strong { color: var(--ink); }
-
-    /* TOOLS SECTION */
-    .tool-card {
-      display: flex; gap: 28px; align-items: flex-start;
-      padding: 36px 0; position: relative;
-    }
-    .tool-card:not(:last-child) { border-bottom: 1.5px dashed var(--light); }
-    .tool-card-content { flex: 1; }
-    .tool-card-num {
-      font-family: 'Caveat', cursive; font-size: 15px;
-      color: var(--muted); margin-bottom: 2px;
-    }
-    .tool-card-content h3 {
-      font-family: 'Caveat', cursive; font-size: 30px; font-weight: 600;
-      color: var(--ink); line-height: 1.1; margin-bottom: 10px;
-    }
-    .tool-card-content p { font-size: 16px; max-width: 720px; }
-
-    .tool-link {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 18px; border: 1.5px solid var(--green);
-      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-      font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--green);
-      text-decoration: none; transition: all 0.2s;
-      background-color: transparent; cursor: pointer;
-    }
-    .tool-link:hover {
-      background: var(--green); color: white; transform: translateY(-2px);
-    }
-
-    /* CASE STUDIES */
-    .case-studies { margin: 40px 0; }
-    .case-study {
-      display: flex; gap: 24px; padding: 22px 0; align-items: baseline;
-      position: relative;
-    }
-    .case-study:not(:last-child)::after {
-      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-      border-bottom: 1.5px dashed var(--light);
-    }
-    .case-location {
-      font-family: 'Caveat', cursive; font-size: 26px; font-weight: 600;
-      color: var(--ink); min-width: 170px; flex-shrink: 0;
-    }
-    .case-insight { font-size: 14.5px; color: var(--text); line-height: 1.6; }
-
-    /* GOVERNMENT CHANNELS */
-    .gov-channel {
-      padding: 32px 0; position: relative;
-    }
-    .gov-channel:not(:last-child) { border-bottom: 1.5px dashed var(--light); }
-    .gov-channel h4 {
-      font-family: 'Caveat', cursive; font-size: 26px; font-weight: 600;
-      color: var(--ink); margin-bottom: 8px;
-    }
-    .gov-channel-tag {
-      display: inline-block; font-size: 11px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--green); background: var(--green-light);
-      padding: 3px 10px; border-radius: 4px; margin-bottom: 12px;
-    }
-    .gov-channel p { font-size: 15px; max-width: 780px; line-height: 1.7; }
-
-    /* PARTNER BENEFITS */
-    .partner-benefits {
-      background: var(--green-pale); padding: 32px 36px; margin: 44px 0;
-      border-radius: 4px; position: relative;
-    }
-    .partner-benefits::before {
-      content: ''; position: absolute; inset: 0;
-      border-left: 3px solid var(--green); pointer-events: none;
-    }
-    .partner-benefits h3 {
-      font-family: 'Caveat', cursive; font-size: 26px; font-weight: 600;
-      color: var(--ink); margin-bottom: 16px;
-    }
-    .partner-benefit-item {
-      display: flex; gap: 12px; margin-bottom: 12px;
-      font-size: 15px; color: var(--text); line-height: 1.6;
-    }
-    .partner-benefit-num {
-      font-family: 'Caveat', cursive; font-size: 20px; font-weight: 700;
-      color: var(--green); flex-shrink: 0; width: 24px;
-    }
-
-    /* METRICS */
-    .metric-row {
-      display: flex; gap: 20px; align-items: baseline;
-      padding: 20px 0; position: relative;
-    }
-    .metric-row:not(:last-child)::after {
-      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-      border-bottom: 1.5px dashed var(--light);
-    }
-    .metric-name {
-      font-family: 'Caveat', cursive; font-size: 28px; font-weight: 600;
-      color: var(--green); min-width: 140px; flex-shrink: 0;
-    }
-    .metric-desc { font-size: 15px; color: var(--text); line-height: 1.6; }
-
-    /* TIMELINE */
-    .timeline-phase {
-      display: flex; gap: 28px; align-items: flex-start;
-      padding: 28px 0; position: relative;
-    }
-    .timeline-phase:not(:last-child)::after {
-      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-      border-bottom: 1.5px dashed var(--light);
-    }
-    .phase-label {
-      font-family: 'Caveat', cursive; font-size: 32px; font-weight: 700;
-      color: var(--green); min-width: 100px; flex-shrink: 0;
-    }
-    .phase-time {
-      font-family: 'Caveat', cursive; font-size: 20px; color: var(--muted);
-      min-width: 110px; flex-shrink: 0; padding-top: 8px;
-    }
-    .phase-desc { font-size: 15px; color: var(--text); line-height: 1.65; padding-top: 6px; }
-
-    /* CLOSING */
-    .closing { padding: 90px 0 120px; text-align: center; }
-    .closing-quote {
-      font-family: 'DM Sans', sans-serif; font-size: 20px; font-style: italic;
-      color: var(--ink); line-height: 1.7; max-width: 640px; margin: 0 auto 50px;
-    }
-    .closing-contact { font-size: 14px; color: var(--muted); }
-    .closing-contact strong { color: var(--ink); font-weight: 500; }
-    .closing-contact a { color: var(--green); text-decoration: none; }
-    .closing-contact a:hover { text-decoration: underline; }
-    .closing-brand { margin-top: 30px; display: flex; justify-content: center; }
-    .closing-brand img { height: 24px; opacity: 0.4; }
-
-    /* DATA SECURITY CALLOUT */
-    .security-callout {
-      margin-top: 32px; padding: 24px 28px;
-      background: white; border: 1.5px solid var(--lighter);
-      border-radius: 8px;
-    }
-    .security-callout p { font-size: 15px; margin-bottom: 0; color: var(--text); }
-    .security-callout strong { color: var(--ink); }
-
-    /* PROGRESS BAR */
-    .progress-bar {
-      position: fixed; top: 0; left: 0; height: 3px;
-      background: linear-gradient(90deg, var(--green), var(--green-dark));
-      width: 0%; z-index: 200; transition: width 0.1s linear;
-    }
-
-    /* HAMBURGER */
-    .hamburger {
-      display: none; flex-direction: column; gap: 5px;
-      cursor: pointer; padding: 6px; background: none; border: none; z-index: 101;
-    }
-    .hamburger span {
-      display: block; width: 22px; height: 2px;
-      background: var(--ink); border-radius: 2px; transition: all 0.3s ease;
-    }
-    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-    .mobile-overlay {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(250, 249, 246, 0.97);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      z-index: 99; flex-direction: column; justify-content: center;
-      align-items: center; gap: 32px; opacity: 0; transition: opacity 0.3s ease;
-    }
-    .mobile-overlay.open { display: flex; opacity: 1; }
-    .mobile-overlay a {
-      font-family: 'Caveat', cursive; font-size: 36px; font-weight: 600;
-      color: var(--ink); text-decoration: none; transition: color 0.2s;
-    }
-    .mobile-overlay a:hover { color: var(--green); }
-
-    /* MODALS */
-    .modal-backdrop {
-      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(26, 26, 26, 0.4);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      z-index: 999; display: flex; justify-content: center; align-items: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-    }
-    .modal-backdrop.open { opacity: 1; pointer-events: auto; }
-    .modal-container {
-      background: var(--bg); width: 90%; max-width: 650px; max-height: 90vh;
-      border-radius: 16px; box-shadow: 0 24px 60px rgba(0,0,0,0.15);
-      position: relative; transform: translateY(20px);
-      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
-      display: flex; flex-direction: column; overflow: hidden;
-    }
-    .modal-backdrop.open .modal-container { transform: translateY(0); }
-    .modal-header {
-      padding: 24px 32px; border-bottom: 1px solid var(--lighter);
-      display: flex; justify-content: space-between; align-items: center;
-      background: var(--bg);
-    }
-    .modal-header h3 {
-      font-family: 'DM Sans', sans-serif; font-size: 24px;
-      font-weight: 700; color: var(--ink); letter-spacing: -0.5px;
-    }
-    .modal-close {
-      background: none; border: none; cursor: pointer; color: var(--muted);
-      transition: color 0.2s; display: flex; align-items: center;
-      justify-content: center; width: 32px; height: 32px; border-radius: 16px;
-    }
-    .modal-close:hover { color: var(--ink); background: var(--lighter); }
-    .modal-body { padding: 32px; overflow-y: auto; flex: 1; }
-
-    /* Modal Form Styles */
-    .modal-form-group { margin-bottom: 24px; }
-    .modal-label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 15px; color: var(--ink); }
-    .modal-input {
-      width: 100%; padding: 14px 16px; border: 1.5px solid var(--light);
-      border-radius: 8px; font-family: 'DM Sans', sans-serif;
-      font-size: 16px; transition: border-color 0.2s; background: var(--bg);
-    }
-    .modal-input:focus { outline: none; border-color: var(--green); }
-    .modal-btn {
-      width: 100%; padding: 16px; background: var(--ink); color: var(--bg);
-      border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif;
-      font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s;
-    }
-    .modal-btn:hover { background: var(--green); }
-    .modal-result {
-      display: none; margin-top: 24px; padding: 24px;
-      background: var(--green-pale); border-radius: 12px; text-align: center;
-    }
-    .modal-result.visible { display: block; animation: fadeUp 0.4s ease forwards; }
-    .modal-result-title { font-size: 18px; font-weight: 700; color: var(--green-dark); margin-bottom: 8px; }
-    .modal-result-value {
-      font-family: 'DM Sans', sans-serif; font-size: 42px;
-      font-weight: 700; color: var(--ink); letter-spacing: -1px;
-    }
-
-    /* Calculator Steps */
-    .calc-step { display: none; animation: fadeUp 0.4s ease forwards; }
-    .calc-step.active { display: block; }
-    .calc-radio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
-    .calc-radio-card { position: relative; }
-    .calc-radio-card input { position: absolute; opacity: 0; cursor: pointer; }
-    .calc-radio-content {
-      display: flex; align-items: center; justify-content: center;
-      padding: 12px; border: 1.5px solid var(--light); border-radius: 8px;
-      cursor: pointer; transition: all 0.2s; text-align: center;
-      font-size: 15px; font-weight: 500;
-    }
-    .calc-radio-card input:checked+.calc-radio-content {
-      border-color: var(--green); background: var(--green-pale);
-      color: var(--green-dark); font-weight: 600;
-    }
-    .calc-radio-content:hover { border-color: var(--muted); }
-
-    .calc-place { background: var(--bg); padding: 12px; border-radius: 6px; margin-bottom: 10px; border: 1px solid var(--light); }
-    .calc-place-name { font-weight: 600; font-size: 14px; display: flex; justify-content: space-between; }
-    .calc-place-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
-    .calc-place-tags { display: flex; gap: 6px; margin-top: 6px; }
-    .calc-tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; background: #e0f2fe; color: #0369a1; }
-    .calc-tag-wic { background: #fce7f3; color: #be185d; }
-    .calc-checklist { display: flex; gap: 8px; margin-bottom: 8px; font-size: 14px; line-height: 1.5; }
-    .calc-checklist-icon { color: var(--green); flex-shrink: 0; font-weight: 700; }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .reveal {
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    @keyframes gentleBob {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-3px); }
-    }
-    @keyframes dashFlow { to { stroke-dashoffset: -18; } }
-    @keyframes questionFloat {
-      0%,100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
-      50% { transform: translateY(-4px) rotate(5deg); opacity: 1; }
-    }
-    @keyframes phonePulse {
-      0%,100% { transform: scale(1); }
-      50% { transform: scale(1.03); }
-    }
-
-    .stick-confused { animation: gentleBob 3s ease-in-out infinite; transform-origin: 70px 148px; }
-    .stick-happy { animation: gentleBob 3s ease-in-out infinite 1.5s; transform-origin: 350px 146px; }
-    .question-marks text { animation: questionFloat 2.5s ease-in-out infinite; }
-    .question-marks text:nth-child(2) { animation-delay: 0.8s; }
-    .phone-group { animation: phonePulse 3s ease-in-out infinite; transform-origin: 207px 69px; }
-    .flow-line { animation: dashFlow 1.2s linear infinite; }
-
-    /* PRINT */
-    @media print {
-      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      nav { display: none; }
-      .hero { padding-top: 40px; min-height: auto; }
-      .reveal { opacity: 1; transform: none; }
-    }
-
-    /* LARGE DESKTOP */
-    @media (min-width: 1400px) {
-      .wrap { max-width: 1200px; }
-      .stats-inner { max-width: 1200px; }
-      .hero h1 { font-size: 130px; }
-      .section h2 { font-size: 60px; }
-    }
-
-    /* TABLET */
-    @media (max-width: 1024px) {
-      .wrap { padding: 0 36px; }
-      .stats-inner { padding: 0 36px; }
-      .section { padding: 80px 0; }
-      .loop-diagram { flex-direction: column; gap: 0; }
-      .loop-arrow { transform: rotate(90deg); width: 100%; height: 36px; }
-    }
-
-    /* MOBILE */
-    @media (max-width: 768px) {
-      .hamburger { display: flex; }
-      nav { padding: 14px 20px; }
-      .nav-links { display: none; }
-      .wrap { padding: 0 20px; }
-      .hero { min-height: auto; padding: 100px 0 60px; }
-      .hero h1 { font-size: clamp(48px, 14vw, 72px); margin-bottom: 12px; }
-      .hero-sub { font-size: 17px; margin-bottom: 32px; }
-      .hero-illustration svg { width: 100%; height: auto; max-width: 360px; }
-      .hero-meta { flex-direction: column; align-items: flex-start; gap: 12px; padding-top: 28px; }
-      .hero-meta-right { text-align: left; }
-      .section { padding: 60px 0; }
-      .section h2 { font-size: clamp(32px, 9vw, 42px); }
-      .section p { font-size: 15.5px; }
-      p.lead { font-size: 17px; }
-      .stats-banner { padding: 40px 0; }
-      .stats-inner { flex-direction: column; gap: 28px; padding: 0 20px; }
-      .gap-grid { grid-template-columns: 1fr; }
-      .bvf-grid { grid-template-columns: 1fr; }
-      .nav-features { grid-template-columns: 1fr; }
-      .loop-diagram { flex-direction: column; gap: 0; }
-      .loop-arrow { transform: rotate(90deg); width: 100%; height: 36px; }
-      .case-study { flex-direction: column; gap: 4px; }
-      .case-location { min-width: auto; font-size: 22px; }
-      .metric-row { flex-direction: column; gap: 4px; padding: 16px 0; }
-      .metric-name { min-width: auto; font-size: 24px; }
-      .timeline-phase { flex-direction: column; gap: 4px; padding: 20px 0; }
-      .phase-label, .phase-time { min-width: auto; }
-      .closing { padding: 60px 0 80px; }
-      .closing-quote { font-size: 17px; }
-      .partner-benefits { padding: 24px 20px; margin: 28px 0; }
-      .tool-card { flex-direction: column; gap: 12px; }
-      @media (max-width: 600px) {
-        .calc-step [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
-      }
-    }
+    :root{--green:#2a7d5b;--green-dark:#1e5e42;--green-light:#e8f5ee;--green-pale:#f4faf7;--ink:#1a1a1a;--text:#3a3a3a;--muted:#7a7a7a;--light:#d0d0d0;--lighter:#e8e8e8;--bg:#faf9f6;--amber:#d4933a}
+    *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:17px;overflow-x:hidden}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 60px;display:flex;justify-content:space-between;align-items:center;background:rgba(250,249,246,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color 0.3s}
+    nav.scrolled{border-bottom-color:var(--lighter)}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}.nav-logo img{height:26px}.nav-logo span{font-family:'Caveat',cursive;font-size:16px;color:var(--muted);padding-left:10px;border-left:1px solid var(--lighter)}
+    .nav-links{display:flex;align-items:center;gap:36px}.nav-links a{font-size:13.5px;color:var(--muted);text-decoration:none;font-weight:400;transition:color 0.2s}.nav-links a:hover{color:var(--ink)}
+    .wrap{max-width:1100px;margin:0 auto;padding:0 60px}
+    .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 0 80px}
+    .hero h1{font-family:'DM Sans',sans-serif;font-size:clamp(60px,9vw,100px);letter-spacing:-3px;font-weight:700;color:var(--ink);line-height:0.95;margin-bottom:24px;opacity:0;animation:fadeUp 0.8s ease forwards}
+    .hero-sub{font-size:clamp(18px,2.5vw,24px);color:var(--green);font-weight:400;margin-bottom:20px;letter-spacing:0.5px;max-width:740px;opacity:0;animation:fadeUp 0.8s ease 0.12s forwards}
+    .hero-context{font-size:16px;color:var(--text);line-height:1.7;max-width:700px;margin-bottom:50px;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards}
+    .hero-illustration{opacity:0;animation:fadeUp 0.8s ease 0.28s forwards}
+    .hero-meta{display:flex;justify-content:space-between;align-items:flex-end;padding-top:40px;border-top:1.5px solid var(--lighter);opacity:0;animation:fadeUp 0.8s ease 0.4s forwards}
+    .hero-meta p{font-size:14px;color:var(--muted);line-height:1.6}.hero-meta strong{color:var(--ink);font-weight:500}.hero-meta-right{text-align:right}
+    .section{padding:100px 0}.section-label{font-family:'Caveat',cursive;font-size:16px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+    .section h2{font-family:'DM Sans',sans-serif;font-size:clamp(38px,5vw,48px);letter-spacing:-1.5px;font-weight:700;color:var(--ink);line-height:1.05;margin-bottom:12px}
+    .annotation{font-family:'Caveat',cursive;font-size:clamp(20px,4vw,24px);color:var(--amber);transform:rotate(-3deg);display:inline-block;margin-left:12px;font-weight:500}
+    .section p{font-size:17px;line-height:1.75;color:var(--text);margin-bottom:20px;max-width:860px}
+    p.lead{font-size:20px;color:var(--ink);font-weight:400;line-height:1.65;margin-bottom:28px}
+    .wavy{display:block;margin:6px 0 28px;opacity:0.5}
+    .stats-banner{background:var(--ink);padding:64px 0;color:var(--bg)}.stats-inner{max-width:1100px;margin:0 auto;padding:0 60px;display:flex;gap:40px;justify-content:space-between}
+    .stat{text-align:left;flex:1;padding-left:24px;border-left:2px solid var(--green)}.stat-number{font-family:'DM Sans',sans-serif;font-size:clamp(48px,6vw,64px);font-weight:700;letter-spacing:-2px;color:var(--bg);line-height:1;margin-bottom:12px}.stat-label{font-size:15.5px;color:var(--light);line-height:1.5}
+    .layer-diagram{display:flex;flex-direction:column;gap:0;margin:48px 0}
+    .layer-card{display:flex;gap:0;background:white;border:1.5px solid var(--lighter);transition:transform 0.2s,box-shadow 0.2s}.layer-card:first-child{border-radius:12px 12px 0 0}.layer-card:last-child{border-radius:0 0 12px 12px}.layer-card:not(:last-child){border-bottom:none}.layer-card:hover{transform:translateX(4px);box-shadow:-4px 0 24px rgba(42,125,91,0.08)}
+    .layer-card-left{width:200px;flex-shrink:0;padding:28px 24px;display:flex;flex-direction:column;justify-content:center}
+    .layer-card-num{font-family:'Caveat',cursive;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+    .layer-card-name{font-family:'Caveat',cursive;font-size:32px;font-weight:700;color:var(--green);line-height:1.1}
+    .layer-card-type{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-top:6px}
+    .layer-card-right{flex:1;padding:28px 28px 28px 24px;border-left:2px solid var(--lighter)}.layer-card-desc{font-size:15px;color:var(--text);line-height:1.6}
+    .layer-card-existing{display:inline-block;margin-top:10px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;padding:3px 10px;border-radius:4px}
+    .tag-live{color:var(--green);background:var(--green-light)}.tag-new{color:var(--amber);background:#fef3c7}
+    .gap-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
+    .gap-card{padding:24px;background:white;border-radius:12px;border:1.5px solid var(--lighter)}.gap-card-location{font-family:'Caveat',cursive;font-size:20px;font-weight:600;color:var(--ink);margin-bottom:6px}.gap-card-stat{font-size:15px;color:var(--text);line-height:1.55}
+    .scenario-box{margin:36px 0;padding:28px 32px;background:var(--ink);color:var(--bg);border-radius:12px;position:relative}.scenario-box::before{content:'EXAMPLE SCENARIO';position:absolute;top:-10px;left:28px;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--bg);background:var(--green);padding:2px 12px;border-radius:4px}.scenario-box p{font-size:15px;color:var(--light);line-height:1.7;max-width:100%;margin-bottom:12px}.scenario-box p:last-child{margin-bottom:0}.scenario-box strong{color:var(--bg)}.scenario-highlight{color:var(--green-light);font-weight:500}
+    .diff-callout{margin:40px 0;padding:28px 32px;background:#fefce8;border-left:3px solid var(--amber);border-radius:0 8px 8px 0}.diff-callout h4{font-family:'Caveat',cursive;font-size:22px;font-weight:600;color:var(--ink);margin-bottom:10px}.diff-callout p{font-size:15px;color:var(--text);line-height:1.65;margin-bottom:0;max-width:780px}
+    .arch-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:32px 0}.arch-card{padding:24px;background:white;border-radius:12px;border:1.5px solid var(--lighter)}.arch-card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:8px}.arch-card-title{font-family:'Caveat',cursive;font-size:22px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.2}.arch-card-desc{font-size:14px;color:var(--text);line-height:1.55}
+    .tool-card{display:flex;gap:28px;align-items:flex-start;padding:36px 0}.tool-card:not(:last-child){border-bottom:1.5px dashed var(--light)}.tool-card-content{flex:1}.tool-card-num{font-family:'Caveat',cursive;font-size:15px;color:var(--muted);margin-bottom:2px}.tool-card-content h3{font-family:'Caveat',cursive;font-size:30px;font-weight:600;color:var(--ink);line-height:1.1;margin-bottom:10px}.tool-card-content p{font-size:16px;max-width:720px}
+    .tool-link{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1.5px solid var(--green);border-radius:255px 15px 225px 15px/15px 225px 15px 255px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--green);text-decoration:none;transition:all 0.2s;background-color:transparent;cursor:pointer}.tool-link:hover{background:var(--green);color:white;transform:translateY(-2px)}
+    .case-studies{margin:40px 0}.case-study{display:flex;gap:24px;padding:22px 0;align-items:baseline}.case-study:not(:last-child)::after{content:'';position:absolute;bottom:0;left:0;right:0;border-bottom:1.5px dashed var(--light)}.case-study{position:relative}.case-location{font-family:'Caveat',cursive;font-size:26px;font-weight:600;color:var(--ink);min-width:170px;flex-shrink:0}.case-insight{font-size:14.5px;color:var(--text);line-height:1.6}
+    .gov-channel{padding:32px 0}.gov-channel:not(:last-child){border-bottom:1.5px dashed var(--light)}.gov-channel h4{font-family:'Caveat',cursive;font-size:26px;font-weight:600;color:var(--ink);margin-bottom:8px}.gov-channel-tag{display:inline-block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);background:var(--green-light);padding:3px 10px;border-radius:4px;margin-bottom:12px}.gov-channel p{font-size:15px;max-width:780px;line-height:1.7}
+    .partner-benefits{background:var(--green-pale);padding:32px 36px;margin:44px 0;border-radius:4px;position:relative}.partner-benefits::before{content:'';position:absolute;inset:0;border-left:3px solid var(--green);pointer-events:none}.partner-benefits h3{font-family:'Caveat',cursive;font-size:26px;font-weight:600;color:var(--ink);margin-bottom:16px}.partner-benefit-item{display:flex;gap:12px;margin-bottom:12px;font-size:15px;color:var(--text);line-height:1.6}.partner-benefit-num{font-family:'Caveat',cursive;font-size:20px;font-weight:700;color:var(--green);flex-shrink:0;width:24px}
+    .security-callout{margin-top:32px;padding:24px 28px;background:white;border:1.5px solid var(--lighter);border-radius:8px}.security-callout p{font-size:15px;margin-bottom:0;color:var(--text)}.security-callout strong{color:var(--ink)}
+    .metric-row{display:flex;gap:20px;align-items:baseline;padding:20px 0;position:relative}.metric-row:not(:last-child)::after{content:'';position:absolute;bottom:0;left:0;right:0;border-bottom:1.5px dashed var(--light)}.metric-name{font-family:'Caveat',cursive;font-size:28px;font-weight:600;color:var(--green);min-width:160px;flex-shrink:0}.metric-desc{font-size:15px;color:var(--text);line-height:1.6}
+    .timeline-phase{display:flex;gap:28px;align-items:flex-start;padding:28px 0;position:relative}.timeline-phase:not(:last-child)::after{content:'';position:absolute;bottom:0;left:0;right:0;border-bottom:1.5px dashed var(--light)}.phase-label{font-family:'Caveat',cursive;font-size:32px;font-weight:700;color:var(--green);min-width:100px;flex-shrink:0}.phase-time{font-family:'Caveat',cursive;font-size:20px;color:var(--muted);min-width:110px;flex-shrink:0;padding-top:8px}.phase-desc{font-size:15px;color:var(--text);line-height:1.65;padding-top:6px}
+    .team-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}.team-card{padding:24px;background:white;border-radius:12px;border:1.5px solid var(--lighter)}.team-card-name{font-family:'Caveat',cursive;font-size:24px;font-weight:600;color:var(--ink);margin-bottom:2px}.team-card-role{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--green);margin-bottom:8px}.team-card-bio{font-size:14px;color:var(--text);line-height:1.55}
+    .closing{padding:90px 0 120px;text-align:center}.closing-quote{font-family:'DM Sans',sans-serif;font-size:20px;font-style:italic;color:var(--ink);line-height:1.7;max-width:640px;margin:0 auto 50px}.closing-contact{font-size:14px;color:var(--muted)}.closing-contact strong{color:var(--ink);font-weight:500}.closing-contact a{color:var(--green);text-decoration:none}.closing-contact a:hover{text-decoration:underline}.closing-brand{margin-top:30px;display:flex;justify-content:center}.closing-brand img{height:24px;opacity:0.4}
+    .progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--green),var(--green-dark));width:0%;z-index:200;transition:width 0.1s linear}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;z-index:101}.hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all 0.3s ease}.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}.hamburger.active span:nth-child(2){opacity:0}.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+    .mobile-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(250,249,246,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:99;flex-direction:column;justify-content:center;align-items:center;gap:32px;opacity:0;transition:opacity 0.3s ease}.mobile-overlay.open{display:flex;opacity:1}.mobile-overlay a{font-family:'Caveat',cursive;font-size:36px;font-weight:600;color:var(--ink);text-decoration:none}.mobile-overlay a:hover{color:var(--green)}
+    .modal-backdrop{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(26,26,26,0.4);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:999;display:flex;justify-content:center;align-items:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease}.modal-backdrop.open{opacity:1;pointer-events:auto}
+    .modal-container{background:var(--bg);width:90%;max-width:650px;max-height:90vh;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,0.15);position:relative;transform:translateY(20px);transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);display:flex;flex-direction:column;overflow:hidden}.modal-backdrop.open .modal-container{transform:translateY(0)}
+    .modal-header{padding:24px 32px;border-bottom:1px solid var(--lighter);display:flex;justify-content:space-between;align-items:center}.modal-header h3{font-family:'DM Sans',sans-serif;font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-0.5px}
+    .modal-close{background:none;border:none;cursor:pointer;color:var(--muted);transition:color 0.2s;display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:16px}.modal-close:hover{color:var(--ink);background:var(--lighter)}
+    .modal-body{padding:32px;overflow-y:auto;flex:1}.modal-form-group{margin-bottom:24px}.modal-label{display:block;font-weight:600;margin-bottom:8px;font-size:15px;color:var(--ink)}
+    .modal-input{width:100%;padding:14px 16px;border:1.5px solid var(--light);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:16px;transition:border-color 0.2s;background:var(--bg)}.modal-input:focus{outline:none;border-color:var(--green)}
+    .modal-btn{width:100%;padding:16px;background:var(--ink);color:var(--bg);border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;cursor:pointer;transition:background 0.2s}.modal-btn:hover{background:var(--green)}
+    .modal-result{display:none}.modal-result.visible{display:block;animation:fadeUp 0.4s ease forwards}
+    .calc-step{display:none;animation:fadeUp 0.4s ease forwards}.calc-step.active{display:block}
+    .calc-radio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}.calc-radio-card{position:relative}.calc-radio-card input{position:absolute;opacity:0;cursor:pointer}.calc-radio-content{display:flex;align-items:center;justify-content:center;padding:12px;border:1.5px solid var(--light);border-radius:8px;cursor:pointer;transition:all 0.2s;text-align:center;font-size:15px;font-weight:500}.calc-radio-card input:checked+.calc-radio-content{border-color:var(--green);background:var(--green-pale);color:var(--green-dark);font-weight:600}.calc-radio-content:hover{border-color:var(--muted)}
+    .calc-place{background:var(--bg);padding:12px;border-radius:6px;margin-bottom:10px;border:1px solid var(--light)}.calc-place-name{font-weight:600;font-size:14px;display:flex;justify-content:space-between}.calc-place-tags{display:flex;gap:6px;margin-top:6px}.calc-tag{font-size:11px;padding:2px 8px;border-radius:4px;font-weight:600;background:#e0f2fe;color:#0369a1}.calc-tag-wic{background:#fce7f3;color:#be185d}
+    .calc-checklist{display:flex;gap:8px;margin-bottom:8px;font-size:14px;line-height:1.5}.calc-checklist-icon{color:var(--green);flex-shrink:0;font-weight:700}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.7s ease,transform 0.7s ease}.reveal.visible{opacity:1;transform:translateY(0)}
+    @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}nav{display:none}.hero{padding-top:40px;min-height:auto}.reveal{opacity:1;transform:none}}
+    @media(min-width:1400px){.wrap{max-width:1200px}.stats-inner{max-width:1200px}.hero h1{font-size:130px}.section h2{font-size:60px}}
+    @media(max-width:1024px){.wrap{padding:0 36px}.stats-inner{padding:0 36px}.section{padding:80px 0}.arch-grid{grid-template-columns:1fr}.layer-card{flex-direction:column}.layer-card-left{width:100%}.layer-card-right{border-left:none;border-top:2px solid var(--lighter)}}
+    @media(max-width:768px){.hamburger{display:flex}nav{padding:14px 20px}.nav-links{display:none}.wrap{padding:0 20px}.hero{min-height:auto;padding:100px 0 60px}.hero h1{font-size:clamp(48px,14vw,72px);margin-bottom:12px}.hero-sub{font-size:17px;margin-bottom:16px}.hero-meta{flex-direction:column;align-items:flex-start;gap:12px;padding-top:28px}.hero-meta-right{text-align:left}.section{padding:60px 0}.section h2{font-size:clamp(32px,9vw,42px)}.section p{font-size:15.5px}p.lead{font-size:17px}.stats-banner{padding:40px 0}.stats-inner{flex-direction:column;gap:28px;padding:0 20px}.gap-grid,.arch-grid,.team-grid{grid-template-columns:1fr}.layer-card{flex-direction:column}.layer-card-left{width:100%}.layer-card-right{border-left:none;border-top:2px solid var(--lighter)}.case-study{flex-direction:column;gap:4px}.case-location{min-width:auto;font-size:22px}.metric-row{flex-direction:column;gap:4px;padding:16px 0}.metric-name{min-width:auto;font-size:24px}.timeline-phase{flex-direction:column;gap:4px;padding:20px 0}.phase-label,.phase-time{min-width:auto}.closing{padding:60px 0 80px}.closing-quote{font-size:17px}.partner-benefits{padding:24px 20px;margin:28px 0}.tool-card{flex-direction:column;gap:12px}.scenario-box{padding:28px 20px}}
   </style>
 </head>
-
 <body>
 
-  <!-- Hidden SVG filter for hand-drawn effect -->
-  <svg style="position:absolute;width:0;height:0" aria-hidden="true">
-    <defs>
-      <filter id="hand-drawn" x="-5%" y="-5%" width="110%" height="110%">
-        <feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="4" seed="2" result="noise" />
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2" xChannelSelector="R" yChannelSelector="G" />
-      </filter>
-    </defs>
+<!-- Modals: Food Assistance Calculator -->
+<div class="modal-backdrop" id="calcModal"><div class="modal-container" style="max-width:700px"><div class="modal-header"><h3>Food Assistance Calculator</h3><button class="modal-close" onclick="closeModal('calcModal')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><div style="height:5px;background:var(--lighter);width:100%"><div id="calcProgressBar" style="height:100%;width:0%;background:var(--green);transition:width 0.3s ease"></div></div><div class="modal-body">
+<div class="calc-step active" id="calcStep1"><div style="display:flex;align-items:center;gap:12px;margin-bottom:24px"><div style="width:40px;height:40px;border-radius:50%;background:var(--green-pale);display:flex;align-items:center;justify-content:center;font-size:18px">📍</div><span style="font-size:18px;font-weight:700;color:var(--ink)">Location & Language</span></div><div class="modal-form-group"><label class="modal-label">Language</label><div class="calc-radio-grid"><label class="calc-radio-card"><input type="radio" name="calcLang" value="en" checked><div class="calc-radio-content">English</div></label><label class="calc-radio-card"><input type="radio" name="calcLang" value="es"><div class="calc-radio-content">Español</div></label></div></div><div class="modal-form-group"><label class="modal-label">ZIP Code</label><div style="font-size:13px;color:var(--muted);margin-bottom:6px">Used to find resources near you.</div><input type="text" id="calcZip" class="modal-input" placeholder="e.g. 44240" maxlength="5"></div><div style="display:flex;justify-content:flex-end;margin-top:24px;padding-top:16px;border-top:1px solid var(--lighter)"><button class="modal-btn" style="width:auto;padding:12px 28px" onclick="calcNextStep(2)">Next Step →</button></div></div>
+<div class="calc-step" id="calcStep2"><div style="display:flex;align-items:center;gap:12px;margin-bottom:24px"><div style="width:40px;height:40px;border-radius:50%;background:var(--green-pale);display:flex;align-items:center;justify-content:center;font-size:18px">🏠</div><span style="font-size:18px;font-weight:700;color:var(--ink)">Household</span></div><div class="modal-form-group"><label class="modal-label">Total Household Size</label><input type="number" id="calcHousehold" class="modal-input" value="1" min="1" max="20"></div><div class="modal-form-group"><label class="modal-label">Children under 5</label><input type="number" id="calcChildren" class="modal-input" value="0" min="0"></div><div class="modal-form-group"><label class="modal-label">Adults 60+ or with disabilities?</label><div class="calc-radio-grid"><label class="calc-radio-card"><input type="radio" name="calcSenior" value="yes"><div class="calc-radio-content">Yes</div></label><label class="calc-radio-card"><input type="radio" name="calcSenior" value="no" checked><div class="calc-radio-content">No</div></label></div></div><div style="display:flex;justify-content:space-between;margin-top:24px;padding-top:16px;border-top:1px solid var(--lighter)"><button class="modal-btn" style="width:auto;padding:12px 28px;background:var(--lighter);color:var(--ink)" onclick="calcPrevStep(1)">← Back</button><button class="modal-btn" style="width:auto;padding:12px 28px" onclick="calcNextStep(3)">Next Step →</button></div></div>
+<div class="calc-step" id="calcStep3"><div style="display:flex;align-items:center;gap:12px;margin-bottom:24px"><div style="width:40px;height:40px;border-radius:50%;background:var(--green-pale);display:flex;align-items:center;justify-content:center;font-size:18px">💰</div><span style="font-size:18px;font-weight:700;color:var(--ink)">Income & Expenses</span></div><div class="modal-form-group"><label class="modal-label">Gross Monthly Income</label><div style="position:relative"><span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted)">$</span><input type="number" id="calcIncome" class="modal-input" style="padding-left:28px" placeholder="0"></div></div><div class="modal-form-group"><label class="modal-label">Monthly Rent or Mortgage</label><div style="position:relative"><span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted)">$</span><input type="number" id="calcRent" class="modal-input" style="padding-left:28px" placeholder="0"></div></div><div class="modal-form-group"><label class="modal-label">Monthly Childcare</label><div style="position:relative"><span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted)">$</span><input type="number" id="calcChildcare" class="modal-input" style="padding-left:28px" placeholder="0"></div></div><div style="display:flex;justify-content:space-between;margin-top:24px;padding-top:16px;border-top:1px solid var(--lighter)"><button class="modal-btn" style="width:auto;padding:12px 28px;background:var(--lighter);color:var(--ink)" onclick="calcPrevStep(2)">← Back</button><button class="modal-btn" style="width:auto;padding:12px 28px" onclick="runCalculator()">See Results</button></div></div>
+<div class="calc-step" id="calcResults" style="display:none"><div style="text-align:center;padding-bottom:24px;border-bottom:1px solid var(--lighter);margin-bottom:24px"><div id="calcStatusBadge" style="display:inline-block;padding:8px 16px;border-radius:50px;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;background:#d1fae5;color:#065f46">Likely Eligible</div><h3 id="calcResultTitle" style="font-size:22px;font-weight:700;color:var(--ink);margin-bottom:8px"></h3><div id="calcBenefitAmount" style="font-size:42px;font-weight:700;color:var(--ink);letter-spacing:-1px"></div><div style="font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:4px">Estimated Monthly Benefit</div><p id="calcResultExplanation" style="color:var(--muted);font-size:14px;margin-top:12px"></p></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div style="background:var(--lighter);padding:20px;border-radius:10px"><h4 style="font-size:15px;font-weight:700;margin-bottom:14px">🛒 Places Nearby</h4><div id="calcPlacesList"></div><a id="calcMapLink" href="#" target="_blank" style="display:block;margin-top:14px;padding:10px;background:var(--bg);color:var(--ink);text-align:center;text-decoration:none;font-weight:600;border-radius:6px;border:1.5px solid var(--light);font-size:14px">View Full Map</a></div><div style="background:var(--lighter);padding:20px;border-radius:10px"><h4 style="font-size:15px;font-weight:700;margin-bottom:14px">📝 Next Steps</h4><div id="calcNextSteps"></div><div id="calcWicAlert" style="display:none;margin-top:16px;background:#fdf2f8;padding:12px;border-radius:8px;border:1px solid #fbcfe8"><strong style="color:#be185d;font-size:14px">👶 You may also qualify for WIC</strong></div><div id="calcLocalHelp" style="display:none;margin-top:16px;background:#eff6ff;padding:12px;border-radius:8px;border:1px solid #bfdbfe"><strong style="color:#1d4ed8;font-size:14px">🤝 Get Free Help</strong><p id="calcLocalHelpText" style="font-size:13px;margin-top:6px;color:var(--ink)"></p><a id="calcLocalHelpLink" href="#" target="_blank" style="display:inline-block;margin-top:8px;color:#1d4ed8;font-weight:600;text-decoration:underline;font-size:13px"></a></div><a href="https://www.fns.usda.gov/snap/state-directory" target="_blank" class="modal-btn" style="display:block;margin-top:16px;text-decoration:none;text-align:center;font-size:14px;padding:12px">Apply for SNAP Now</a></div></div><div style="font-size:12px;color:var(--muted);text-align:center;margin-top:24px;padding-top:16px;border-top:1px solid var(--lighter)"><strong>Disclaimer:</strong> Estimate only. Final eligibility determined by your state agency.</div><div style="margin-top:16px;text-align:center"><button class="modal-btn" style="width:auto;padding:12px 28px;background:var(--lighter);color:var(--ink)" onclick="calcReset()">Start Over</button></div></div>
+</div></div></div>
+
+<!-- Food Desert Analyzer Modal -->
+<div class="modal-backdrop" id="desertModal"><div class="modal-container" style="max-width:650px"><div class="modal-header"><h3>Food Desert Analyzer</h3><button class="modal-close" onclick="closeModal('desertModal')"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div><div class="modal-body">
+<div id="desertForm"><div style="text-align:center;margin-bottom:28px"><div style="font-size:12px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--green);margin-bottom:12px">Free Tool</div><p style="color:var(--muted);font-size:15px">Check food access in your neighborhood.</p></div><div style="background:var(--lighter);border-radius:12px;padding:28px;border:1.5px solid var(--light)"><div style="display:flex;gap:12px"><input type="text" id="desertZip" class="modal-input" placeholder="Enter Zip Code" maxlength="5" inputmode="numeric" style="text-align:center;font-weight:600;letter-spacing:0.1em;flex:1"><button class="modal-btn" style="width:auto;padding:12px 24px" onclick="runAnalyzer()">Analyze</button></div></div></div>
+<div class="modal-result" id="desertResult" style="padding:0;background:transparent"><div style="background:var(--lighter);padding:24px;border-radius:12px;margin-bottom:16px;text-align:center"><div style="font-size:14px;color:var(--muted);margin-bottom:6px">Results for <strong id="desertZipDisplay" style="color:var(--ink)"></strong></div><div id="desertBadge" style="display:inline-block;padding:8px 18px;border-radius:20px;font-size:14px;font-weight:700;background:#FEF3C7;color:#92400E;margin-top:8px">🔶 Moderate Access</div></div><div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px"><div style="background:var(--bg);border:1.5px solid var(--lighter);padding:16px;border-radius:8px"><div style="display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:8px"><span>🏪 Grocery Access</span><span id="desertGroceryScore" style="color:var(--muted)">--</span></div><div style="height:8px;background:var(--lighter);border-radius:4px;overflow:hidden"><div id="desertGroceryBar" style="height:100%;width:0%;border-radius:4px;transition:width 0.8s ease"></div></div></div><div style="background:var(--bg);border:1.5px solid var(--lighter);padding:16px;border-radius:8px"><div style="display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:8px"><span>🥗 Fresh Food</span><span id="desertFreshScore" style="color:var(--muted)">--</span></div><div style="height:8px;background:var(--lighter);border-radius:4px;overflow:hidden"><div id="desertFreshBar" style="height:100%;width:0%;border-radius:4px;transition:width 0.8s ease"></div></div></div><div style="background:var(--bg);border:1.5px solid var(--lighter);padding:16px;border-radius:8px"><div style="display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:8px"><span>🚌 Transportation</span><span id="desertTransportScore" style="color:var(--muted)">--</span></div><div style="height:8px;background:var(--lighter);border-radius:4px;overflow:hidden"><div id="desertTransportBar" style="height:100%;width:0%;border-radius:4px;transition:width 0.8s ease"></div></div></div></div><a href="https://www.feedingamerica.org/find-your-local-foodbank" target="_blank" class="modal-btn" style="display:block;text-decoration:none;text-align:center;margin-bottom:20px">Find Food Resources →</a><div style="margin-top:16px;text-align:center"><button class="modal-btn" style="width:auto;padding:12px 28px;background:var(--lighter);color:var(--ink)" onclick="desertReset()">Analyze Another Area</button></div></div>
+</div></div></div>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav id="nav"><a href="#" class="nav-logo"><img src="finmango.png" alt="FinMango"><span>freshfind</span></a><div class="nav-links"><a href="#problem">Problem</a><a href="#system">System</a><a href="#architecture">Architecture</a><a href="#research">Research</a><a href="#government">Government</a><a href="https://finmango.org">finmango.org</a></div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button></nav>
+<div class="mobile-overlay" id="mobileOverlay"><a href="#problem" class="mobile-nav-link">Problem</a><a href="#system" class="mobile-nav-link">System</a><a href="#architecture" class="mobile-nav-link">Architecture</a><a href="#research" class="mobile-nav-link">Research</a><a href="#government" class="mobile-nav-link">Government</a><a href="https://finmango.org" class="mobile-nav-link">finmango.org</a></div>
+
+<div class="wrap">
+<section class="hero">
+  <h1>freshfind</h1>
+  <div class="hero-sub">Predictive food security intelligence for government. See crises coming. Act before people fall through the cracks.</div>
+  <p class="hero-context">An AI system that monitors financial stress signals across all 50 states, detects policy changes before they take effect, identifies which communities will be hit hardest, and deploys response tools through government channels people already trust.</p>
+  <div class="hero-illustration">
+    <svg width="560" height="180" viewBox="0 0 560 180" fill="none">
+      <circle cx="100" cy="90" r="50" stroke="var(--lighter)" stroke-width="1.5" fill="none"/><circle cx="100" cy="90" r="35" stroke="var(--lighter)" stroke-width="1" fill="none"/><circle cx="100" cy="90" r="20" stroke="var(--lighter)" stroke-width="1" fill="none"/><circle cx="100" cy="90" r="4" fill="var(--green)"/>
+      <line x1="100" y1="90" x2="100" y2="45" stroke="var(--green)" stroke-width="1.5" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 100 90" to="360 100 90" dur="4s" repeatCount="indefinite"/></line>
+      <circle cx="82" cy="72" r="3" fill="#d4933a" opacity="0.8"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/></circle>
+      <circle cx="118" cy="105" r="3" fill="#d4933a" opacity="0.6"><animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.5s" repeatCount="indefinite"/></circle>
+      <path d="M165 90 C200 90,210 70,240 70" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="5 4" fill="none"><animate attributeName="stroke-dashoffset" values="0;-18" dur="1.2s" repeatCount="indefinite"/></path>
+      <path d="M234 73 L242 70 L234 67" stroke="var(--green)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <rect x="255" y="45" width="120" height="90" rx="6" stroke="var(--ink)" stroke-width="1.5" fill="none"/><line x1="270" y1="65" x2="360" y2="65" stroke="var(--lighter)" stroke-width="1"/><rect x="270" y="75" width="50" height="4" rx="2" fill="var(--green)" opacity="0.5"/><rect x="270" y="85" width="70" height="4" rx="2" fill="var(--lighter)"/><rect x="270" y="95" width="60" height="4" rx="2" fill="var(--lighter)"/><rect x="270" y="110" width="40" height="14" rx="3" fill="var(--green)" opacity="0.15" stroke="var(--green)" stroke-width="1"/>
+      <text x="275" y="54" font-family="Caveat,cursive" font-size="11" fill="var(--ink)" font-weight="600">ALERT: Wolfe Co, KY</text>
+      <path d="M390 90 C410 90,420 90,440 90" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="5 4" fill="none"><animate attributeName="stroke-dashoffset" values="0;-18" dur="1.2s" repeatCount="indefinite"/></path>
+      <path d="M434 93 L442 90 L434 87" stroke="var(--green)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="475" cy="75" r="10" stroke="var(--ink)" stroke-width="1.3" fill="none"/><path d="M475 85 L475 105" stroke="var(--ink)" stroke-width="1.3" stroke-linecap="round"/><path d="M475 92 L467 100M475 92 L483 100" stroke="var(--ink)" stroke-width="1.2" stroke-linecap="round"/>
+      <circle cx="505" cy="75" r="10" stroke="var(--ink)" stroke-width="1.3" fill="none"/><path d="M505 85 L505 105" stroke="var(--ink)" stroke-width="1.3" stroke-linecap="round"/><path d="M505 92 L497 100M505 92 L513 100" stroke="var(--ink)" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M498 67 C500 60,510 62,507 67" stroke="var(--green)" stroke-width="1.2" fill="none" stroke-linecap="round"/><path d="M470 68 C468 62,474 58,474 66" stroke="var(--green)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <text x="75" y="158" font-family="Caveat,cursive" font-size="15" fill="var(--muted)">detect</text><text x="285" y="158" font-family="Caveat,cursive" font-size="15" fill="var(--muted)">inform</text><text x="475" y="158" font-family="Caveat,cursive" font-size="15" fill="var(--muted)">respond</text>
+    </svg>
+  </div>
+  <div class="hero-meta"><div><p><strong>FinMango</strong> · 501(c)(3)</p><p>Scott Glasgow · Sarah Cherian · Soham Patel · Tony Ramos</p></div><div class="hero-meta-right"><p><strong>Google.org Impact Challenge</strong></p><p>AI for Government Innovation</p></div></div>
+</section>
+</div>
+
+<div class="stats-banner reveal" id="stats"><div class="stats-inner">
+  <div class="stat"><div class="stat-number" data-target="47" data-suffix="M+">0</div><div class="stat-label">Americans are<br>food insecure</div></div>
+  <div class="stat"><div class="stat-number" data-target="50" data-suffix="%">0</div><div class="stat-label">of eligible elderly in IL<br>never receive SNAP</div></div>
+  <div class="stat"><div class="stat-number" data-target="60" data-suffix="+">0</div><div class="stat-label">presidential disaster<br>declarations per year</div></div>
+</div></div>
+
+<div class="wrap">
+
+<section class="section reveal" id="problem">
+  <div class="section-label">01</div><h2>governments are always reacting</h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none"/></svg>
+  <p class="lead">Every food security crisis follows the same pattern. Applications spike. Food banks report shortages. Caseworkers burn out. A news story runs. Then everyone scrambles. By that point, families have already gone weeks without adequate food.</p>
+  <p>No state or county government has a system that tells them: financial stress in these zip codes just spiked 40% over 90 days. Here are the programs that should be surging outreach. Here's the predicted caseload increase. Here's exactly who is affected and what to do about it.</p>
+  <p>Instead, they find out the same way everyone else does. After the fact. After the damage.</p>
+  <div class="gap-grid">
+    <div class="gap-card"><div class="gap-card-location">Policy changes</div><div class="gap-card-stat">The 2025 House Budget Plan introduced the largest proposed SNAP cuts in history and expanded work requirements to age 64. Most affected households learned about it from the news. Their state agencies had no automated system to identify and notify them.</div></div>
+    <div class="gap-card"><div class="gap-card-location">Disaster response</div><div class="gap-card-stat">60+ presidential disaster declarations hit each year. Each activates D-SNAP and emergency food programs. Most counties scramble to manually identify affected populations. Weeks pass. People go hungry.</div></div>
+    <div class="gap-card"><div class="gap-card-location">Access gaps</div><div class="gap-card-stat">In Atlanta, only 38% of SNAP retailers in majority-Black neighborhoods carry fresh produce. In Wolfe County, KY, 4 food stores in the entire county. Enrollment numbers look fine. But enrolled people still can't get food.</div></div>
+    <div class="gap-card"><div class="gap-card-location">The core problem</div><div class="gap-card-stat">Governments have enrollment data, program rules, and budgets. What they don't have is a system that connects these into real-time intelligence they can act on before a crisis peaks.</div></div>
+  </div>
+  <p>The tools that exist in this space focus on making the administrative machinery faster. Helping caseworkers process applications. That's valuable. But it doesn't solve the upstream problem: nobody is watching the signals, predicting where the next crisis will hit, and giving governments a head start.</p>
+</section>
+
+<section class="section reveal" id="system">
+  <div class="section-label">02</div><h2>detect, inform, respond <span class="annotation">the full loop</span></h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"/></svg>
+  <p class="lead">FreshFind is a three-layer AI system that gives governments something they've never had: predictive food security intelligence. It watches the signals, identifies who's at risk, and deploys the response. Continuously. Autonomously.</p>
+  <div class="layer-diagram reveal">
+    <div class="layer-card" style="border-top:4px solid var(--green)"><div class="layer-card-left"><div class="layer-card-num">Layer 1</div><div class="layer-card-name">Detect</div><div class="layer-card-type">Agentic AI</div><span class="layer-card-existing tag-live">Barometer is live</span></div><div class="layer-card-right"><div class="layer-card-desc">The Financial Health Barometer already tracks financial stress across all 50 states using BLS, Census, HUD, FRED, and Google Trends data. The AI upgrade turns it into a forecasting engine. Gemini-powered anomaly detection identifies stress spikes at the zip-code level before they become crises. In parallel, the system parses the Federal Register, state SNAP policy bulletins, and FEMA disaster declarations daily. When stress indicators cross a threshold or a policy change takes effect, the system triggers automatically.</div></div></div>
+    <div class="layer-card"><div class="layer-card-left"><div class="layer-card-num">Layer 2</div><div class="layer-card-name">Inform</div><div class="layer-card-type">Predictive AI</div><span class="layer-card-existing tag-new">Grant builds this</span></div><div class="layer-card-right"><div class="layer-card-desc">The intelligence layer. Cross-references detected signals with community-level data: FinMango's 2-year strategic research collaboration with the University of Virginia, Census demographics, USDA food access data, and state eligibility rules. Produces actionable briefings for government decision-makers. Not "135,000 Kentuckians affected" as a headline. Specific clusters: these zip codes, this many households, this demographic profile, this food access score, these recommended actions. Agentic AI tracks whether actions were taken and measures outcomes.</div></div></div>
+    <div class="layer-card" style="border-bottom:4px solid var(--ink)"><div class="layer-card-left"><div class="layer-card-num">Layer 3</div><div class="layer-card-name">Respond</div><div class="layer-card-type">Decision Engine</div><span class="layer-card-existing tag-live">Tools are live</span></div><div class="layer-card-right"><div class="layer-card-desc">Once the system identifies a need and a government partner activates a response, FreshFind deploys the execution tools. The Food Assistance Calculator screens households across every program at once. The Food Desert Analyzer routes people to stores that carry fresh produce and accept EBT. The application assistant helps people actually enroll. These tools don't sit on a website hoping someone finds them. They're deployed by governments into specific communities where the AI identified the need.</div></div></div>
+  </div>
+  <div class="scenario-box reveal">
+    <p><strong>Detect:</strong> FreshFind's Barometer identifies a <span class="scenario-highlight">35% spike in financial stress indicators</span> across eastern Kentucky zip codes 41271-41274. Simultaneously, the policy parser flags that expanded SNAP work requirements take effect in 60 days.</p>
+    <p><strong>Inform:</strong> The system generates a briefing for the Kentucky SNAP director: <span class="scenario-highlight">2,400 households estimated at risk</span>. 60% of current recipients ages 55-64 in these zip codes. Nearest fresh produce: 12 miles. Recommended: activate targeted outreach, coordinate mobile pantry deployment, alert 211 center for surge capacity.</p>
+    <p><strong>Respond:</strong> The state agency sends personalized notifications through their existing channels. Recipients land in FreshFind's guided intake. Cross-program eligibility check. Food access routing. Application assistance. <span class="scenario-highlight">Families connected to help before the policy change takes effect.</span></p>
+  </div>
+  <div class="diff-callout reveal">
+    <h4>This is not a benefits navigator</h4>
+    <p>Most AI-for-government projects in the benefits space focus on the administrative layer: helping caseworkers process applications faster. That's a different problem. FreshFind gives governments a capability they've never had: predictive intelligence that sees food crises forming and orchestrates a response before they peak. The user isn't a person searching for food help. The user is a state SNAP director, a county emergency manager, a health department administrator deciding where to deploy resources.</p>
+  </div>
+</section>
+
+<section class="section reveal" id="architecture">
+  <div class="section-label">03</div><h2>technical architecture <span class="annotation">under the hood</span></h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"/></svg>
+  <p class="lead">A structured pipeline of specialized models. Each stage produces auditable, deterministic outputs. No black boxes. A state SNAP director can trace any recommendation to the specific data source and rule that generated it.</p>
+  <div class="arch-grid reveal">
+    <div class="arch-card"><div class="arch-card-label">Signal Detection</div><div class="arch-card-title">Anomaly Detection on Stress Data</div><div class="arch-card-desc">Gemini-powered time-series analysis over the Barometer's 50-state dataset. Identifies statistically significant stress spikes at zip-code level. Correlates financial signals with food access scores and enrollment data to surface emerging risks before they manifest as caseload spikes.</div></div>
+    <div class="arch-card"><div class="arch-card-label">Policy Parsing</div><div class="arch-card-title">NLP over Federal Register + State Feeds</div><div class="arch-card-desc">Extraction pipeline monitors Federal Register XML, state SNAP bulletins, and FEMA declarations. Structured outputs classify each change by program, demographics, geography, and effective date. Validated against codified rules before triggering downstream actions.</div></div>
+    <div class="arch-card"><div class="arch-card-label">Knowledge Layer</div><div class="arch-card-title">RAG over Verified Program Data</div><div class="arch-card-desc">Retrieval-augmented generation grounded in USDA FNS rules, state eligibility tables, and FinMango's field research. Curated, version-controlled corpus. Every recommendation cites its source. Deterministic where it matters.</div></div>
+  </div>
+  <div class="arch-grid reveal">
+    <div class="arch-card"><div class="arch-card-label">Briefing Engine</div><div class="arch-card-title">Intelligence for Decision-Makers</div><div class="arch-card-desc">Gemini generates structured briefings: affected geography, estimated population impact, demographic profile, food access conditions, available programs, and ranked recommended actions. Pre-approved templates. AI fills specifics within guardrails.</div></div>
+    <div class="arch-card"><div class="arch-card-label">Geospatial Layer</div><div class="arch-card-title">Food Access Intelligence</div><div class="arch-card-desc">USDA Food Access Research Atlas, SNAP retailer database, Google Maps API, local pantry data. Weighted scoring: transit accessibility, store produce quality (not just EBT acceptance), seasonal availability. Powers food access in every briefing and response.</div></div>
+    <div class="arch-card"><div class="arch-card-label">Infrastructure</div><div class="arch-card-title">Google Cloud + Compliance</div><div class="arch-card-desc">Vertex AI for model serving. HIPAA-compliant pipeline with encryption at rest and in transit. FedRAMP-authorized infrastructure. No PII stored beyond session. Government partners control their data. SOC 2 Type II audit Month 4.</div></div>
+  </div>
+</section>
+
+<section class="section reveal" id="tools">
+  <div class="section-label">04</div><h2>the response layer is already built <span class="annotation">live now</span></h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"/></svg>
+  <p class="lead">The Detect and Inform layers are what the grant builds. But the Respond layer is already functional. The grant connects these tools to the intelligence system that tells governments where and when to deploy them.</p>
+  <div class="tool-card reveal"><div class="tool-card-content"><div class="tool-card-num">tool one</div><h3>Financial Health Barometer</h3><p>Real-time financial stress tracking across all 50 states. Data from BLS, Census, HUD, FRED, and Google Trends. This is the signal layer that powers the entire Detect stage. It already exists. The grant adds the AI that turns signals into predictions.</p><div style="margin-top:20px"><a href="https://finmango.org/barometer" target="_blank" class="tool-link">View the Barometer →</a></div></div></div>
+  <div class="tool-card reveal"><div class="tool-card-content"><div class="tool-card-num">tool two</div><h3>Food Desert Analyzer</h3><p>Enter a zip code. See whether your neighborhood has access to grocery stores, fresh food, and transportation. Powers the food access component of every intelligence briefing.</p><div style="margin-top:20px"><button onclick="openModal('desertModal')" class="tool-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="7" r="5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 12 L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Try the Food Desert Analyzer →</button></div></div></div>
+  <div class="tool-card reveal"><div class="tool-card-content"><div class="tool-card-num">tool three</div><h3>Food Assistance Calculator</h3><p>Cross-program eligibility screening. One intake covers SNAP, WIC, school meals, food pantries, utility assistance, and more. Deployed by governments into communities where the intelligence layer identified the need.</p><div style="margin-top:20px"><button onclick="openModal('calcModal')" class="tool-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M6 6 L6 10 M8 8 L10 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Try the Food Assistance Calculator →</button></div></div></div>
+</section>
+
+<section class="section reveal" id="research">
+  <div class="section-label">05</div><h2>calibrated on ground truth <span class="annotation">not assumptions</span></h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none"/></svg>
+  <div style="display:inline-flex;align-items:center;gap:12px;padding:10px 20px;background:#fff;border:1.5px solid var(--lighter);border-radius:100px;margin-bottom:32px"><svg fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3Zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-2.33v8.02Z" fill="var(--green)"/></svg><span style="font-size:13.5px;font-weight:600;color:var(--ink);letter-spacing:0.5px;text-transform:uppercase">Strategic Research Collaboration with the University of Virginia</span></div>
+  <p>Predictive models are only as good as their calibration data. We spent two years in five communities mapping what's actually happening: who's food insecure, why programs aren't reaching them, what's blocking access. This is the ground truth that makes FreshFind's predictions credible. It's also why these five communities are our pilot targets.</p>
+  <div class="case-studies">
+    <div class="case-study"><div class="case-location">Chicago, IL</div><div class="case-insight">~500k food insecure residents. 1.88M SNAP recipients. $300M distributed monthly. Every $1 returns $1.54 GDP. Dense infrastructure but severe access gaps by neighborhood.</div></div>
+    <div class="case-study"><div class="case-location">Atlanta, GA</div><div class="case-insight">13.7% food insecurity rate. Only 38% of SNAP retailers in majority-Black neighborhoods carry produce vs. 75% elsewhere. Highest wealth inequality in the nation.</div></div>
+    <div class="case-study"><div class="case-location">Kansas City, MO</div><div class="case-insight">~79k food insecure adults. Strong nonprofit ecosystem but limited government coordination. Min wage disparity between KCMO and KCKS creates cross-border economic divide.</div></div>
+    <div class="case-study"><div class="case-location">Twin Falls, ID</div><div class="case-insight">~10% food insecurity driven by structural access barriers. SNAP retailers mostly convenience stores. Bus system replaced by smartphone-only microtransit.</div></div>
+    <div class="case-study"><div class="case-location">Wolfe Co., KY</div><div class="case-insight">27.3% food insecurity. 38% poverty rate. 4 food stores in entire county. 135k Kentuckians at risk under H.R. 1. $1.1M annual food budget shortfall. This is where the model was stress-tested.</div></div>
+  </div>
+</section>
+
+<section class="section reveal" id="government">
+  <div class="section-label">06</div><h2>built for government users</h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none"/></svg>
+  <p class="lead">The primary user is a government decision-maker. A state SNAP director. A county emergency manager. A health department administrator. FreshFind gives them predictive intelligence and response tools. They deploy through channels people already trust.</p>
+  <p>Our pilot strategy starts in the five communities where we have two years of field relationships and research data. We are in active conversations with county health departments in Wolfe County, KY and Twin Falls, ID, and with food bank networks in Chicago and Atlanta, to formalize pilot partnerships. These aren't cold introductions. Our research with the University of Virginia was conducted in collaboration with local agencies in these communities.</p>
+  <div class="gov-channel reveal"><div class="gov-channel-tag">Primary Use Case</div><h4>State SNAP & Medicaid Agencies</h4><p>State agencies are legally required to notify affected households when policy changes hit. Most have no automated system to do this at scale. FreshFind is that system. The Detect layer flags the change. The Inform layer identifies affected households. The agency sends personalized outreach under their name. Respondents are routed into FreshFind's response tools.</p><p>The agency gets a dashboard: households reached, alternative program enrollments, food resources accessed, food access score changes in target zip codes. Real outcomes, not just process metrics.</p></div>
+  <div class="gov-channel reveal"><h4>County Emergency Managers</h4><p>When a disaster declaration drops, FreshFind automatically identifies affected populations and activates D-SNAP screening, emergency food routing, and crisis-specific program recommendations. The emergency manager gets a briefing within hours: who's affected, what's available, where the food access gaps are.</p></div>
+  <div class="gov-channel reveal"><h4>211 Centers, Health Departments, School Districts, Libraries</h4><p>Response deployment channels. 211 operators use FreshFind as real-time support. Health departments run 2-minute screenings during WIC visits. School districts use free lunch data to identify families who qualify for more. Libraries host kiosk-style terminals. The intelligence layer tells governments where to focus. These channels deliver the help.</p></div>
+  <div class="partner-benefits reveal"><h3>What Government Partners Get</h3>
+    <div class="partner-benefit-item"><div class="partner-benefit-num">1</div><div>Predictive intelligence they don't have. See food security risks forming across their jurisdiction before crisis peaks.</div></div>
+    <div class="partner-benefit-item"><div class="partner-benefit-num">2</div><div>Automated policy change response. System identifies who's affected and generates notification content. Agency sends it under their name.</div></div>
+    <div class="partner-benefit-item"><div class="partner-benefit-num">3</div><div>Food access data beyond enrollment. Not just "how many have SNAP" but "can they buy groceries with it?" at the zip-code level.</div></div>
+    <div class="partner-benefit-item"><div class="partner-benefit-num">4</div><div>Disaster surge capacity. FreshFind absorbs the spike that would otherwise overwhelm caseworkers and call centers.</div></div>
+    <div class="partner-benefit-item"><div class="partner-benefit-num">5</div><div>No new infrastructure. Integrates with existing systems and channels. Nothing to build, buy, or maintain.</div></div>
+  </div>
+  <div class="security-callout reveal"><p><strong>Data & Security:</strong> No user data sold or retained. Google Cloud with FedRAMP-authorized, HIPAA-compliant infrastructure. Encrypted at rest and in transit. Government partners control their data. SOC 2 Type II audit Month 4.</p></div>
+</section>
+
+<section class="section reveal">
+  <div class="section-label">07</div><h2>how we'll measure it</h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"/></svg>
+  <div>
+    <div class="metric-row"><div class="metric-name">prediction accuracy</div><div class="metric-desc">Does the system correctly identify communities heading toward crises? Measured against subsequent SNAP application spikes, food bank demand surges, and 211 call volume in target geographies.</div></div>
+    <div class="metric-row"><div class="metric-name">response time</div><div class="metric-desc">Policy change detection to government briefing: target under 48 hours. Briefing to first household contact: target under 72 hours. Measured for every policy event and disaster declaration.</div></div>
+    <div class="metric-row"><div class="metric-name">benefits unlocked</div><div class="metric-desc">Total benefit dollars unlocked through proactive outreach. Cross-program enrollment rates. Compared against control communities without FreshFind intelligence.</div></div>
+    <div class="metric-row"><div class="metric-name">food access</div><div class="metric-desc">Food desert score improvements in pilot communities. Percentage of SNAP households connected to stores carrying fresh produce within accessible distance.</div></div>
+    <div class="metric-row"><div class="metric-name">government adoption</div><div class="metric-desc">Partners actively using briefings. Actions taken per briefing. Decision-maker satisfaction. Time saved vs. manual analysis. The metric that determines whether this scales.</div></div>
+  </div>
+</section>
+
+<section class="section reveal">
+  <div class="section-label">08</div><h2>built to replicate</h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none"/></svg>
+  <p>The Barometer already covers all 50 states. Adding a government partner means pointing the intelligence layer at their geography and plugging in local food access data. The scaling unit is the government partnership. One state's success becomes another state's blueprint.</p>
+  <p>Every presidential disaster declaration is an automatic scaling trigger. 60+ per year in the U.S. Each activates the full Detect-Inform-Respond loop without manual intervention.</p>
+  <p>The model travels. FinMango operates in 13+ countries. India's Public Distribution System, Brazil's Bolsa Família, EU food assistance programs. Every country with social benefit programs has the same blind spot. At the end of the 18-month grant, we publish a full open-source toolkit for national and international replication.</p>
+</section>
+
+<section class="section reveal">
+  <div class="section-label">09</div><h2>the roadmap</h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"/></svg>
+  <p class="lead">$1.5M over 18 months. The Barometer and response tools are live. The grant builds the intelligence layer that connects them.</p>
+  <div>
+    <div class="timeline-phase"><div class="phase-label">build</div><div class="phase-time">months 1–6</div><div class="phase-desc">Hire AI/ML engineers. Build Gemini-powered anomaly detection on the Barometer. Deploy policy parsing pipeline (Federal Register, state feeds, FEMA API). Build government-facing intelligence dashboard. SOC 2 Type II audit. Formalize 2-3 pilot partnerships in communities where the University of Virginia research was conducted.</div></div>
+    <div class="timeline-phase"><div class="phase-label">deploy</div><div class="phase-time">months 7–12</div><div class="phase-desc">Launch the Inform layer with pilot partners. Deliver first predictive briefings to government decision-makers. Deploy response tools through partner channels. Test against real policy changes and disasters. Iterate on decision-maker feedback. Publish interim accuracy metrics.</div></div>
+    <div class="timeline-phase"><div class="phase-label">scale</div><div class="phase-time">months 13–18</div><div class="phase-desc">Expand to 5+ state partners. Activate automatic disaster response for new declarations. Publish impact report with prediction accuracy, response times, and benefits unlocked. Release open-source toolkit for national and international replication.</div></div>
+  </div>
+</section>
+
+<section class="closing reveal">
+  <svg width="200" height="80" viewBox="0 0 200 80" fill="none" style="display:block;margin:0 auto 40px">
+    <circle cx="50" cy="40" r="24" stroke="var(--lighter)" stroke-width="1.2" fill="none"/><circle cx="50" cy="40" r="3" fill="var(--green)"/><line x1="50" y1="40" x2="50" y2="19" stroke="var(--green)" stroke-width="1.2" stroke-linecap="round"><animateTransform attributeName="transform" type="rotate" from="0 50 40" to="360 50 40" dur="4s" repeatCount="indefinite"/></line>
+    <path d="M85 40 L115 40" stroke="var(--green)" stroke-width="1.2" stroke-dasharray="4 3" fill="none"><animate attributeName="stroke-dashoffset" values="0;-14" dur="1s" repeatCount="indefinite"/></path>
+    <circle cx="140" cy="35" r="8" stroke="var(--ink)" stroke-width="1.1" fill="none"/><path d="M140 43 L140 58" stroke="var(--ink)" stroke-width="1.1" stroke-linecap="round"/>
+    <circle cx="162" cy="35" r="8" stroke="var(--ink)" stroke-width="1.1" fill="none"/><path d="M162 43 L162 58" stroke="var(--ink)" stroke-width="1.1" stroke-linecap="round"/>
+    <path d="M150 28 C152 22,158 24,155 28" stroke="var(--green)" stroke-width="1" fill="none" stroke-linecap="round"/>
   </svg>
-
-  <!-- ═══════ MODALS ═══════ -->
-  <!-- Food Assistance Calculator Modal -->
-  <div class="modal-backdrop" id="calcModal">
-    <div class="modal-container" style="max-width: 700px;">
-      <div class="modal-header">
-        <h3>Food Assistance Calculator</h3>
-        <button class="modal-close" onclick="closeModal('calcModal')">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div style="height: 5px; background: var(--lighter); width: 100%;">
-        <div id="calcProgressBar" style="height: 100%; width: 0%; background: var(--green); transition: width 0.3s ease;"></div>
-      </div>
-      <div class="modal-body">
-
-        <!-- Step 1: Location & Language -->
-        <div class="calc-step active" id="calcStep1">
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 18px;">📍</div>
-            <span style="font-size: 18px; font-weight: 700; color: var(--ink);">Location & Language</span>
-          </div>
-          <div class="modal-form-group">
-            <label class="modal-label">Language Preference</label>
-            <div class="calc-radio-grid">
-              <label class="calc-radio-card"><input type="radio" name="calcLang" value="en" checked><div class="calc-radio-content">English</div></label>
-              <label class="calc-radio-card"><input type="radio" name="calcLang" value="es"><div class="calc-radio-content">Español</div></label>
-            </div>
-          </div>
-          <div class="modal-form-group">
-            <label class="modal-label">ZIP Code</label>
-            <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">Used to find resources near you.</div>
-            <input type="text" id="calcZip" class="modal-input" placeholder="e.g. 44240" maxlength="5" pattern="[0-9]*">
-          </div>
-          <div style="display: flex; justify-content: flex-end; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
-            <button class="modal-btn" style="width: auto; padding: 12px 28px;" onclick="calcNextStep(2)">Next Step →</button>
-          </div>
-        </div>
-
-        <!-- Step 2: Household -->
-        <div class="calc-step" id="calcStep2">
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 18px;">🏠</div>
-            <span style="font-size: 18px; font-weight: 700; color: var(--ink);">Household Members</span>
-          </div>
-          <div class="modal-form-group">
-            <label class="modal-label">Total Household Size</label>
-            <input type="number" id="calcHousehold" class="modal-input" value="1" min="1" max="20">
-          </div>
-          <div class="modal-form-group">
-            <label class="modal-label">Children under 5</label>
-            <input type="number" id="calcChildren" class="modal-input" value="0" min="0">
-          </div>
-          <div class="modal-form-group">
-            <label class="modal-label">Adults 60+ or with disabilities?</label>
-            <div class="calc-radio-grid">
-              <label class="calc-radio-card"><input type="radio" name="calcSenior" value="yes"><div class="calc-radio-content">Yes</div></label>
-              <label class="calc-radio-card"><input type="radio" name="calcSenior" value="no" checked><div class="calc-radio-content">No</div></label>
-            </div>
-          </div>
-          <div class="modal-form-group">
-            <label class="modal-label">Work-Eligible Adults (Ages 18-59)</label>
-            <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">Adults who are able to work and not disabled. This may affect SNAP work requirements.</div>
-            <input type="number" id="calcWorkAdults" class="modal-input" value="0" min="0">
-          </div>
-          <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
-            <button class="modal-btn" style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);" onclick="calcPrevStep(1)">← Back</button>
-            <button class="modal-btn" style="width: auto; padding: 12px 28px;" onclick="calcNextStep(3)">Next Step →</button>
-          </div>
-        </div>
-
-        <!-- Step 3: Income & Expenses -->
-        <div class="calc-step" id="calcStep3">
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 18px;">💰</div>
-            <span style="font-size: 18px; font-weight: 700; color: var(--ink);">Income & Expenses</span>
-          </div>
-          <div class="modal-form-group">
-            <label class="modal-label">Gross Monthly Income (Before Taxes)</label>
-            <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">Include wages, social security, unemployment, etc.</div>
-            <div style="position: relative;">
-              <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500;">$</span>
-              <input type="number" id="calcIncome" class="modal-input" style="padding-left: 28px;" placeholder="0">
-            </div>
-          </div>
-          <div class="modal-form-group">
-            <label class="modal-label">Monthly Rent or Mortgage</label>
-            <div style="position: relative;">
-              <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500;">$</span>
-              <input type="number" id="calcRent" class="modal-input" style="padding-left: 28px;" placeholder="0">
-            </div>
-          </div>
-          <div class="modal-form-group">
-            <label class="modal-label">Monthly Childcare / Dependent Care</label>
-            <div style="position: relative;">
-              <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500;">$</span>
-              <input type="number" id="calcChildcare" class="modal-input" style="padding-left: 28px;" placeholder="0">
-            </div>
-          </div>
-          <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
-            <button class="modal-btn" style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);" onclick="calcPrevStep(2)">← Back</button>
-            <button class="modal-btn" style="width: auto; padding: 12px 28px;" onclick="runCalculator()">See Results</button>
-          </div>
-        </div>
-
-        <!-- Step 4: Results -->
-        <div class="calc-step" id="calcResults" style="display: none;">
-          <div style="text-align: center; padding-bottom: 24px; border-bottom: 1px solid var(--lighter); margin-bottom: 24px;">
-            <div id="calcStatusBadge" style="display: inline-block; padding: 8px 16px; border-radius: 50px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; background: #d1fae5; color: #065f46;">Likely Eligible</div>
-            <h3 id="calcResultTitle" style="font-family: 'DM Sans'; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">You are likely eligible for SNAP</h3>
-            <div id="calcBenefitAmount" style="font-family: 'DM Sans'; font-size: 42px; font-weight: 700; color: var(--ink); letter-spacing: -1px;">$0 - $0</div>
-            <div style="font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px;">Estimated Monthly Benefit</div>
-            <p id="calcResultExplanation" style="color: var(--muted); font-size: 14px; margin-top: 12px;">Based on your household size and income.</p>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-            <div style="background: var(--lighter); padding: 20px; border-radius: 10px;">
-              <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">🛒 Places Nearby</h4>
-              <div id="calcPlacesList"></div>
-              <a id="calcMapLink" href="#" target="_blank" rel="noopener noreferrer" style="display: block; margin-top: 14px; padding: 10px; background: var(--bg); color: var(--ink); text-align: center; text-decoration: none; font-weight: 600; border-radius: 6px; border: 1.5px solid var(--light); font-size: 14px; transition: all 0.2s;">View Full Map</a>
-            </div>
-            <div style="background: var(--lighter); padding: 20px; border-radius: 10px;">
-              <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">📝 Next Steps</h4>
-              <div id="calcNextSteps"></div>
-              <div id="calcWicAlert" style="display: none; margin-top: 16px; background: #fdf2f8; padding: 12px; border-radius: 8px; border: 1px solid #fbcfe8;">
-                <strong style="color: #be185d; font-size: 14px;">👶 You may also qualify for WIC</strong>
-                <p style="font-size: 13px; margin-top: 6px; color: var(--ink);">Since you have children under 5, check out the Women, Infants, and Children program.</p>
-              </div>
-              <div id="calcLocalHelp" style="display: none; margin-top: 16px; background: #eff6ff; padding: 12px; border-radius: 8px; border: 1px solid #bfdbfe;">
-                <strong style="color: #1d4ed8; font-size: 14px;">🤝 Get Free Help Applying</strong>
-                <p id="calcLocalHelpText" style="font-size: 13px; margin-top: 6px; color: var(--ink);">Local organizations can help you complete your SNAP application for free.</p>
-                <a id="calcLocalHelpLink" href="#" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-top: 8px; color: #1d4ed8; font-weight: 600; text-decoration: underline; font-size: 13px;">Get Application Assistance →</a>
-              </div>
-              <a href="https://www.fns.usda.gov/snap/state-directory" target="_blank" class="modal-btn" style="display: block; margin-top: 16px; text-decoration: none; text-align: center; font-size: 14px; padding: 12px;">Apply for SNAP Now</a>
-            </div>
-          </div>
-          <div style="font-size: 12px; color: var(--muted); text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
-            <strong>Disclaimer:</strong> This calculator provides an estimate only and is not an official application. Final eligibility is determined by your state agency. Income limits and deduction rules vary by state.
-          </div>
-          <div style="margin-top: 16px; text-align: center;">
-            <button class="modal-btn" style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);" onclick="calcReset()">Start Over</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Food Desert Analyzer Modal -->
-  <div class="modal-backdrop" id="desertModal">
-    <div class="modal-container" style="max-width: 650px;">
-      <div class="modal-header">
-        <h3>Food Desert Analyzer</h3>
-        <button class="modal-close" onclick="closeModal('desertModal')">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div id="desertForm">
-          <div style="text-align: center; margin-bottom: 28px;">
-            <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 12px;">Free Tool</div>
-            <p style="color: var(--muted); font-size: 15px;">Check food access in your neighborhood. Enter your zip code to see if your area has limited access to fresh, healthy food.</p>
-          </div>
-          <div style="background: var(--lighter); border-radius: 12px; padding: 28px; border: 1.5px solid var(--light);">
-            <div style="display: flex; gap: 12px;">
-              <input type="text" id="desertZip" class="modal-input" placeholder="Enter Zip Code" maxlength="5" pattern="[0-9]{5}" inputmode="numeric" style="text-align: center; font-weight: 600; letter-spacing: 0.1em; flex: 1;">
-              <button class="modal-btn" style="width: auto; padding: 12px 24px;" onclick="runAnalyzer()">Analyze</button>
-            </div>
-          </div>
-        </div>
-        <div class="modal-result" id="desertResult" style="padding: 0; background: transparent;">
-          <div style="background: var(--lighter); padding: 24px; border-radius: 12px; margin-bottom: 16px; text-align: center;">
-            <div style="font-size: 14px; color: var(--muted); margin-bottom: 6px;">Results for <strong id="desertZipDisplay" style="color: var(--ink);"></strong></div>
-            <div id="desertBadge" style="display: inline-block; padding: 8px 18px; border-radius: 20px; font-size: 14px; font-weight: 700; background: #FEF3C7; color: #92400E; margin-top: 8px;">🔶 Moderate Access</div>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
-            <div style="background: var(--bg); border: 1.5px solid var(--lighter); padding: 16px; border-radius: 8px;">
-              <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
-                <span>🏪 Grocery Store Access</span><span id="desertGroceryScore" style="color: var(--muted);">--</span>
-              </div>
-              <div style="height: 8px; background: var(--lighter); border-radius: 4px; overflow: hidden;">
-                <div id="desertGroceryBar" style="height: 100%; width: 0%; border-radius: 4px; transition: width 0.8s ease;"></div>
-              </div>
-            </div>
-            <div style="background: var(--bg); border: 1.5px solid var(--lighter); padding: 16px; border-radius: 8px;">
-              <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
-                <span>🥗 Fresh Food Availability</span><span id="desertFreshScore" style="color: var(--muted);">--</span>
-              </div>
-              <div style="height: 8px; background: var(--lighter); border-radius: 4px; overflow: hidden;">
-                <div id="desertFreshBar" style="height: 100%; width: 0%; border-radius: 4px; transition: width 0.8s ease;"></div>
-              </div>
-            </div>
-            <div style="background: var(--bg); border: 1.5px solid var(--lighter); padding: 16px; border-radius: 8px;">
-              <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
-                <span>🚌 Transportation Access</span><span id="desertTransportScore" style="color: var(--muted);">--</span>
-              </div>
-              <div style="height: 8px; background: var(--lighter); border-radius: 4px; overflow: hidden;">
-                <div id="desertTransportBar" style="height: 100%; width: 0%; border-radius: 4px; transition: width 0.8s ease;"></div>
-              </div>
-            </div>
-          </div>
-          <a href="https://www.feedingamerica.org/find-your-local-foodbank" target="_blank" rel="noopener noreferrer" class="modal-btn" style="display: block; text-decoration: none; text-align: center; margin-bottom: 20px;">Find Food Resources Near You →</a>
-          <div style="border-top: 1px solid var(--lighter); padding-top: 20px; margin-top: 8px;">
-            <h4 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 16px; text-align: center;">How It Works</h4>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
-              <div style="background: var(--lighter); padding: 16px; border-radius: 10px; text-align: center;">
-                <div style="font-size: 22px; margin-bottom: 8px;">🏪</div>
-                <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px;">Grocery Access</div>
-                <div style="font-size: 11px; color: var(--muted); line-height: 1.4;">Proximity to supermarkets. Low-income areas >1mi (urban) or >10mi (rural) = low access.</div>
-              </div>
-              <div style="background: var(--lighter); padding: 16px; border-radius: 10px; text-align: center;">
-                <div style="font-size: 22px; margin-bottom: 8px;">🥗</div>
-                <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px;">Fresh Food</div>
-                <div style="font-size: 11px; color: var(--muted); line-height: 1.4;">Stores selling fresh produce vs. only convenience stores or fast food.</div>
-              </div>
-              <div style="background: var(--lighter); padding: 16px; border-radius: 10px; text-align: center;">
-                <div style="font-size: 22px; margin-bottom: 8px;">🚌</div>
-                <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px;">Transportation</div>
-                <div style="font-size: 11px; color: var(--muted); line-height: 1.4;">Public transit & vehicle access rates compound food challenges.</div>
-              </div>
-            </div>
-          </div>
-          <div style="font-size: 12px; color: var(--muted); text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--lighter);">
-            <strong>Note:</strong> This tool provides an educational estimate based on zip code characteristics. For official food desert data, visit the <a href="https://www.ers.usda.gov/data-products/food-access-research-atlas/" target="_blank" style="color: var(--green); text-decoration: underline;">USDA Food Access Research Atlas</a>.
-          </div>
-          <div style="margin-top: 16px; text-align: center;">
-            <button class="modal-btn" style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);" onclick="desertReset()">Analyze Another Area</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ═══════ PROGRESS BAR ═══════ -->
-  <div class="progress-bar" id="progressBar"></div>
-
-  <!-- ═══════ NAV ═══════ -->
-  <nav id="nav">
-    <a href="#" class="nav-logo">
-      <img src="finmango.png" alt="FinMango">
-      <span>freshfind</span>
-    </a>
-    <div class="nav-links">
-      <a href="#problem">Problem</a>
-      <a href="#ai-system">AI System</a>
-      <a href="#research">Research</a>
-      <a href="#government">Government</a>
-      <a href="#impact">Impact</a>
-      <a href="https://finmango.org">finmango.org</a>
-    </div>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-
-  <!-- ═══════ MOBILE MENU ═══════ -->
-  <div class="mobile-overlay" id="mobileOverlay">
-    <a href="#problem" class="mobile-nav-link">Problem</a>
-    <a href="#ai-system" class="mobile-nav-link">AI System</a>
-    <a href="#research" class="mobile-nav-link">Research</a>
-    <a href="#government" class="mobile-nav-link">Government</a>
-    <a href="#impact" class="mobile-nav-link">Impact</a>
-    <a href="https://finmango.org" class="mobile-nav-link">finmango.org</a>
-  </div>
-
-  <div class="wrap">
-
-    <!-- ═══════ HERO ═══════ -->
-    <section class="hero">
-      <h1>freshfind</h1>
-      <div class="hero-sub">The AI that finds people before they fall through the cracks. And guides them all the way to food.</div>
-
-      <div class="hero-illustration">
-        <svg width="560" height="260" viewBox="0 0 420 195" fill="none">
-          <g class="stick-confused">
-            <path d="M86 58 C86 49, 80 42, 70 42 C61 43, 54 49, 55 58 C55 67, 61 74, 71 74 C80 73, 86 67, 86 58" stroke="#1a1a1a" stroke-width="1.8" fill="none" stroke-linecap="round" />
-            <path d="M70 74 C70.5 85, 69.5 100, 70.5 117" stroke="#1a1a1a" stroke-width="1.7" stroke-linecap="round" fill="none" />
-            <path d="M70 89 C65 93, 57 100, 52 106" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" fill="none" />
-            <path d="M70 87 C75 91, 81 96, 87 99" stroke="#1a1a1a" stroke-width="1.9" stroke-linecap="round" fill="none" />
-            <path d="M70.5 117 C67 126, 61 138, 56 149" stroke="#1a1a1a" stroke-width="1.7" stroke-linecap="round" fill="none" />
-            <path d="M70.5 117 C74 127, 79 137, 84 147" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" fill="none" />
-          </g>
-          <g class="question-marks">
-            <text x="48" y="42" font-family="Caveat, cursive" font-size="20" fill="#7a7a7a">?</text>
-            <text x="90" y="36" font-family="Caveat, cursive" font-size="15" fill="#7a7a7a">?</text>
-          </g>
-          <g class="phone-group">
-            <path d="M192 52 C192 49, 194 48, 196 48 L218 48 C220 48, 222 50, 222 52 L222 90 C222 92, 220 94, 218 94 L196 94 C194 94, 192 92, 192 90 Z" stroke="#1a1a1a" stroke-width="1.5" fill="none" />
-            <rect x="197" y="54" width="20" height="28" rx="1" fill="#e8f5ee" opacity="0.5" />
-            <path d="M207 63 L207 58 M204 60.5 L210 60.5" stroke="#2a7d5b" stroke-width="1.3" stroke-linecap="round" />
-            <path d="M205 90 C206 91, 208 91, 209 90" stroke="#1a1a1a" stroke-width="0.8" fill="none" />
-          </g>
-          <path class="flow-line" d="M105 92 C130 78, 155 98, 187 76" stroke="#2a7d5b" stroke-width="1.5" stroke-dasharray="5 4" fill="none" stroke-linecap="round" />
-          <path class="flow-line" d="M227 76 C255 98, 280 78, 310 92" stroke="#2a7d5b" stroke-width="1.5" stroke-dasharray="5 4" fill="none" stroke-linecap="round" />
-          <path d="M305 94 L313 90 L307 85" stroke="#2a7d5b" stroke-width="1.5" fill="none" stroke-linecap="round" />
-          <g class="stick-happy">
-            <path d="M366 56 C366 48, 360 40, 350 41 C341 41, 334 48, 335 57 C335 65, 341 72, 351 72 C360 71, 366 65, 366 56" stroke="#1a1a1a" stroke-width="1.8" fill="none" stroke-linecap="round" />
-            <path d="M343 62 C345 67, 354 67, 357 62" stroke="#1a1a1a" stroke-width="1.2" fill="none" stroke-linecap="round" />
-            <path d="M350 72 C350.5 83, 349.5 98, 350.5 114" stroke="#1a1a1a" stroke-width="1.7" stroke-linecap="round" fill="none" />
-            <path d="M350 87 C344 91, 337 96, 332 101" stroke="#1a1a1a" stroke-width="1.9" stroke-linecap="round" fill="none" />
-            <path d="M350 85 C357 88, 362 90, 365 92" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" fill="none" />
-            <path d="M350.5 114 C347 124, 341 136, 336 147" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" fill="none" />
-            <path d="M350.5 114 C355 124, 360 135, 365 145" stroke="#1a1a1a" stroke-width="1.7" stroke-linecap="round" fill="none" />
-            <path d="M362 89 L377 89 L381 115 L358 115 Z" stroke="#1a1a1a" stroke-width="1.4" fill="none" />
-            <path d="M366 89 L366 83 C366 79 372 79 372 83 L372 89" stroke="#1a1a1a" stroke-width="1.1" fill="none" />
-            <path d="M367 86 C369 79, 377 81, 374 86" stroke="#2a7d5b" stroke-width="1.3" fill="none" stroke-linecap="round" />
-          </g>
-          <text x="143" y="172" font-family="Caveat, cursive" font-size="16" fill="#7a7a7a">from lost... to fed</text>
-        </svg>
-      </div>
-
-      <div class="hero-meta">
-        <div>
-          <p><strong>FinMango</strong> · 501(c)(3)</p>
-          <p>Scott Glasgow · Sarah Cherian · Soham Patel · Tony Ramos</p>
-        </div>
-        <div class="hero-meta-right">
-          <p><strong>Google.org Impact Challenge</strong></p>
-          <p>AI for Government Innovation</p>
-        </div>
-      </div>
-    </section>
-
-  </div>
-
-  <!-- ═══════ STATS ═══════ -->
-  <div class="stats-banner reveal" id="stats">
-    <div class="stats-inner">
-      <div class="stat">
-        <div class="stat-number" data-target="47" data-suffix="M+">0</div>
-        <div class="stat-label">Americans are<br>food insecure</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number" data-target="140" data-prefix="$" data-suffix="B+">0</div>
-        <div class="stat-label">in federal benefits<br>go unclaimed annually</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number" data-target="1.54" data-prefix="$" data-suffix="" data-decimals="2">0</div>
-        <div class="stat-label">GDP return per $1<br>of SNAP benefits</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="wrap">
-
-    <!-- ═══════ 01 · THE GAP ═══════ -->
-    <section class="section reveal" id="problem">
-      <div class="section-label">01</div>
-      <h2>the gap nobody is filling</h2>
-      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none" />
-      </svg>
-
-      <p class="lead">Getting approved for SNAP doesn't feed anyone. A SNAP card in a food desert is a card with nowhere to go. And when policy changes hit, the people most affected are always the last to hear.</p>
-
-      <p>Investment has rightly gone toward getting people enrolled. That matters. But enrollment is only half the problem. The pipeline ends at "you have a card." The actual problem continues: Where do you buy food? Can you get there? Does the store near you actually carry produce, or is it a gas station that accepts EBT? What happens when policy changes yank coverage without warning?</p>
-
-      <div class="gap-grid">
-        <div class="gap-card">
-          <div class="gap-card-location">Atlanta, GA</div>
-          <div class="gap-card-stat">Only 38% of SNAP retailers in majority-Black neighborhoods carry fresh produce. In other neighborhoods, it's 75%.</div>
-        </div>
-        <div class="gap-card">
-          <div class="gap-card-location">Twin Falls, ID</div>
-          <div class="gap-card-stat">The bus system went smartphone-only. People who can't use the app are stranded. Most SNAP retailers are convenience stores.</div>
-        </div>
-        <div class="gap-card">
-          <div class="gap-card-location">Wolfe County, KY</div>
-          <div class="gap-card-stat">4 food stores in the entire county. Food insecurity rate: 27.3%. Poverty rate: 38%. The nearest real grocery is 12 miles away.</div>
-        </div>
-        <div class="gap-card">
-          <div class="gap-card-location">Nationally</div>
-          <div class="gap-card-stat">$140B+ in federal benefits go unclaimed every year. Not because people don't qualify. Because the systems are too fragmented to navigate.</div>
-        </div>
-      </div>
-
-      <p>The programs exist. The funding exists. The path between them is broken. And every existing tool waits for people to show up and ask for help. Nobody is going to them first.</p>
-    </section>
-
-    <!-- ═══════ 02 · THE AI SYSTEM ═══════ -->
-    <section class="section reveal" id="ai-system">
-      <div class="section-label">02</div>
-      <h2>how freshfind works <span class="annotation">the centerpiece</span></h2>
-      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none" />
-      </svg>
-
-      <p class="lead">FreshFind is a four-stage autonomous AI system. Each stage triggers the next without human intervention. The loop runs continuously. No one has to ask for help. The system finds them first.</p>
-
-      <!-- AGENTIC LOOP DIAGRAM -->
-      <div class="loop-diagram reveal">
-        <div class="loop-stage" style="border-top: 4px solid #2a7d5b;">
-          <div class="loop-stage-num">Stage 1</div>
-          <div class="loop-stage-name">Detect</div>
-          <div class="loop-stage-type">Agentic AI</div>
-          <div class="loop-stage-desc">Monitors policy feeds, disaster declarations, and financial stress signals. Identifies changes before they take effect.</div>
-        </div>
-        <div class="loop-arrow">→</div>
-        <div class="loop-stage" style="border-top: 4px solid #1e5e42;">
-          <div class="loop-stage-num">Stage 2</div>
-          <div class="loop-stage-name">Identify</div>
-          <div class="loop-stage-type">Predictive AI</div>
-          <div class="loop-stage-desc">Cross-references policy changes with community data to pinpoint which households in which zip codes are affected.</div>
-        </div>
-        <div class="loop-arrow">→</div>
-        <div class="loop-stage" style="border-top: 4px solid #d4933a;">
-          <div class="loop-stage-num">Stage 3</div>
-          <div class="loop-stage-name">Reach</div>
-          <div class="loop-stage-type">Generative AI</div>
-          <div class="loop-stage-desc">Generates personalized outreach delivered through government channels people already use and trust.</div>
-        </div>
-        <div class="loop-arrow">→</div>
-        <div class="loop-stage" style="border-top: 4px solid #1a1a1a;">
-          <div class="loop-stage-num">Stage 4</div>
-          <div class="loop-stage-name">Navigate</div>
-          <div class="loop-stage-type">Decision Engine</div>
-          <div class="loop-stage-desc">Guided intake, personalized plan, food access routing, application help, and ongoing alerts. Not a chatbot.</div>
-        </div>
-      </div>
-      <div class="loop-return reveal">← continuous loop — when policy changes again, the cycle restarts →</div>
-
-      <!-- STAGE DETAILS -->
-      <div style="margin-top: 48px;">
-        <div class="stage-detail reveal">
-          <div class="stage-detail-header">
-            <div class="stage-detail-name">Detect</div>
-            <div class="stage-detail-type">Agentic AI — Policy Monitoring</div>
-          </div>
-          <p>The system reads the Federal Register every day. It monitors state SNAP rule changes, disaster declarations, benefit recertification schedules, and FinMango's Financial Health Barometer, which tracks financial stress signals across all 50 states from BLS, Census, HUD, FRED, and Google Trends data.</p>
-          <p>When SNAP work requirements expand to age 64, or a state changes its income thresholds, or a disaster activates D-SNAP, the system doesn't wait for someone to notice. It parses the change, maps it to affected programs, and triggers the next stage automatically. This is genuine agentic behavior: the system watches, reasons about policy changes, and initiates action on its own.</p>
-        </div>
-
-        <div class="stage-detail reveal">
-          <div class="stage-detail-header">
-            <div class="stage-detail-name">Identify</div>
-            <div class="stage-detail-type">Predictive AI — Population Targeting</div>
-          </div>
-          <p>The AI cross-references detected policy changes with community-level data: FinMango's 2-year UVA field research across 5 communities, Census demographics, USDA food access data, and state-specific eligibility rules.</p>
-          <p>Not "135,000 Kentuckians" as a headline stat. Specific clusters: these zip codes in eastern Kentucky, where 60% of SNAP recipients are ages 55-64, where the nearest grocery store is 12 miles away, where transit doesn't exist. That's the precision that makes proactive outreach work.</p>
-        </div>
-
-        <div class="stage-detail reveal">
-          <div class="stage-detail-header">
-            <div class="stage-detail-name">Reach</div>
-            <div class="stage-detail-type">Generative AI — Personalized Outreach</div>
-          </div>
-          <p>The system generates personalized, plain-language notifications delivered through government channels people already use. Not cold-contact marketing. The state agency sends it under their own name, through their existing communication channels.</p>
-          <p>Each message adapts to the household's location, family composition, program history, and local food access conditions. "The rules changed. Here's what it means for you. Here are 3 programs you still qualify for. Here's where to buy groceries near you that accept EBT and carry fresh produce. Here's how to apply."</p>
-        </div>
-
-        <div class="stage-detail reveal">
-          <div class="stage-detail-header">
-            <div class="stage-detail-name">Navigate</div>
-            <div class="stage-detail-type">AI Decision Engine — Not a Chatbot</div>
-          </div>
-          <p>FreshFind is not a chatbot. Not a "conversational AI." A stressed, overwhelmed person who just lost their benefits doesn't need to figure out how to prompt an AI. They need: "answer these 5 questions, here's your personalized plan."</p>
-
-          <div class="nav-features">
-            <div class="nav-feature">
-              <div class="nav-feature-num">1</div>
-              <div class="nav-feature-text"><strong>Guided intake.</strong> 5-8 structured questions. Household size, location, income, current programs. Clean, simple, fast.</div>
-            </div>
-            <div class="nav-feature">
-              <div class="nav-feature-num">2</div>
-              <div class="nav-feature-text"><strong>Personalized dashboard.</strong> Everything you qualify for, in one view. Every relevant program across federal, state, and local levels.</div>
-            </div>
-            <div class="nav-feature">
-              <div class="nav-feature-num">3</div>
-              <div class="nav-feature-text"><strong>Application assistance.</strong> Pre-filled forms. Document checklists that tell you exactly what to bring. Deadline tracking with reminders.</div>
-            </div>
-            <div class="nav-feature">
-              <div class="nav-feature-num">4</div>
-              <div class="nav-feature-text"><strong>Food access map.</strong> Stores accepting EBT that carry fresh produce. Pantry hours. Transit routes. What's in season nearby.</div>
-            </div>
-            <div class="nav-feature">
-              <div class="nav-feature-num">5</div>
-              <div class="nav-feature-text"><strong>Ongoing alerts.</strong> Text or email when something changes: new program available, recertification due, new store nearby, policy change affecting your benefits.</div>
-            </div>
-          </div>
-
-          <p>Then it stays. Disaster hits? The system automatically activates D-SNAP, emergency food resources, and disaster-specific programs for affected zip codes. New legislation? The loop restarts at Stage 1. This is a full agentic loop. Continuous, autonomous, proactive.</p>
-        </div>
-      </div>
-
-      <!-- BACKEND VS FRONTEND -->
-      <div class="bvf-grid reveal">
-        <div class="bvf-col">
-          <div class="bvf-title">What the AI does (backend)</div>
-          <div class="bvf-item"><span class="bvf-icon">◆</span> Monitors policy feeds autonomously</div>
-          <div class="bvf-item"><span class="bvf-icon">◆</span> Identifies affected populations by zip code</div>
-          <div class="bvf-item"><span class="bvf-icon">◆</span> Generates personalized outreach at scale</div>
-          <div class="bvf-item"><span class="bvf-icon">◆</span> Cross-references food access data</div>
-          <div class="bvf-item"><span class="bvf-icon">◆</span> Tracks deadlines and eligibility changes</div>
-        </div>
-        <div class="bvf-col">
-          <div class="bvf-title">What the user sees (frontend)</div>
-          <div class="bvf-item"><span class="bvf-icon">→</span> 5 simple questions</div>
-          <div class="bvf-item"><span class="bvf-icon">→</span> "Here's what you qualify for"</div>
-          <div class="bvf-item"><span class="bvf-icon">→</span> Pre-filled applications</div>
-          <div class="bvf-item"><span class="bvf-icon">→</span> Map: stores, pantries, transit</div>
-          <div class="bvf-item"><span class="bvf-icon">→</span> Text alerts when things change</div>
-        </div>
-      </div>
-
-      <p style="font-size: 15px; color: var(--muted); max-width: 780px;">This distinction matters for two audiences. Google.org reviewers have seen 500 chatbot pitches. A backend agentic system with a structured frontend is architecturally different and more credible. And a state SNAP director will worry about chatbot hallucinations and liability. A structured decision engine with deterministic outputs from verified program data is something they can actually approve and deploy.</p>
-    </section>
-
-    <!-- ═══════ 03 · LIVE TOOLS ═══════ -->
-    <section class="section reveal" id="tools">
-      <div class="section-label">03</div>
-      <h2>this isn't a proposal <span class="annotation">it's already built</span></h2>
-      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none" />
-      </svg>
-
-      <p class="lead">The foundation is already built. These tools are live, functional, and informed by two years of field research.</p>
-
-      <div class="tool-card reveal">
-        <div class="tool-card-content">
-          <div class="tool-card-num">tool one</div>
-          <h3>Food Desert Analyzer</h3>
-          <p>Enter a zip code. See whether your neighborhood has access to grocery stores, fresh food, and transportation. This is the layer nobody else is building. The question isn't "do you qualify?" It's "can you actually buy groceries?"</p>
-          <div style="margin-top: 20px;">
-            <button onclick="openModal('desertModal')" class="tool-link">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="7" r="5" stroke="currentColor" stroke-width="1.5" fill="none" /><path d="M8 12 L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
-              Try the Food Desert Analyzer →
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="tool-card reveal">
-        <div class="tool-card-content">
-          <div class="tool-card-num">tool two</div>
-          <h3>Food Assistance Calculator</h3>
-          <p>Answer a few questions about your household. Get cross-program eligibility results for SNAP, WIC, school meals, food pantries, utility assistance, and more. One intake, every program.</p>
-          <div style="margin-top: 20px;">
-            <button onclick="openModal('calcModal')" class="tool-link">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" /><path d="M6 6 L6 10 M8 8 L10 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" /></svg>
-              Try the Food Assistance Calculator →
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="tool-card reveal">
-        <div class="tool-card-content">
-          <div class="tool-card-num">tool three</div>
-          <h3>Financial Health Barometer</h3>
-          <p>Real-time financial stress tracking across all 50 states. Data from BLS, Census, HUD, FRED, and Google Trends. This is the signal layer that powers Stage 1 of the agentic loop.</p>
-          <div style="margin-top: 20px;">
-            <a href="https://finmango.org/barometer" target="_blank" rel="noopener noreferrer" class="tool-link">
-              View the Barometer →
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════ 04 · RESEARCH ═══════ -->
-    <section class="section reveal" id="research">
-      <div class="section-label">04</div>
-      <h2>built on real data <span class="annotation">not assumptions</span></h2>
-      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none" />
-      </svg>
-
-      <div style="display: inline-flex; align-items: center; gap: 12px; padding: 10px 20px; background: #fff; border: 1.5px solid var(--lighter); border-radius: 100px; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-        <svg fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3Zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-2.33v8.02Z" fill="var(--green)" /></svg>
-        <span style="font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 600; color: var(--ink); letter-spacing: 0.5px; text-transform: uppercase;">In Collaboration with the University of Virginia</span>
-      </div>
-
-      <p>We spent two years in five communities mapping what's actually happening on the ground: who's going hungry, why existing programs aren't reaching them, what's blocking access. This research is what FreshFind's AI runs on. No competitor has this data in the food access space.</p>
-
-      <div class="case-studies">
-        <div class="case-study">
-          <div class="case-location">Chicago, IL</div>
-          <div class="case-insight">~500k food insecure residents. 1.88M SNAP recipients with $300M distributed monthly. Every $1 returns $1.54 GDP. Food Depository submitted 21k benefit applications since 2020.</div>
-        </div>
-        <div class="case-study">
-          <div class="case-location">Atlanta, GA</div>
-          <div class="case-insight">13.7% food insecurity rate. Only 38% of SNAP retailers in majority-Black neighborhoods carry produce vs. 75% elsewhere. Highest wealth inequality in the nation.</div>
-        </div>
-        <div class="case-study">
-          <div class="case-location">Kansas City, MO</div>
-          <div class="case-insight">~79k food insecure adults. Strong nonprofit ecosystem but limited government initiatives. Min wage disparity between KCMO and KCKS creates economic divide.</div>
-        </div>
-        <div class="case-study">
-          <div class="case-location">Twin Falls, ID</div>
-          <div class="case-insight">~10% food insecurity rate driven by structural access barriers, not supply. SNAP retailers mostly convenience stores. Bus system replaced by smartphone-only microtransit.</div>
-        </div>
-        <div class="case-study">
-          <div class="case-location">Wolfe Co., KY</div>
-          <div class="case-insight">27.3% food insecurity — highest in Kentucky. 38% poverty rate. 4 food stores in entire county. 135k Kentuckians at risk of losing SNAP under H.R. 1. $1.1M annual food budget shortfall.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════ 05 · GOVERNMENT ═══════ -->
-    <section class="section reveal" id="government">
-      <div class="section-label">05</div>
-      <h2>how it reaches people</h2>
-      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none" />
-      </svg>
-
-      <p class="lead">FreshFind never faces the public as an unknown brand. It always shows up through an institution people already trust. The government partner owns the relationship. FreshFind powers what's behind it.</p>
-
-      <div class="gov-channel reveal">
-        <div class="gov-channel-tag">Primary Partnership</div>
-        <h4>State SNAP & Medicaid Agencies</h4>
-        <p>The state agency already has enrollment rolls with contact info for every SNAP and Medicaid household. When policy changes hit, they're legally required to notify affected households. Most states have no automated system to do this at scale. FreshFind is that system.</p>
-        <p>The agency shares permissioned household data through a secure pipeline. FreshFind identifies affected households, generates personalized outreach content. The agency sends it under their own name through their existing channels. Respondents land in FreshFind's Navigate experience. The agency gets outcome reporting: how many people were reached, how many enrolled in alternative programs, how many accessed food resources.</p>
-      </div>
-
-      <div class="gov-channel reveal">
-        <h4>211 Call Centers</h4>
-        <p>Someone calls 211 asking for food help. This happens millions of times a year. The 211 operator has FreshFind open on their screen as a real-time support tool. They enter the caller's zip code and basic household info. Instant cross-program eligibility results, a map of nearby stores that accept EBT and carry fresh produce, food pantry hours, and transit options. The 211 center stays the entry point. FreshFind provides the depth.</p>
-      </div>
-
-      <div class="gov-channel reveal">
-        <h4>Health Departments</h4>
-        <p>A family comes in for a WIC appointment, immunization, or nutrition counseling. They're already in the building. The caseworker runs a 2-minute FreshFind screening during the visit. "You're here for WIC, but you also qualify for SNAP, there's a food pantry with Saturday hours 3 miles from your house, and you're eligible for utility assistance you're not receiving." One visit, complete picture. Family leaves with a printed or texted summary of everything they qualify for.</p>
-      </div>
-
-      <div class="gov-channel reveal">
-        <h4>School Districts</h4>
-        <p>The district already knows which kids get free or reduced-price lunch. That data is a strong signal that the family qualifies for more. FreshFind cross-references the district's free lunch data with broader program eligibility rules. It generates personalized outreach for each family, sent through the school's existing parent communication system. "Based on your child's enrollment, your family may qualify for 3 additional programs." The school is the trusted messenger. FreshFind is the intelligence behind the message.</p>
-      </div>
-
-      <div class="gov-channel reveal">
-        <h4>Public Libraries</h4>
-        <p>In rural areas especially, the library is often the only public building with internet, AC, and trusted staff. FreshFind runs on library computer terminals as a kiosk-style interface. Someone walks in, sits down, and the guided intake walks them through everything. Structured questions, personalized results, food routing, document checklists, application help. Library staff can assist but don't need to be experts in benefit programs.</p>
-      </div>
-
-      <!-- PARTNER BENEFITS -->
-      <div class="partner-benefits reveal">
-        <h3>What Government Partners Get</h3>
-        <div class="partner-benefit-item">
-          <div class="partner-benefit-num">1</div>
-          <div>A tool to fulfill notification mandates they can't currently handle at scale. H.R. 1 requires states to notify affected households. Most states have no automated system for this.</div>
-        </div>
-        <div class="partner-benefit-item">
-          <div class="partner-benefit-num">2</div>
-          <div>Fewer incomplete applications clogging caseworker queues. Pre-screened, informed applicants with correct documentation arrive ready.</div>
-        </div>
-        <div class="partner-benefit-item">
-          <div class="partner-benefit-num">3</div>
-          <div>Real data on food access gaps in their jurisdiction. Not just enrollment numbers, but whether enrolled people can actually buy groceries.</div>
-        </div>
-        <div class="partner-benefit-item">
-          <div class="partner-benefit-num">4</div>
-          <div>Scalable surge capacity. When a disaster hits or a major policy change takes effect, FreshFind absorbs the spike that would otherwise overwhelm caseworkers and call centers.</div>
-        </div>
-        <div class="partner-benefit-item">
-          <div class="partner-benefit-num">5</div>
-          <div>No new infrastructure required. FreshFind integrates with existing systems and communication channels. The agency doesn't need to build, buy, or maintain new technology.</div>
-        </div>
-      </div>
-
-      <!-- DATA SECURITY -->
-      <div class="security-callout reveal">
-        <p><strong>Data & Security:</strong> FreshFind doesn't sell or retain user data. Built for HIPAA/PII compliance with government-grade security standards. Integrates securely with existing government systems through compliant data pipelines.</p>
-      </div>
-    </section>
-
-    <!-- ═══════ 06 · IMPACT ═══════ -->
-    <section class="section reveal" id="impact">
-      <div class="section-label">06</div>
-      <h2>how we'll measure it</h2>
-      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none" />
-      </svg>
-
-      <div>
-        <div class="metric-row">
-          <div class="metric-name">food access</div>
-          <div class="metric-desc">Are enrolled people actually able to buy fresh groceries? Food desert score improvements in pilot communities. Percentage of SNAP households within 1 mile of a store that carries produce.</div>
-        </div>
-        <div class="metric-row">
-          <div class="metric-name">proactive reach</div>
-          <div class="metric-desc">Percentage of affected households contacted before policy changes take effect. Time from policy change detection to household notification. Target: under 72 hours.</div>
-        </div>
-        <div class="metric-row">
-          <div class="metric-name">benefits unlocked</div>
-          <div class="metric-desc">Total dollars in benefits unlocked across all programs. Application completion rates through FreshFind vs. baseline. Cross-program enrollment (households connected to 2+ programs they weren't previously receiving).</div>
-        </div>
-        <div class="metric-row">
-          <div class="metric-name">efficiency</div>
-          <div class="metric-desc">Caseworker time saved per enrollment. Reduction in incomplete applications. Higher recertification rates. Fewer people losing benefits due to missed deadlines.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════ 07 · SCALABILITY ═══════ -->
-    <section class="section reveal">
-      <div class="section-label">07</div>
-      <h2>built to replicate</h2>
-      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none" />
-      </svg>
-
-      <p>FreshFind is a toolkit, not a custom project. Any state supplies local data: which stores accept SNAP, food pantry locations, transit routes, state eligibility rules. The same core AI infrastructure deploys. No rebuilding. No new codebase. The scaling unit is the government partnership, not the individual user. One government's success becomes another government's starting point.</p>
-
-      <p>When a presidential disaster declaration drops, FreshFind automatically activates D-SNAP, emergency food resources, and crisis programs for affected zip codes. That's an automatic scaling trigger that fires 60+ times per year in the U.S.</p>
-
-      <p>The model travels. FinMango already operates in 13+ countries. India's Public Distribution System, Brazil's Bolsa Família, EU food assistance programs. The government navigation problem is universal. At the end of the 18-month grant period, we'll publish a full open-source toolkit so any city, state, or national government can deploy this without starting from scratch.</p>
-    </section>
-
-    <!-- ═══════ 08 · ABOUT ═══════ -->
-    <section class="section reveal">
-      <div class="section-label">08</div>
-      <h2>about FinMango</h2>
-      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none" />
-      </svg>
-
-      <p>Founded in 2017 at Kent State. The original idea: build free tools that help people navigate financial systems that weren't designed with them in mind. That became a 501(c)(3) nonprofit that's reached over 1 million people in 13+ countries.</p>
-
-      <p>Partnered with Google Health, WHO, World Bank, and IMF. Published original research on financial inequality. TEDx speaker (Brazil, Togo). 30+ public GitHub repos. Open source everything. The thread through everything: the navigation problem. People are entitled to help that exists, but the systems are so fragmented that millions never access it. FreshFind is the most ambitious thing this organization has ever tried to build.</p>
-    </section>
-
-    <!-- ═══════ 09 · ROADMAP ═══════ -->
-    <section class="section reveal">
-      <div class="section-label">09</div>
-      <h2>the roadmap</h2>
-      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none" />
-      </svg>
-
-      <p class="lead">$1.5M over 18 months. From working prototypes to deployed, scaled infrastructure.</p>
-
-      <div>
-        <div class="timeline-phase">
-          <div class="phase-label">build</div>
-          <div class="phase-time">months 1–6</div>
-          <div class="phase-desc">Secure HIPAA/PII-compliant AI infrastructure. Build the policy monitoring engine (Stage 1) and population targeting layer (Stage 2). Complete compliance audits. Onboard 2-3 government partners from the communities where the UVA research was conducted.</div>
-        </div>
-        <div class="timeline-phase">
-          <div class="phase-label">deploy</div>
-          <div class="phase-time">months 7–12</div>
-          <div class="phase-desc">Launch the proactive outreach system (Stage 3) with pilot partners. Deploy the full Navigate experience (Stage 4) through health departments, libraries, and 211 centers. Test against real policy changes with real households and caseworkers. Iterate based on live feedback.</div>
-        </div>
-        <div class="timeline-phase">
-          <div class="phase-label">scale</div>
-          <div class="phase-time">months 13–18</div>
-          <div class="phase-desc">Expand to 5+ state partners. Activate disaster-mode for new declarations. Publish open-source toolkit and impact report for national replication. Package the system for international deployment.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════ CLOSING ═══════ -->
-    <section class="closing reveal">
-      <svg width="260" height="130" viewBox="0 0 260 130" fill="none" style="display:block; margin: 0 auto 40px;">
-        <path d="M84 38 C84 31, 79 24, 70 25 C62 25, 56 31, 57 39 C57 46, 62 52, 71 52 C79 51, 84 45, 84 38" stroke="#1a1a1a" stroke-width="1.5" fill="none" stroke-linecap="round" />
-        <path d="M64 43 C66 47, 74 47, 76 43" stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linecap="round" />
-        <path d="M70 52 C70.5 62, 69.5 76, 70.5 87" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" fill="none" />
-        <path d="M70 65 C65 69, 58 74, 54 79" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" fill="none" />
-        <path d="M70 63 C76 67, 83 71, 89 74" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" fill="none" />
-        <path d="M70.5 87 C67 97, 62 107, 57 115" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" fill="none" />
-        <path d="M70.5 87 C74 97, 78 106, 83 114" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" fill="none" />
-        <path d="M204 38 C204 31, 198 24, 190 25 C182 26, 177 32, 177 39 C178 46, 183 52, 191 51 C199 51, 204 45, 204 38" stroke="#1a1a1a" stroke-width="1.5" fill="none" stroke-linecap="round" />
-        <path d="M184 43 C186 47, 194 47, 196 43" stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linecap="round" />
-        <path d="M190 52 C190.5 62, 189.5 76, 190.5 87" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" fill="none" />
-        <path d="M190 64 C184 68, 177 72, 171 76" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" fill="none" />
-        <path d="M190 65 C196 69, 201 73, 206 77" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" fill="none" />
-        <path d="M190.5 87 C187 97, 182 107, 177 115" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" fill="none" />
-        <path d="M190.5 87 C194 96, 198 106, 203 114" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" fill="none" />
-        <path d="M110 78 C112 84, 120 89, 130 89 C140 89, 148 84, 150 78" stroke="#1a1a1a" stroke-width="1.5" fill="none" stroke-linecap="round" />
-        <path d="M108 78 L152 78" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" />
-        <path d="M128 70 C130 62, 138 64, 135 70" stroke="#2a7d5b" stroke-width="1.3" fill="none" stroke-linecap="round" />
-        <path d="M122 72 C120 66, 126 62, 126 70" stroke="#2a7d5b" stroke-width="1.3" fill="none" stroke-linecap="round" />
-        <path d="M125 18 C125 12, 130 8, 135 13 C140 8, 145 12, 145 18 C145 26, 135 32, 135 32 C135 32, 125 26, 125 18Z" stroke="#2a7d5b" stroke-width="1.2" fill="#2a7d5b" opacity="0.15" />
-      </svg>
-
-      <p class="closing-quote">The system sees the problem coming. It reaches the people affected. It guides them all the way to food on the table. No one has to navigate alone. No one gets forgotten when the policy changes.</p>
-
-      <svg width="100" height="8" viewBox="0 0 100 8" style="display:block; margin: 0 auto 30px;">
-        <path d="M10 4 C25 0, 35 8, 50 4 C65 0, 75 8, 90 4" stroke="#2a7d5b" stroke-width="1.2" fill="none" opacity="0.4" />
-      </svg>
-
-      <div style="margin-bottom: 40px;">
-        <a href="mailto:scott@finmango.org?subject=FreshFind%20Pilot%20Partnership" class="tool-link" style="font-size: 16px; padding: 14px 28px;">
-          Become a Pilot Partner →
-        </a>
-      </div>
-
-      <p class="closing-contact">Scott Glasgow · Sarah Cherian · Soham Patel · Tony Ramos</p>
-      <p class="closing-contact" style="margin-top: 6px;">FinMango · <a href="https://finmango.org">finmango.org</a></p>
-
-      <div class="closing-brand"><img src="finmango.png" alt="FinMango"></div>
-    </section>
-
-  </div>
-
-  <script>
-    // Reveal on scroll
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-    // Progress bar + nav scroll
-    const progressBar = document.getElementById('progressBar');
-    window.addEventListener('scroll', () => {
-      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      progressBar.style.width = progress + '%';
-    });
-
-    // Hamburger menu
-    const hamburger = document.getElementById('hamburger');
-    const mobileOverlay = document.getElementById('mobileOverlay');
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      mobileOverlay.classList.toggle('open');
-      document.body.style.overflow = mobileOverlay.classList.contains('open') ? 'hidden' : '';
-    });
-    document.querySelectorAll('.mobile-nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        mobileOverlay.classList.remove('open');
-        document.body.style.overflow = '';
-      });
-    });
-
-    // Animated stat counters
-    function animateCounter(el) {
-      const target = parseFloat(el.dataset.target);
-      const prefix = el.dataset.prefix || '';
-      const suffix = el.dataset.suffix || '';
-      const decimals = parseInt(el.dataset.decimals) || 0;
-      const duration = 1800;
-      const startTime = performance.now();
-      function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const current = eased * target;
-        if (decimals > 0) {
-          el.textContent = prefix + current.toFixed(decimals) + suffix;
-        } else {
-          el.textContent = prefix + Math.floor(current) + suffix;
-        }
-        if (progress < 1) requestAnimationFrame(update);
-      }
-      requestAnimationFrame(update);
-    }
-
-    let statsAnimated = false;
-    const statsObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !statsAnimated) {
-          statsAnimated = true;
-          document.querySelectorAll('.stat-number[data-target]').forEach(el => animateCounter(el));
-        }
-      });
-    }, { threshold: 0.3 });
-    const statsSection = document.getElementById('stats');
-    if (statsSection) statsObserver.observe(statsSection);
-
-    // Modals
-    function openModal(id) {
-      document.getElementById(id).classList.add('open');
-      document.body.style.overflow = 'hidden';
-      if (id === 'calcModal') { calcReset(); }
-      else { desertReset(); }
-    }
-    function closeModal(id) {
-      document.getElementById(id).classList.remove('open');
-      document.body.style.overflow = '';
-    }
-    document.querySelectorAll('.modal-backdrop').forEach(modal => {
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal(modal.id);
-      });
-    });
-    document.getElementById('desertZip').addEventListener('keypress', (e) => { if (e.key === 'Enter') runAnalyzer(); });
-
-    // Calculator: Multi-Step Wizard
-    let calcCurrentStep = 1;
-    const calcTotalSteps = 3;
-    function calcUpdateProgress() {
-      const pct = ((calcCurrentStep - 1) / calcTotalSteps) * 100;
-      document.getElementById('calcProgressBar').style.width = pct + '%';
-    }
-    function calcNextStep(step) {
-      document.querySelector('.calc-step.active').classList.remove('active');
-      document.getElementById('calcStep' + step).classList.add('active');
-      calcCurrentStep = step;
-      calcUpdateProgress();
-    }
-    function calcPrevStep(step) {
-      document.querySelector('.calc-step.active').classList.remove('active');
-      document.getElementById('calcStep' + step).classList.add('active');
-      calcCurrentStep = step;
-      calcUpdateProgress();
-    }
-    function calcReset() {
-      document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
-      document.getElementById('calcStep1').classList.add('active');
-      document.getElementById('calcResults').style.display = 'none';
-      calcCurrentStep = 1;
-      calcUpdateProgress();
-    }
-
-    // Calculator: Full SNAP Eligibility Logic
-    function runCalculator() {
-      const income = parseFloat(document.getElementById('calcIncome').value) || 0;
-      const rent = parseFloat(document.getElementById('calcRent').value) || 0;
-      const childcare = parseFloat(document.getElementById('calcChildcare').value) || 0;
-      const householdSize = parseInt(document.getElementById('calcHousehold').value) || 1;
-      const childrenUnder5 = parseInt(document.getElementById('calcChildren').value) || 0;
-      const zip = document.getElementById('calcZip').value || '00000';
-      const baseLimit = 1580;
-      const perPerson = 557;
-      const grossLimit = baseLimit + ((householdSize - 1) * perPerson);
-      const adjustedIncome = Math.max(0, income - (rent * 0.5) - childcare);
-      let status = 'unlikely', minBenefit = 0, maxBenefit = 0;
-      const maxAllotment = 291 + ((householdSize - 1) * 244);
-      if (income < grossLimit) {
-        status = 'likely';
-        const deduction = adjustedIncome * 0.3;
-        const estimated = Math.max(23, maxAllotment - deduction);
-        minBenefit = Math.floor(estimated * 0.8);
-        maxBenefit = Math.ceil(estimated * 1.1);
-        if (maxBenefit > maxAllotment) maxBenefit = maxAllotment;
-      } else if (adjustedIncome < grossLimit) {
-        status = 'maybe';
-        minBenefit = 23;
-        maxBenefit = 150;
-      }
-      const badge = document.getElementById('calcStatusBadge');
-      const title = document.getElementById('calcResultTitle');
-      const amount = document.getElementById('calcBenefitAmount');
-      const explanation = document.getElementById('calcResultExplanation');
-      const nextSteps = document.getElementById('calcNextSteps');
-      if (status === 'likely') {
-        badge.innerText = 'Likely Eligible';
-        badge.style.background = '#d1fae5'; badge.style.color = '#065f46';
-        title.innerText = 'You are likely eligible for SNAP';
-        amount.innerText = '$' + minBenefit + ' - $' + maxBenefit;
-        explanation.innerText = 'For a household of ' + householdSize + ' with your income, you appear to meet the gross income guidelines.';
-        nextSteps.innerHTML = '<div class="calc-checklist"><span class="calc-checklist-icon">✓</span> Start your online application</div>' +
-          '<div class="calc-checklist"><span class="calc-checklist-icon">✓</span> Gather ID and proof of address</div>' +
-          '<div class="calc-checklist"><span class="calc-checklist-icon">✓</span> Prepare recent pay stubs</div>';
-      } else if (status === 'maybe') {
-        badge.innerText = 'Borderline';
-        badge.style.background = '#fef3c7'; badge.style.color = '#92400e';
-        title.innerText = 'You might be eligible';
-        amount.innerText = '$' + minBenefit + ' - $' + maxBenefit + '*';
-        explanation.innerText = 'Your income is near the limit, but your high housing/care costs might help you qualify. It\'s worth applying.';
-        nextSteps.innerHTML = '<div class="calc-checklist"><span class="calc-checklist-icon">?</span> Contact your local SNAP office</div>' +
-          '<div class="calc-checklist"><span class="calc-checklist-icon">✓</span> Gather proof of rent/childcare costs</div>';
-      } else {
-        badge.innerText = 'Likely Not Eligible';
-        badge.style.background = '#f3f4f6'; badge.style.color = '#374151';
-        title.innerText = 'You may not be eligible';
-        amount.innerText = '$0';
-        explanation.innerText = 'Your income appears to be above the limit for a household of ' + householdSize + '.';
-        nextSteps.innerHTML = '<div class="calc-checklist"><span class="calc-checklist-icon">→</span> Check local food pantries</div>' +
-          '<div class="calc-checklist"><span class="calc-checklist-icon">→</span> Look for community food banks</div>';
-      }
-      document.getElementById('calcWicAlert').style.display = childrenUnder5 > 0 ? 'block' : 'none';
-      calcRenderPlaces(zip);
-      calcRenderLocalHelp(zip);
-      document.querySelector('.calc-step.active').classList.remove('active');
-      document.getElementById('calcResults').style.display = 'block';
-      document.getElementById('calcResults').classList.add('active');
-      document.getElementById('calcProgressBar').style.width = '100%';
-    }
-
-    function calcRenderPlaces(zip) {
-      const list = document.getElementById('calcPlacesList');
-      const isEven = parseInt(zip) % 2 === 0;
-      const mapLink = document.getElementById('calcMapLink');
-      mapLink.href = 'https://www.google.com/maps/search/grocery+stores+accepting+snap+near+' + zip;
-      if (isEven) {
-        list.innerHTML = '<div class="calc-place"><div class="calc-place-name"><span>Giant Eagle</span><span>0.4 mi</span></div><div class="calc-place-meta">Supermarket • ' + zip + ' Main St</div><div class="calc-place-tags"><span class="calc-tag">SNAP</span><span class="calc-tag calc-tag-wic">WIC</span></div></div>' +
-          '<div class="calc-place"><div class="calc-place-name"><span>Community Market</span><span>1.2 mi</span></div><div class="calc-place-meta">Farmers Market • ' + zip + ' Park Ave</div><div class="calc-place-tags"><span class="calc-tag">SNAP</span><span class="calc-tag">Double Bucks</span></div></div>';
-      } else {
-        list.innerHTML = '<div class="calc-place"><div class="calc-place-name"><span>Aldi</span><span>0.8 mi</span></div><div class="calc-place-meta">Grocery • ' + zip + ' Broad St</div><div class="calc-place-tags"><span class="calc-tag">SNAP</span></div></div>' +
-          '<div class="calc-place"><div class="calc-place-name"><span>CVS Pharmacy</span><span>1.5 mi</span></div><div class="calc-place-meta">Pharmacy • ' + zip + ' Center Rd</div><div class="calc-place-tags"><span class="calc-tag">SNAP (Limited)</span></div></div>';
-      }
-    }
-
-    function calcRenderLocalHelp(zip) {
-      const alert = document.getElementById('calcLocalHelp');
-      const text = document.getElementById('calcLocalHelpText');
-      const link = document.getElementById('calcLocalHelpLink');
-      const metro = {
-        '606': { n: 'Greater Chicago Food Depository', u: 'https://www.chicagosfoodbank.org/get-help/benefits-outreach/snap-referral/' },
-        '607': { n: 'Greater Chicago Food Depository', u: 'https://www.chicagosfoodbank.org/get-help/benefits-outreach/snap-referral/' },
-        '100': { n: 'Food Bank For New York City', u: 'https://www.foodbanknyc.org/get-help/' },
-        '101': { n: 'Food Bank For New York City', u: 'https://www.foodbanknyc.org/get-help/' },
-        '900': { n: 'Los Angeles Regional Food Bank', u: 'https://www.lafoodbank.org/get-help/calfresh/' },
-        '901': { n: 'Los Angeles Regional Food Bank', u: 'https://www.lafoodbank.org/get-help/calfresh/' },
-        '770': { n: 'Houston Food Bank', u: 'https://www.houstonfoodbank.org/get-help/' },
-        '771': { n: 'Houston Food Bank', u: 'https://www.houstonfoodbank.org/get-help/' },
-        '330': { n: 'Feeding South Florida', u: 'https://feedingsouthflorida.org/get-help/' },
-        '331': { n: 'Feeding South Florida', u: 'https://feedingsouthflorida.org/get-help/' },
-        '300': { n: 'Atlanta Community Food Bank', u: 'https://www.acfb.org/get-help/' },
-        '301': { n: 'Atlanta Community Food Bank', u: 'https://www.acfb.org/get-help/' },
-        '440': { n: 'Greater Cleveland Food Bank', u: 'https://greaterclevelandfoodbank.org/get-help/' },
-        '150': { n: 'Greater Pittsburgh Community Food Bank', u: 'https://pittsburghfoodbank.org/get-help/' },
-        '940': { n: 'SF-Marin Food Bank', u: 'https://www.sfmfoodbank.org/get-food/calfresh/' },
-        '750': { n: 'North Texas Food Bank', u: 'https://ntfb.org/get-help/' },
-        '200': { n: 'Capital Area Food Bank', u: 'https://www.capitalareafoodbank.org/get-help/' },
-        '550': { n: 'Second Harvest Heartland', u: 'https://www.2harvest.org/get-help/' },
-        '640': { n: 'Harvesters Community Food Network', u: 'https://www.harvesters.org/get-help/' },
-        '460': { n: 'Gleaners Food Bank of Indiana', u: 'https://www.gleaners.org/get-help/' },
-        '480': { n: 'Gleaners Community Food Bank', u: 'https://www.gcfb.org/get-help/' },
-        '980': { n: 'Northwest Harvest', u: 'https://www.northwestharvest.org/get-help/' },
-        '210': { n: 'Maryland Food Bank', u: 'https://mdfoodbank.org/get-help/' },
-        '850': { n: "St. Mary's Food Bank", u: 'https://www.firstfoodbank.org/get-help/' },
-        '630': { n: 'St. Louis Area Foodbank', u: 'https://stlfoodbank.org/get-help/' },
-        '190': { n: 'Philabundance', u: 'https://www.philabundance.org/get-help/' },
-        '070': { n: 'Community FoodBank of New Jersey', u: 'https://cfbnj.org/get-help/' },
-        '800': { n: 'Food Bank of the Rockies', u: 'https://www.foodbankrockies.org/get-help/' },
-        '370': { n: 'Second Harvest Food Bank of Middle Tennessee', u: 'https://secondharvestmidtn.org/get-help/' },
-        '280': { n: 'Second Harvest Food Bank of Metrolina', u: 'https://www.secondharvestmetrolina.org/get-help' },
-        '970': { n: 'Oregon Food Bank', u: 'https://www.oregonfoodbank.org/get-help/' }
-      };
-      const states = {
-        IL: 'Feeding Illinois', IN: 'Feeding Indiana', OH: 'Ohio Association of Foodbanks',
-        CA: 'California Association of Food Banks', TX: 'Feeding Texas', FL: 'Feeding Florida',
-        NY: 'Feeding New York State', PA: 'Feeding Pennsylvania', GA: 'Georgia Food Bank Association',
-        MI: 'Feeding Michigan', NC: 'Feeding the Carolinas', NJ: 'Community FoodBank of New Jersey',
-        VA: 'Federation of Virginia Food Banks', WA: 'Northwest Harvest', MA: 'The Greater Boston Food Bank',
-        AZ: 'Arizona Food Bank Network', TN: 'Feeding Tennessee', MO: 'Feeding Missouri',
-        MD: 'Maryland Food Bank', WI: 'Feeding Wisconsin', MN: 'Hunger Solutions Minnesota',
-        CO: 'Hunger Free Colorado', AL: 'Alabama Food Bank Association', KY: 'Feeding Kentucky',
-        OR: 'Oregon Food Bank', OK: 'Regional Food Bank of Oklahoma', CT: 'Connecticut Foodshare',
-        IA: 'Food Bank of Iowa', MS: 'Mississippi Food Network', AR: 'Arkansas Foodbank',
-        KS: 'Kansas Food Bank', NV: 'Food Bank of Northern Nevada', NE: 'Food Bank for the Heartland',
-        NM: 'Roadrunner Food Bank', WV: 'Mountaineer Food Bank', ID: 'Idaho Foodbank',
-        HI: 'Hawaii Foodbank', ME: 'Good Shepherd Food Bank', RI: 'Rhode Island Community Food Bank',
-        MT: 'Montana Food Bank Network', DE: 'Food Bank of Delaware', SD: 'Feeding South Dakota',
-        ND: 'Great Plains Food Bank', VT: 'Vermont Foodbank', WY: 'Food Bank of Wyoming',
-        NH: 'New Hampshire Food Bank', AK: 'Food Bank of Alaska', DC: 'Capital Area Food Bank',
-        LA: 'Feeding Louisiana', SC: 'Feeding South Carolina', UT: 'Utah Food Bank'
-      };
-      function getState(z) {
-        const p = parseInt(z.substring(0, 3));
-        if (p >= 600 && p <= 629) return 'IL'; if (p >= 460 && p <= 479) return 'IN';
-        if (p >= 430 && p <= 459) return 'OH'; if (p >= 900 && p <= 961) return 'CA';
-        if (p >= 750 && p <= 799) return 'TX'; if (p >= 320 && p <= 349) return 'FL';
-        if (p >= 100 && p <= 149) return 'NY'; if (p >= 150 && p <= 196) return 'PA';
-        if (p >= 300 && p <= 319) return 'GA'; if (p >= 480 && p <= 499) return 'MI';
-        if (p >= 270 && p <= 289) return 'NC'; if (p >= 70 && p <= 89) return 'NJ';
-        if (p >= 220 && p <= 246) return 'VA'; if (p >= 980 && p <= 994) return 'WA';
-        if (p >= 10 && p <= 27) return 'MA'; if (p >= 850 && p <= 865) return 'AZ';
-        if (p >= 370 && p <= 385) return 'TN'; if (p >= 630 && p <= 658) return 'MO';
-        if (p >= 206 && p <= 219) return 'MD'; if (p >= 530 && p <= 549) return 'WI';
-        if (p >= 550 && p <= 567) return 'MN'; if (p >= 800 && p <= 816) return 'CO';
-        if (p >= 350 && p <= 369) return 'AL'; if (p >= 400 && p <= 427) return 'KY';
-        if (p >= 970 && p <= 979) return 'OR'; if (p >= 730 && p <= 749) return 'OK';
-        if (p >= 60 && p <= 69) return 'CT'; if (p >= 500 && p <= 528) return 'IA';
-        if (p >= 386 && p <= 397) return 'MS'; if (p >= 716 && p <= 729) return 'AR';
-        if (p >= 660 && p <= 679) return 'KS'; if (p >= 889 && p <= 898) return 'NV';
-        if (p >= 680 && p <= 693) return 'NE'; if (p >= 870 && p <= 884) return 'NM';
-        if (p >= 247 && p <= 268) return 'WV'; if (p >= 832 && p <= 838) return 'ID';
-        if (p >= 967 && p <= 968) return 'HI'; if (p >= 39 && p <= 49) return 'ME';
-        if (p >= 28 && p <= 29) return 'RI'; if (p >= 590 && p <= 599) return 'MT';
-        if (p >= 197 && p <= 199) return 'DE'; if (p >= 570 && p <= 577) return 'SD';
-        if (p >= 580 && p <= 588) return 'ND'; if (p >= 50 && p <= 59) return 'VT';
-        if (p >= 820 && p <= 831) return 'WY'; if (p >= 30 && p <= 38) return 'NH';
-        if (p >= 995 && p <= 999) return 'AK'; if (p >= 200 && p <= 205) return 'DC';
-        if (p >= 700 && p <= 714) return 'LA'; if (p >= 290 && p <= 299) return 'SC';
-        if (p >= 840 && p <= 847) return 'UT';
-        return null;
-      }
-      const prefix = zip.substring(0, 3);
-      let resource = metro[prefix];
-      if (resource) {
-        text.innerText = resource.n + ' offers free assistance to help you complete your SNAP application.';
-        link.href = resource.u;
-        link.innerText = 'Contact ' + resource.n + ' →';
-        alert.style.display = 'block';
-      } else {
-        const st = getState(zip);
-        if (st && states[st]) {
-          text.innerText = states[st] + ' can help you find free SNAP application assistance in your area.';
-          link.href = 'https://www.feedingamerica.org/find-your-local-foodbank';
-          link.innerText = 'Find Your Local Food Bank →';
-          alert.style.display = 'block';
-        } else {
-          text.innerText = 'Local food banks offer free help with SNAP applications. Find assistance near you.';
-          link.href = 'https://www.feedingamerica.org/find-your-local-foodbank';
-          link.innerText = 'Find Your Local Food Bank →';
-          alert.style.display = 'block';
-        }
-      }
-    }
-
-    // Desert Analyzer
-    function runAnalyzer() {
-      const zip = document.getElementById('desertZip').value;
-      if (zip.length !== 5 || !/^\d{5}$/.test(zip)) { alert('Please enter a valid 5-digit zip code'); return; }
-      document.getElementById('desertZipDisplay').innerText = zip;
-      const seed = parseInt(zip);
-      const grocery = 25 + (seed % 55);
-      const fresh = 20 + ((seed * 7) % 60);
-      const transport = 30 + ((seed * 13) % 50);
-      document.getElementById('desertForm').style.display = 'none';
-      document.getElementById('desertResult').classList.add('visible');
-      setTimeout(() => {
-        updateDesertMetric('Grocery', grocery);
-        updateDesertMetric('Fresh', fresh);
-        updateDesertMetric('Transport', transport);
-        const avg = (grocery + fresh + transport) / 3;
-        const badge = document.getElementById('desertBadge');
-        if (avg < 42) {
-          badge.innerText = '⚠️ Food Desert Risk';
-          badge.style.background = '#FEE2E2'; badge.style.color = '#991B1B';
-        } else if (avg < 58) {
-          badge.innerText = '🔶 Moderate Access';
-          badge.style.background = '#FEF3C7'; badge.style.color = '#92400E';
-        } else {
-          badge.innerText = '✅ Good Access';
-          badge.style.background = '#D1FAE5'; badge.style.color = '#065F46';
-        }
-      }, 100);
-    }
-
-    function updateDesertMetric(name, score) {
-      const bar = document.getElementById('desert' + name + 'Bar');
-      const val = document.getElementById('desert' + name + 'Score');
-      bar.style.width = score + '%';
-      if (score > 55) { bar.style.background = '#10B981'; val.innerText = 'Good'; }
-      else if (score > 40) { bar.style.background = '#F59E0B'; val.innerText = 'Moderate'; }
-      else { bar.style.background = '#EF4444'; val.innerText = 'Limited'; }
-    }
-
-    function desertReset() {
-      document.getElementById('desertForm').style.display = 'block';
-      document.getElementById('desertResult').classList.remove('visible');
-      document.getElementById('desertZip').value = '';
-      ['Grocery', 'Fresh', 'Transport'].forEach(m => {
-        document.getElementById('desert' + m + 'Bar').style.width = '0%';
-        document.getElementById('desert' + m + 'Score').innerText = '--';
-      });
-    }
-  </script>
-
+  <p class="closing-quote">Governments shouldn't have to wait for a crisis to find out it's happening. FreshFind sees the problem forming, tells the right people, and puts food on the table before anyone has to ask.</p>
+  <svg width="100" height="8" viewBox="0 0 100 8" style="display:block;margin:0 auto 30px"><path d="M10 4 C25 0,35 8,50 4 C65 0,75 8,90 4" stroke="#2a7d5b" stroke-width="1.2" fill="none" opacity="0.4"/></svg>
+  <div style="margin-bottom:40px"><a href="/cdn-cgi/l/email-protection#2350404c575763454a4d4e424d444c0d4c51441c505641494640571e655146504b654a4d47061113734a4f4c57061113734251574d4651504b4a53" class="tool-link" style="font-size:16px;padding:14px 28px">Become a Pilot Partner →</a></div>
+  <p class="closing-contact">Scott Glasgow · Sarah Cherian · Soham Patel · Tony Ramos</p>
+  <p class="closing-contact" style="margin-top:6px">FinMango · <a href="https://finmango.org">finmango.org</a></p>
+  <div class="closing-brand"><img src="finmango.png" alt="FinMango"></div>
+</section>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const observer=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const progressBar=document.getElementById('progressBar');window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40);const d=document.documentElement.scrollHeight-window.innerHeight;progressBar.style.width=(d>0?(window.scrollY/d)*100:0)+'%'});
+const hamburger=document.getElementById('hamburger'),mobileOverlay=document.getElementById('mobileOverlay');hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');mobileOverlay.classList.toggle('open');document.body.style.overflow=mobileOverlay.classList.contains('open')?'hidden':''});document.querySelectorAll('.mobile-nav-link').forEach(l=>{l.addEventListener('click',()=>{hamburger.classList.remove('active');mobileOverlay.classList.remove('open');document.body.style.overflow=''})});
+function animateCounter(el){const t=parseFloat(el.dataset.target),p=el.dataset.prefix||'',s=el.dataset.suffix||'',d=parseInt(el.dataset.decimals)||0,st=performance.now();function u(c){const pr=Math.min((c-st)/1800,1),e=1-Math.pow(1-pr,3);el.textContent=p+(d>0?(e*t).toFixed(d):Math.floor(e*t))+s;if(pr<1)requestAnimationFrame(u)}requestAnimationFrame(u)}
+let sa=false;const so=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting&&!sa){sa=true;document.querySelectorAll('.stat-number[data-target]').forEach(el=>animateCounter(el))}})},{threshold:0.3});const ss=document.getElementById('stats');if(ss)so.observe(ss);
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';if(id==='calcModal')calcReset();else desertReset()}function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow=''}document.querySelectorAll('.modal-backdrop').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)})});document.getElementById('desertZip').addEventListener('keypress',e=>{if(e.key==='Enter')runAnalyzer()});
+let cc=1;function calcUpdateProgress(){document.getElementById('calcProgressBar').style.width=((cc-1)/3)*100+'%'}function calcNextStep(s){document.querySelector('.calc-step.active').classList.remove('active');document.getElementById('calcStep'+s).classList.add('active');cc=s;calcUpdateProgress()}function calcPrevStep(s){calcNextStep(s)}function calcReset(){document.querySelectorAll('.calc-step').forEach(s=>s.classList.remove('active'));document.getElementById('calcStep1').classList.add('active');document.getElementById('calcResults').style.display='none';cc=1;calcUpdateProgress()}
+function runCalculator(){const i=parseFloat(document.getElementById('calcIncome').value)||0,r=parseFloat(document.getElementById('calcRent').value)||0,ch=parseFloat(document.getElementById('calcChildcare').value)||0,hs=parseInt(document.getElementById('calcHousehold').value)||1,k=parseInt(document.getElementById('calcChildren').value)||0,z=document.getElementById('calcZip').value||'00000',gl=1580+((hs-1)*557),adj=Math.max(0,i-(r*0.5)-ch),ma=291+((hs-1)*244);let st='unlikely',mn=0,mx=0;if(i<gl){st='likely';const est=Math.max(23,ma-adj*0.3);mn=Math.floor(est*0.8);mx=Math.min(Math.ceil(est*1.1),ma)}else if(adj<gl){st='maybe';mn=23;mx=150}const b=document.getElementById('calcStatusBadge'),t=document.getElementById('calcResultTitle'),a=document.getElementById('calcBenefitAmount'),ex=document.getElementById('calcResultExplanation'),ns=document.getElementById('calcNextSteps');if(st==='likely'){b.innerText='Likely Eligible';b.style.background='#d1fae5';b.style.color='#065f46';t.innerText='You are likely eligible for SNAP';a.innerText='$'+mn+' - $'+mx;ex.innerText='For a household of '+hs+', you appear to meet guidelines.';ns.innerHTML='<div class="calc-checklist"><span class="calc-checklist-icon">✓</span> Start your online application</div><div class="calc-checklist"><span class="calc-checklist-icon">✓</span> Gather ID and proof of address</div><div class="calc-checklist"><span class="calc-checklist-icon">✓</span> Prepare recent pay stubs</div>'}else if(st==='maybe'){b.innerText='Borderline';b.style.background='#fef3c7';b.style.color='#92400e';t.innerText='You might be eligible';a.innerText='$'+mn+' - $'+mx+'*';ex.innerText='Near the limit, but housing/care costs may qualify you.';ns.innerHTML='<div class="calc-checklist"><span class="calc-checklist-icon">?</span> Contact your local SNAP office</div><div class="calc-checklist"><span class="calc-checklist-icon">✓</span> Gather proof of expenses</div>'}else{b.innerText='Likely Not Eligible';b.style.background='#f3f4f6';b.style.color='#374151';t.innerText='You may not be eligible';a.innerText='$0';ex.innerText='Income appears above the limit for household of '+hs+'.';ns.innerHTML='<div class="calc-checklist"><span class="calc-checklist-icon">→</span> Check local food pantries</div><div class="calc-checklist"><span class="calc-checklist-icon">→</span> Look for community food banks</div>'}document.getElementById('calcWicAlert').style.display=k>0?'block':'none';document.getElementById('calcMapLink').href='https://www.google.com/maps/search/grocery+stores+snap+near+'+z;const pl=document.getElementById('calcPlacesList');pl.innerHTML=(parseInt(z)%2===0)?'<div class="calc-place"><div class="calc-place-name"><span>Giant Eagle</span><span>0.4 mi</span></div><div class="calc-place-tags"><span class="calc-tag">SNAP</span><span class="calc-tag calc-tag-wic">WIC</span></div></div><div class="calc-place"><div class="calc-place-name"><span>Community Market</span><span>1.2 mi</span></div><div class="calc-place-tags"><span class="calc-tag">SNAP</span></div></div>':'<div class="calc-place"><div class="calc-place-name"><span>Aldi</span><span>0.8 mi</span></div><div class="calc-place-tags"><span class="calc-tag">SNAP</span></div></div><div class="calc-place"><div class="calc-place-name"><span>CVS Pharmacy</span><span>1.5 mi</span></div><div class="calc-place-tags"><span class="calc-tag">SNAP (Limited)</span></div></div>';document.getElementById('calcLocalHelp').style.display='block';document.getElementById('calcLocalHelpText').innerText='Local food banks offer free SNAP application help.';document.getElementById('calcLocalHelpLink').href='https://www.feedingamerica.org/find-your-local-foodbank';document.getElementById('calcLocalHelpLink').innerText='Find Your Local Food Bank →';document.querySelector('.calc-step.active').classList.remove('active');document.getElementById('calcResults').style.display='block';document.getElementById('calcResults').classList.add('active');document.getElementById('calcProgressBar').style.width='100%'}
+function runAnalyzer(){const z=document.getElementById('desertZip').value;if(z.length!==5||!/^\d{5}$/.test(z)){alert('Please enter a valid 5-digit zip code');return}document.getElementById('desertZipDisplay').innerText=z;const s=parseInt(z),g=25+(s%55),f=20+((s*7)%60),t=30+((s*13)%50);document.getElementById('desertForm').style.display='none';document.getElementById('desertResult').classList.add('visible');setTimeout(()=>{ub('Grocery',g);ub('Fresh',f);ub('Transport',t);const avg=(g+f+t)/3,b=document.getElementById('desertBadge');if(avg<42){b.innerText='⚠️ Food Desert Risk';b.style.background='#FEE2E2';b.style.color='#991B1B'}else if(avg<58){b.innerText='🔶 Moderate Access';b.style.background='#FEF3C7';b.style.color='#92400E'}else{b.innerText='✅ Good Access';b.style.background='#D1FAE5';b.style.color='#065F46'}},100)}
+function ub(n,sc){const bar=document.getElementById('desert'+n+'Bar'),val=document.getElementById('desert'+n+'Score');bar.style.width=sc+'%';if(sc>55){bar.style.background='#10B981';val.innerText='Good'}else if(sc>40){bar.style.background='#F59E0B';val.innerText='Moderate'}else{bar.style.background='#EF4444';val.innerText='Limited'}}
+function desertReset(){document.getElementById('desertForm').style.display='block';document.getElementById('desertResult').classList.remove('visible');document.getElementById('desertZip').value='';['Grocery','Fresh','Transport'].forEach(m=>{document.getElementById('desert'+m+'Bar').style.width='0%';document.getElementById('desert'+m+'Score').innerText='--'})}
+</script>
 </body>
 </html>
