@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FreshFind — AI-Powered Food Assistance Navigation</title>
+  <title>FreshFind — Proactive AI for Food Access</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <link
     href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
@@ -20,19 +20,12 @@
       --muted: #7a7a7a;
       --light: #d0d0d0;
       --lighter: #e8e8e8;
-      --bg: #fefefe;
+      --bg: #faf9f6;
       --amber: #d4933a;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'DM Sans', sans-serif;
@@ -43,1258 +36,569 @@
       overflow-x: hidden;
     }
 
-    /* ─── NAV ─── */
+    /* NAV */
     nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       padding: 18px 60px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(254, 254, 254, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(250, 249, 246, 0.92);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid transparent;
       transition: border-color 0.3s;
     }
+    nav.scrolled { border-bottom-color: var(--lighter); }
 
-    nav.scrolled {
-      border-bottom-color: var(--lighter);
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-
-    .nav-logo img {
-      height: 26px;
-    }
-
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { height: 26px; }
     .nav-logo span {
-      font-family: 'Caveat', cursive;
-      font-size: 16px;
-      color: var(--muted);
-      padding-left: 10px;
-      border-left: 1px solid var(--lighter);
+      font-family: 'Caveat', cursive; font-size: 16px; color: var(--muted);
+      padding-left: 10px; border-left: 1px solid var(--lighter);
     }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 36px;
-    }
-
+    .nav-links { display: flex; align-items: center; gap: 36px; }
     .nav-links a {
-      font-size: 13.5px;
-      color: var(--muted);
-      text-decoration: none;
-      font-weight: 400;
-      transition: color 0.2s;
+      font-size: 13.5px; color: var(--muted); text-decoration: none;
+      font-weight: 400; transition: color 0.2s;
     }
+    .nav-links a:hover { color: var(--ink); }
 
-    .nav-links a:hover {
-      color: var(--ink);
-    }
+    /* CONTENT WRAPPER */
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 60px; }
 
-    /* ─── CONTENT WRAPPER ─── */
-    .wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 60px;
-    }
-
-    /* ─── HERO ─── */
+    /* HERO */
     .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 120px 0 80px;
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; padding: 120px 0 80px;
     }
-
     .hero h1 {
       font-family: 'DM Sans', sans-serif;
       font-size: clamp(60px, 9vw, 100px);
-      letter-spacing: -3px;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 0.95;
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards;
+      letter-spacing: -3px; font-weight: 700; color: var(--ink);
+      line-height: 0.95; margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 0.8s ease forwards;
     }
-
     .hero-sub {
-      font-size: clamp(18px, 2.5vw, 24px);
-      color: var(--green);
-      font-weight: 400;
-      margin-bottom: 50px;
-      letter-spacing: 0.5px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.12s forwards;
+      font-size: clamp(18px, 2.5vw, 24px); color: var(--green);
+      font-weight: 400; margin-bottom: 50px; letter-spacing: 0.5px;
+      max-width: 700px;
+      opacity: 0; animation: fadeUp 0.8s ease 0.12s forwards;
     }
-
-    .hero-illustration {
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.24s forwards;
-    }
-
+    .hero-illustration { opacity: 0; animation: fadeUp 0.8s ease 0.24s forwards; }
     .hero-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      padding-top: 40px;
-      border-top: 1.5px solid var(--lighter);
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.36s forwards;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      padding-top: 40px; border-top: 1.5px solid var(--lighter);
+      opacity: 0; animation: fadeUp 0.8s ease 0.36s forwards;
     }
+    .hero-meta p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+    .hero-meta strong { color: var(--ink); font-weight: 500; }
+    .hero-meta-right { text-align: right; }
 
-    .hero-meta p {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .hero-meta strong {
-      color: var(--ink);
-      font-weight: 500;
-    }
-
-    .hero-meta-right {
-      text-align: right;
-    }
-
-    /* ─── SECTIONS ─── */
-    .section {
-      padding: 100px 0;
-    }
-
+    /* SECTIONS */
+    .section { padding: 100px 0; }
     .section-label {
-      font-family: 'Caveat', cursive;
-      font-size: 16px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 8px;
+      font-family: 'Caveat', cursive; font-size: 16px; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;
     }
-
     .section h2 {
       font-family: 'DM Sans', sans-serif;
       font-size: clamp(38px, 5vw, 48px);
-      letter-spacing: -1.5px;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.05;
-      margin-bottom: 12px;
+      letter-spacing: -1.5px; font-weight: 700; color: var(--ink);
+      line-height: 1.05; margin-bottom: 12px;
     }
-
     .annotation {
-      font-family: 'Caveat', cursive;
-      font-size: clamp(20px, 4vw, 24px);
-      color: var(--amber);
-      transform: rotate(-3deg);
-      display: inline-block;
-      margin-left: 12px;
-      font-weight: 500;
+      font-family: 'Caveat', cursive; font-size: clamp(20px, 4vw, 24px);
+      color: var(--amber); transform: rotate(-3deg);
+      display: inline-block; margin-left: 12px; font-weight: 500;
     }
-
     .section p {
-      font-size: 17px;
-      line-height: 1.75;
-      color: var(--text);
-      margin-bottom: 20px;
-      max-width: 860px;
+      font-size: 17px; line-height: 1.75; color: var(--text);
+      margin-bottom: 20px; max-width: 860px;
     }
-
     p.lead {
-      font-size: 20px;
-      color: var(--ink);
-      font-weight: 400;
-      line-height: 1.65;
-      margin-bottom: 28px;
+      font-size: 20px; color: var(--ink); font-weight: 400;
+      line-height: 1.65; margin-bottom: 28px;
     }
+    .wavy { display: block; margin: 6px 0 28px; opacity: 0.5; }
 
-    .wavy {
-      display: block;
-      margin: 6px 0 28px;
-      opacity: 0.5;
-    }
-
-    /* ─── STATS BANNER ─── */
-    .stats-banner {
-      background: var(--ink);
-      padding: 64px 0;
-      color: var(--bg);
-    }
-
+    /* STATS BANNER */
+    .stats-banner { background: var(--ink); padding: 64px 0; color: var(--bg); }
     .stats-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 60px;
-      display: flex;
-      gap: 40px;
-      justify-content: space-between;
+      max-width: 1100px; margin: 0 auto; padding: 0 60px;
+      display: flex; gap: 40px; justify-content: space-between;
     }
-
-    .stat {
-      text-align: left;
-      flex: 1;
-      padding-left: 24px;
-      border-left: 2px solid var(--green);
-    }
-
+    .stat { text-align: left; flex: 1; padding-left: 24px; border-left: 2px solid var(--green); }
     .stat-number {
       font-family: 'DM Sans', sans-serif;
-      font-size: clamp(48px, 6vw, 64px);
-      font-weight: 700;
-      letter-spacing: -2px;
-      color: var(--bg);
-      line-height: 1;
-      margin-bottom: 12px;
+      font-size: clamp(48px, 6vw, 64px); font-weight: 700;
+      letter-spacing: -2px; color: var(--bg); line-height: 1; margin-bottom: 12px;
     }
+    .stat-label { font-size: 15.5px; color: var(--light); line-height: 1.5; }
 
-    .stat-label {
-      font-size: 15.5px;
-      color: var(--light);
-      line-height: 1.5;
+    /* AGENTIC LOOP DIAGRAM */
+    .loop-diagram {
+      display: flex; align-items: stretch; gap: 0;
+      margin: 48px 0; position: relative;
     }
-
-    /* ─── LAYERS ─── */
-    .layer {
-      display: flex;
-      gap: 28px;
-      align-items: flex-start;
-      margin-bottom: 48px;
-      padding-bottom: 48px;
-      position: relative;
+    .loop-stage {
+      flex: 1; padding: 28px 24px; background: white;
+      border: 1.5px solid var(--lighter); position: relative;
+      border-radius: 12px;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-
-    .layer:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      border-bottom: 1.5px dashed var(--light);
-      filter: url(#hand-drawn);
+    .loop-stage:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(42,125,91,0.1);
     }
-
-    .layer-sketch {
-      flex-shrink: 0;
-      width: 110px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .layer-content {
-      flex: 1;
-    }
-
-    .layer-number {
-      font-family: 'Caveat', cursive;
-      font-size: 15px;
-      color: var(--muted);
-      margin-bottom: 2px;
-    }
-
-    .layer-content h3 {
-      font-family: 'Caveat', cursive;
-      font-size: 32px;
-      font-weight: 600;
-      color: var(--ink);
-      line-height: 1.1;
-      margin-bottom: 10px;
-    }
-
-    .layer-content p {
-      font-size: 16px;
-      max-width: 720px;
-    }
-
-    .layer-tag {
-      display: inline-block;
-      font-family: 'Caveat', cursive;
-      font-size: 15px;
-      color: var(--green);
-      background: var(--green-light);
-      padding: 3px 14px;
-      border-radius: 10px;
-      margin-top: 10px;
-    }
-
-    /* ─── TOOLS CALLOUT ─── */
-    .tools-callout {
-      background: var(--green-pale);
-      padding: 32px 36px;
-      margin: 44px 0;
-      position: relative;
-      border-radius: 4px;
-    }
-
-    .tools-callout::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-left: 3px solid var(--green);
-      border-radius: 8px 255px 12px 25px / 255px 8px 225px 10px;
-      pointer-events: none;
-      filter: url(#hand-drawn);
-    }
-
-    .tools-callout-label {
-      font-family: 'Caveat', cursive;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--green);
-      margin-bottom: 10px;
-    }
-
-    .tools-callout h3 {
-      font-family: 'Caveat', cursive;
-      font-size: 30px;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 14px;
-    }
-
-    .tools-callout p {
-      font-size: 16px;
-      line-height: 1.7;
-      color: var(--text);
-      margin-bottom: 16px;
-      max-width: 820px;
-    }
-
-    .tool-links {
-      display: flex;
-      gap: 14px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    .tool-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
-      border: 1.5px solid var(--green);
-      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      color: var(--green);
-      text-decoration: none;
-      transition: all 0.2s;
-      position: relative;
-      background-color: transparent;
-      cursor: pointer;
-    }
-
-    .tool-link:hover {
-      background: var(--green);
-      color: white;
-      transform: translateY(-2px);
-    }
-
-    /* ─── CASE STUDIES ─── */
-    .case-studies {
-      margin: 40px 0;
-    }
-
-    .case-study {
-      display: flex;
-      gap: 24px;
-      padding: 22px 0;
-      align-items: baseline;
-      position: relative;
-    }
-
-    .case-study:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      border-bottom: 1.5px dashed var(--light);
-      filter: url(#hand-drawn);
-    }
-
-    .case-location {
-      font-family: 'Caveat', cursive;
-      font-size: 26px;
-      font-weight: 600;
-      color: var(--ink);
-      min-width: 170px;
-      flex-shrink: 0;
-    }
-
-    .case-insight {
-      font-size: 14.5px;
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    /* ─── CHANNELS ─── */
-    .channel-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin: 40px 0;
-    }
-
-    .channel {
-      padding: 22px;
-      position: relative;
-    }
-
-    .channel::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border: 1.5px solid var(--lighter);
-      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-      pointer-events: none;
-      filter: url(#hand-drawn);
-    }
-
-    .channel h4 {
-      font-family: 'Caveat', cursive;
-      font-size: 24px;
-      color: var(--ink);
+    .loop-stage-num {
+      font-family: 'Caveat', cursive; font-size: 14px;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 1px;
       margin-bottom: 4px;
     }
-
-    .channel p {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 0;
-      line-height: 1.5;
+    .loop-stage-name {
+      font-family: 'Caveat', cursive; font-size: 28px; font-weight: 700;
+      color: var(--green); margin-bottom: 8px;
+    }
+    .loop-stage-type {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--muted); margin-bottom: 10px;
+    }
+    .loop-stage-desc { font-size: 14px; color: var(--text); line-height: 1.55; }
+    .loop-arrow {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; flex-shrink: 0; color: var(--green); font-size: 24px;
+    }
+    .loop-return {
+      text-align: center; margin-top: 12px;
+      font-family: 'Caveat', cursive; font-size: 18px; color: var(--green);
     }
 
-    /* ─── METRICS ─── */
+    /* BACKEND VS FRONTEND */
+    .bvf-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      margin: 40px 0; border-radius: 12px; overflow: hidden;
+      border: 1.5px solid var(--lighter);
+    }
+    .bvf-col { padding: 32px; }
+    .bvf-col:first-child { background: var(--ink); color: var(--bg); }
+    .bvf-col:last-child { background: white; }
+    .bvf-title {
+      font-family: 'Caveat', cursive; font-size: 22px; font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .bvf-col:first-child .bvf-title { color: var(--green-light); }
+    .bvf-col:last-child .bvf-title { color: var(--green); }
+    .bvf-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: 15px; line-height: 1.5; margin-bottom: 14px;
+    }
+    .bvf-col:first-child .bvf-item { color: var(--light); }
+    .bvf-col:last-child .bvf-item { color: var(--text); }
+    .bvf-icon { flex-shrink: 0; margin-top: 2px; }
+
+    /* GAP EXAMPLES */
+    .gap-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+      margin: 32px 0;
+    }
+    .gap-card {
+      padding: 24px; background: white; border-radius: 12px;
+      border: 1.5px solid var(--lighter); position: relative;
+    }
+    .gap-card-location {
+      font-family: 'Caveat', cursive; font-size: 20px; font-weight: 600;
+      color: var(--ink); margin-bottom: 6px;
+    }
+    .gap-card-stat {
+      font-size: 15px; color: var(--text); line-height: 1.55;
+    }
+
+    /* STAGE DETAIL */
+    .stage-detail {
+      padding: 40px 0; margin-bottom: 20px;
+      position: relative;
+    }
+    .stage-detail:not(:last-child) { border-bottom: 1.5px dashed var(--light); }
+    .stage-detail-header {
+      display: flex; align-items: baseline; gap: 16px; margin-bottom: 16px;
+    }
+    .stage-detail-name {
+      font-family: 'Caveat', cursive; font-size: 32px; font-weight: 700;
+      color: var(--green);
+    }
+    .stage-detail-type {
+      font-size: 13px; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .stage-detail p { font-size: 16px; max-width: 780px; }
+
+    /* NAVIGATE FEATURES */
+    .nav-features {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+      margin: 24px 0;
+    }
+    .nav-feature {
+      display: flex; gap: 12px; padding: 16px; background: white;
+      border-radius: 8px; border: 1px solid var(--lighter);
+    }
+    .nav-feature-num {
+      font-family: 'Caveat', cursive; font-size: 24px; font-weight: 700;
+      color: var(--green); flex-shrink: 0; width: 28px;
+    }
+    .nav-feature-text { font-size: 14px; color: var(--text); line-height: 1.5; }
+    .nav-feature-text strong { color: var(--ink); }
+
+    /* TOOLS SECTION */
+    .tool-card {
+      display: flex; gap: 28px; align-items: flex-start;
+      padding: 36px 0; position: relative;
+    }
+    .tool-card:not(:last-child) { border-bottom: 1.5px dashed var(--light); }
+    .tool-card-content { flex: 1; }
+    .tool-card-num {
+      font-family: 'Caveat', cursive; font-size: 15px;
+      color: var(--muted); margin-bottom: 2px;
+    }
+    .tool-card-content h3 {
+      font-family: 'Caveat', cursive; font-size: 30px; font-weight: 600;
+      color: var(--ink); line-height: 1.1; margin-bottom: 10px;
+    }
+    .tool-card-content p { font-size: 16px; max-width: 720px; }
+
+    .tool-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border: 1.5px solid var(--green);
+      border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--green);
+      text-decoration: none; transition: all 0.2s;
+      background-color: transparent; cursor: pointer;
+    }
+    .tool-link:hover {
+      background: var(--green); color: white; transform: translateY(-2px);
+    }
+
+    /* CASE STUDIES */
+    .case-studies { margin: 40px 0; }
+    .case-study {
+      display: flex; gap: 24px; padding: 22px 0; align-items: baseline;
+      position: relative;
+    }
+    .case-study:not(:last-child)::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      border-bottom: 1.5px dashed var(--light);
+    }
+    .case-location {
+      font-family: 'Caveat', cursive; font-size: 26px; font-weight: 600;
+      color: var(--ink); min-width: 170px; flex-shrink: 0;
+    }
+    .case-insight { font-size: 14.5px; color: var(--text); line-height: 1.6; }
+
+    /* GOVERNMENT CHANNELS */
+    .gov-channel {
+      padding: 32px 0; position: relative;
+    }
+    .gov-channel:not(:last-child) { border-bottom: 1.5px dashed var(--light); }
+    .gov-channel h4 {
+      font-family: 'Caveat', cursive; font-size: 26px; font-weight: 600;
+      color: var(--ink); margin-bottom: 8px;
+    }
+    .gov-channel-tag {
+      display: inline-block; font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--green); background: var(--green-light);
+      padding: 3px 10px; border-radius: 4px; margin-bottom: 12px;
+    }
+    .gov-channel p { font-size: 15px; max-width: 780px; line-height: 1.7; }
+
+    /* PARTNER BENEFITS */
+    .partner-benefits {
+      background: var(--green-pale); padding: 32px 36px; margin: 44px 0;
+      border-radius: 4px; position: relative;
+    }
+    .partner-benefits::before {
+      content: ''; position: absolute; inset: 0;
+      border-left: 3px solid var(--green); pointer-events: none;
+    }
+    .partner-benefits h3 {
+      font-family: 'Caveat', cursive; font-size: 26px; font-weight: 600;
+      color: var(--ink); margin-bottom: 16px;
+    }
+    .partner-benefit-item {
+      display: flex; gap: 12px; margin-bottom: 12px;
+      font-size: 15px; color: var(--text); line-height: 1.6;
+    }
+    .partner-benefit-num {
+      font-family: 'Caveat', cursive; font-size: 20px; font-weight: 700;
+      color: var(--green); flex-shrink: 0; width: 24px;
+    }
+
+    /* METRICS */
     .metric-row {
-      display: flex;
-      gap: 20px;
-      align-items: baseline;
-      padding: 20px 0;
-      position: relative;
+      display: flex; gap: 20px; align-items: baseline;
+      padding: 20px 0; position: relative;
     }
-
     .metric-row:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
       border-bottom: 1.5px dashed var(--light);
-      filter: url(#hand-drawn);
     }
-
     .metric-name {
-      font-family: 'Caveat', cursive;
-      font-size: 28px;
-      font-weight: 600;
-      color: var(--green);
-      min-width: 140px;
-      flex-shrink: 0;
+      font-family: 'Caveat', cursive; font-size: 28px; font-weight: 600;
+      color: var(--green); min-width: 140px; flex-shrink: 0;
     }
+    .metric-desc { font-size: 15px; color: var(--text); line-height: 1.6; }
 
-    .metric-desc {
-      font-size: 15px;
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    /* ─── TIMELINE ─── */
+    /* TIMELINE */
     .timeline-phase {
-      display: flex;
-      gap: 28px;
-      align-items: flex-start;
-      padding: 28px 0;
-      position: relative;
+      display: flex; gap: 28px; align-items: flex-start;
+      padding: 28px 0; position: relative;
     }
-
     .timeline-phase:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
       border-bottom: 1.5px dashed var(--light);
-      filter: url(#hand-drawn);
     }
-
     .phase-label {
-      font-family: 'Caveat', cursive;
-      font-size: 32px;
-      font-weight: 700;
-      color: var(--green);
-      min-width: 100px;
-      flex-shrink: 0;
+      font-family: 'Caveat', cursive; font-size: 32px; font-weight: 700;
+      color: var(--green); min-width: 100px; flex-shrink: 0;
     }
-
     .phase-time {
-      font-family: 'Caveat', cursive;
-      font-size: 20px;
-      color: var(--muted);
-      min-width: 110px;
-      flex-shrink: 0;
-      padding-top: 8px;
+      font-family: 'Caveat', cursive; font-size: 20px; color: var(--muted);
+      min-width: 110px; flex-shrink: 0; padding-top: 8px;
     }
+    .phase-desc { font-size: 15px; color: var(--text); line-height: 1.65; padding-top: 6px; }
 
-    .phase-desc {
-      font-size: 15px;
-      color: var(--text);
-      line-height: 1.65;
-      padding-top: 6px;
-    }
-
-    /* ─── CLOSING ─── */
-    .closing {
-      padding: 90px 0 120px;
-      text-align: center;
-    }
-
+    /* CLOSING */
+    .closing { padding: 90px 0 120px; text-align: center; }
     .closing-quote {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 20px;
-      font-style: italic;
-      color: var(--ink);
-      line-height: 1.7;
-      max-width: 600px;
-      margin: 0 auto 50px;
+      font-family: 'DM Sans', sans-serif; font-size: 20px; font-style: italic;
+      color: var(--ink); line-height: 1.7; max-width: 640px; margin: 0 auto 50px;
     }
+    .closing-contact { font-size: 14px; color: var(--muted); }
+    .closing-contact strong { color: var(--ink); font-weight: 500; }
+    .closing-contact a { color: var(--green); text-decoration: none; }
+    .closing-contact a:hover { text-decoration: underline; }
+    .closing-brand { margin-top: 30px; display: flex; justify-content: center; }
+    .closing-brand img { height: 24px; opacity: 0.4; }
 
-    .closing-contact {
-      font-size: 14px;
-      color: var(--muted);
+    /* DATA SECURITY CALLOUT */
+    .security-callout {
+      margin-top: 32px; padding: 24px 28px;
+      background: white; border: 1.5px solid var(--lighter);
+      border-radius: 8px;
     }
+    .security-callout p { font-size: 15px; margin-bottom: 0; color: var(--text); }
+    .security-callout strong { color: var(--ink); }
 
-    .closing-contact strong {
-      color: var(--ink);
-      font-weight: 500;
-    }
-
-    .closing-contact a {
-      color: var(--green);
-      text-decoration: none;
-    }
-
-    .closing-contact a:hover {
-      text-decoration: underline;
-    }
-
-    .closing-brand {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .closing-brand img {
-      height: 24px;
-      opacity: 0.4;
-    }
-
-    .section-illustration {
-      margin: 20px 0 40px;
-      text-align: center;
-    }
-
-    /* ─── PROGRESS BAR ─── */
+    /* PROGRESS BAR */
     .progress-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 3px;
+      position: fixed; top: 0; left: 0; height: 3px;
       background: linear-gradient(90deg, var(--green), var(--green-dark));
-      width: 0%;
-      z-index: 200;
-      transition: width 0.1s linear;
+      width: 0%; z-index: 200; transition: width 0.1s linear;
     }
 
-    /* ─── HAMBURGER MENU ─── */
+    /* HAMBURGER */
     .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 6px;
-      background: none;
-      border: none;
-      z-index: 101;
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 6px; background: none; border: none; z-index: 101;
     }
-
     .hamburger span {
-      display: block;
-      width: 22px;
-      height: 2px;
-      background: var(--ink);
-      border-radius: 2px;
-      transition: all 0.3s ease;
+      display: block; width: 22px; height: 2px;
+      background: var(--ink); border-radius: 2px; transition: all 0.3s ease;
     }
-
-    .hamburger.active span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(5px, -5px);
-    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
     .mobile-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(254, 254, 254, 0.97);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      z-index: 99;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 32px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(250, 249, 246, 0.97);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      z-index: 99; flex-direction: column; justify-content: center;
+      align-items: center; gap: 32px; opacity: 0; transition: opacity 0.3s ease;
     }
+    .mobile-overlay.open { display: flex; opacity: 1; }
+    .mobile-overlay a {
+      font-family: 'Caveat', cursive; font-size: 36px; font-weight: 600;
+      color: var(--ink); text-decoration: none; transition: color 0.2s;
+    }
+    .mobile-overlay a:hover { color: var(--green); }
 
-    /* ─── MODALS ─── */
+    /* MODALS */
     .modal-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(26, 26, 26, 0.4);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      z-index: 999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      z-index: 999; display: flex; justify-content: center; align-items: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
     }
-
-    .modal-backdrop.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
+    .modal-backdrop.open { opacity: 1; pointer-events: auto; }
     .modal-container {
-      background: var(--bg);
-      width: 90%;
-      max-width: 650px;
-      max-height: 90vh;
-      border-radius: 16px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15);
-      position: relative;
-      transform: translateY(20px);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+      background: var(--bg); width: 90%; max-width: 650px; max-height: 90vh;
+      border-radius: 16px; box-shadow: 0 24px 60px rgba(0,0,0,0.15);
+      position: relative; transform: translateY(20px);
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+      display: flex; flex-direction: column; overflow: hidden;
     }
-
-    .modal-backdrop.open .modal-container {
-      transform: translateY(0);
-    }
-
+    .modal-backdrop.open .modal-container { transform: translateY(0); }
     .modal-header {
-      padding: 24px 32px;
-      border-bottom: 1px solid var(--lighter);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding: 24px 32px; border-bottom: 1px solid var(--lighter);
+      display: flex; justify-content: space-between; align-items: center;
       background: var(--bg);
     }
-
     .modal-header h3 {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--ink);
-      letter-spacing: -0.5px;
+      font-family: 'DM Sans', sans-serif; font-size: 24px;
+      font-weight: 700; color: var(--ink); letter-spacing: -0.5px;
     }
-
     .modal-close {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--muted);
-      transition: color 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      border-radius: 16px;
+      background: none; border: none; cursor: pointer; color: var(--muted);
+      transition: color 0.2s; display: flex; align-items: center;
+      justify-content: center; width: 32px; height: 32px; border-radius: 16px;
     }
-
-    .modal-close:hover {
-      color: var(--ink);
-      background: var(--lighter);
-    }
-
-    .modal-body {
-      padding: 32px;
-      overflow-y: auto;
-      flex: 1;
-    }
+    .modal-close:hover { color: var(--ink); background: var(--lighter); }
+    .modal-body { padding: 32px; overflow-y: auto; flex: 1; }
 
     /* Modal Form Styles */
-    .modal-form-group {
-      margin-bottom: 24px;
-    }
-
-    .modal-label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 8px;
-      font-size: 15px;
-      color: var(--ink);
-    }
-
+    .modal-form-group { margin-bottom: 24px; }
+    .modal-label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 15px; color: var(--ink); }
     .modal-input {
-      width: 100%;
-      padding: 14px 16px;
-      border: 1.5px solid var(--light);
-      border-radius: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      transition: border-color 0.2s;
-      background: var(--bg);
+      width: 100%; padding: 14px 16px; border: 1.5px solid var(--light);
+      border-radius: 8px; font-family: 'DM Sans', sans-serif;
+      font-size: 16px; transition: border-color 0.2s; background: var(--bg);
     }
-
-    .modal-input:focus {
-      outline: none;
-      border-color: var(--green);
-    }
-
+    .modal-input:focus { outline: none; border-color: var(--green); }
     .modal-btn {
-      width: 100%;
-      padding: 16px;
-      background: var(--ink);
-      color: var(--bg);
-      border: none;
-      border-radius: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
+      width: 100%; padding: 16px; background: var(--ink); color: var(--bg);
+      border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif;
+      font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s;
     }
-
-    .modal-btn:hover {
-      background: var(--green);
-    }
-
+    .modal-btn:hover { background: var(--green); }
     .modal-result {
-      display: none;
-      margin-top: 24px;
-      padding: 24px;
-      background: var(--green-pale);
-      border-radius: 12px;
-      text-align: center;
+      display: none; margin-top: 24px; padding: 24px;
+      background: var(--green-pale); border-radius: 12px; text-align: center;
     }
-
-    .modal-result.visible {
-      display: block;
-      animation: fadeUp 0.4s ease forwards;
-    }
-
-    .modal-result-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--green-dark);
-      margin-bottom: 8px;
-    }
-
+    .modal-result.visible { display: block; animation: fadeUp 0.4s ease forwards; }
+    .modal-result-title { font-size: 18px; font-weight: 700; color: var(--green-dark); margin-bottom: 8px; }
     .modal-result-value {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 42px;
-      font-weight: 700;
-      color: var(--ink);
-      letter-spacing: -1px;
+      font-family: 'DM Sans', sans-serif; font-size: 42px;
+      font-weight: 700; color: var(--ink); letter-spacing: -1px;
     }
 
-    /* Calculator Step Wizard */
-    .calc-step {
-      display: none;
-      animation: fadeUp 0.4s ease forwards;
-    }
-
-    .calc-step.active {
-      display: block;
-    }
-
-    .calc-radio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 10px;
-    }
-
-    .calc-radio-card {
-      position: relative;
-    }
-
-    .calc-radio-card input {
-      position: absolute;
-      opacity: 0;
-      cursor: pointer;
-    }
-
+    /* Calculator Steps */
+    .calc-step { display: none; animation: fadeUp 0.4s ease forwards; }
+    .calc-step.active { display: block; }
+    .calc-radio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+    .calc-radio-card { position: relative; }
+    .calc-radio-card input { position: absolute; opacity: 0; cursor: pointer; }
     .calc-radio-content {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px;
-      border: 1.5px solid var(--light);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-align: center;
-      font-size: 15px;
-      font-weight: 500;
+      display: flex; align-items: center; justify-content: center;
+      padding: 12px; border: 1.5px solid var(--light); border-radius: 8px;
+      cursor: pointer; transition: all 0.2s; text-align: center;
+      font-size: 15px; font-weight: 500;
     }
-
     .calc-radio-card input:checked+.calc-radio-content {
-      border-color: var(--green);
-      background: var(--green-pale);
-      color: var(--green-dark);
-      font-weight: 600;
+      border-color: var(--green); background: var(--green-pale);
+      color: var(--green-dark); font-weight: 600;
     }
+    .calc-radio-content:hover { border-color: var(--muted); }
 
-    .calc-radio-content:hover {
-      border-color: var(--muted);
-    }
+    .calc-place { background: var(--bg); padding: 12px; border-radius: 6px; margin-bottom: 10px; border: 1px solid var(--light); }
+    .calc-place-name { font-weight: 600; font-size: 14px; display: flex; justify-content: space-between; }
+    .calc-place-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .calc-place-tags { display: flex; gap: 6px; margin-top: 6px; }
+    .calc-tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; background: #e0f2fe; color: #0369a1; }
+    .calc-tag-wic { background: #fce7f3; color: #be185d; }
+    .calc-checklist { display: flex; gap: 8px; margin-bottom: 8px; font-size: 14px; line-height: 1.5; }
+    .calc-checklist-icon { color: var(--green); flex-shrink: 0; font-weight: 700; }
 
-    /* Calculator Places */
-    .calc-place {
-      background: var(--bg);
-      padding: 12px;
-      border-radius: 6px;
-      margin-bottom: 10px;
-      border: 1px solid var(--light);
-    }
-
-    .calc-place-name {
-      font-weight: 600;
-      font-size: 14px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .calc-place-meta {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-
-    .calc-place-tags {
-      display: flex;
-      gap: 6px;
-      margin-top: 6px;
-    }
-
-    .calc-tag {
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-weight: 600;
-      background: #e0f2fe;
-      color: #0369a1;
-    }
-
-    .calc-tag-wic {
-      background: #fce7f3;
-      color: #be185d;
-    }
-
-    .calc-checklist {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .calc-checklist-icon {
-      color: var(--green);
-      flex-shrink: 0;
-      font-weight: 700;
-    }
-
-    @media (max-width: 600px) {
-      .calc-step [style*="grid-template-columns: 1fr 1fr"] {
-        grid-template-columns: 1fr !important;
-      }
-    }
-
-    .mobile-overlay.open {
-      display: flex;
-      opacity: 1;
-    }
-
-    .mobile-overlay a {
-      font-family: 'Caveat', cursive;
-      font-size: 36px;
-      font-weight: 600;
-      color: var(--ink);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .mobile-overlay a:hover {
-      color: var(--green);
-    }
-
-    /* ─── STICK FIGURE ANIMATIONS ─── */
-    @keyframes gentleBob {
-
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-3px);
-      }
-    }
-
-    @keyframes gentleSway {
-
-      0%,
-      100% {
-        transform: rotate(0deg);
-      }
-
-      25% {
-        transform: rotate(1.5deg);
-      }
-
-      75% {
-        transform: rotate(-1.5deg);
-      }
-    }
-
-    @keyframes questionFloat {
-
-      0%,
-      100% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0.6;
-      }
-
-      50% {
-        transform: translateY(-4px) rotate(5deg);
-        opacity: 1;
-      }
-    }
-
-    @keyframes phonePulse {
-
-      0%,
-      100% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.03);
-      }
-    }
-
-    @keyframes dashFlow {
-      to {
-        stroke-dashoffset: -18;
-      }
-    }
-
-    .stick-confused {
-      animation: gentleBob 3s ease-in-out infinite;
-      transform-origin: 70px 148px;
-    }
-
-    .stick-happy {
-      animation: gentleBob 3s ease-in-out infinite 1.5s;
-      transform-origin: 350px 146px;
-    }
-
-    .question-marks text {
-      animation: questionFloat 2.5s ease-in-out infinite;
-    }
-
-    .question-marks text:nth-child(2) {
-      animation-delay: 0.8s;
-    }
-
-    .phone-group {
-      animation: phonePulse 3s ease-in-out infinite;
-      transform-origin: 207px 69px;
-    }
-
-    .flow-line {
-      animation: dashFlow 1.2s linear infinite;
-    }
-
-    /* ─── HAND-DRAWN FILTER ─── */
-    .sketch-filter {
-      filter: url(#hand-drawn);
-    }
-
-    /* ─── ANIMATIONS ─── */
+    /* ANIMATIONS */
     @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(24px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-
     .reveal {
-      opacity: 0;
-      transform: translateY(20px);
+      opacity: 0; transform: translateY(20px);
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
+    @keyframes gentleBob {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+    @keyframes dashFlow { to { stroke-dashoffset: -18; } }
+    @keyframes questionFloat {
+      0%,100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+      50% { transform: translateY(-4px) rotate(5deg); opacity: 1; }
+    }
+    @keyframes phonePulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
     }
 
-    /* ─── PRINT ─── */
+    .stick-confused { animation: gentleBob 3s ease-in-out infinite; transform-origin: 70px 148px; }
+    .stick-happy { animation: gentleBob 3s ease-in-out infinite 1.5s; transform-origin: 350px 146px; }
+    .question-marks text { animation: questionFloat 2.5s ease-in-out infinite; }
+    .question-marks text:nth-child(2) { animation-delay: 0.8s; }
+    .phone-group { animation: phonePulse 3s ease-in-out infinite; transform-origin: 207px 69px; }
+    .flow-line { animation: dashFlow 1.2s linear infinite; }
+
+    /* PRINT */
     @media print {
-      body {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-
-      nav {
-        display: none;
-      }
-
-      .hero {
-        padding-top: 40px;
-        min-height: auto;
-      }
-
-      .reveal {
-        opacity: 1;
-        transform: none;
-      }
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      nav { display: none; }
+      .hero { padding-top: 40px; min-height: auto; }
+      .reveal { opacity: 1; transform: none; }
     }
 
-    /* ─── RESPONSIVE ─── */
-    /* ─── LARGE DESKTOP ─── */
+    /* LARGE DESKTOP */
     @media (min-width: 1400px) {
-      .wrap {
-        max-width: 1200px;
-      }
-
-      .stats-inner {
-        max-width: 1200px;
-      }
-
-      .hero h1 {
-        font-size: 130px;
-      }
-
-      .section h2 {
-        font-size: 60px;
-      }
-
-      .channel-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
+      .wrap { max-width: 1200px; }
+      .stats-inner { max-width: 1200px; }
+      .hero h1 { font-size: 130px; }
+      .section h2 { font-size: 60px; }
     }
 
-    /* ─── TABLET ─── */
+    /* TABLET */
     @media (max-width: 1024px) {
-      .wrap {
-        padding: 0 36px;
-      }
-
-      .stats-inner {
-        padding: 0 36px;
-      }
-
-      .section {
-        padding: 80px 0;
-      }
+      .wrap { padding: 0 36px; }
+      .stats-inner { padding: 0 36px; }
+      .section { padding: 80px 0; }
+      .loop-diagram { flex-direction: column; gap: 0; }
+      .loop-arrow { transform: rotate(90deg); width: 100%; height: 36px; }
     }
 
-    /* ─── MOBILE ─── */
+    /* MOBILE */
     @media (max-width: 768px) {
-      .hamburger {
-        display: flex;
-      }
-
-      nav {
-        padding: 14px 20px;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .wrap {
-        padding: 0 20px;
-      }
-
-      .hero {
-        min-height: auto;
-        padding: 100px 0 60px;
-      }
-
-      .hero h1 {
-        font-size: clamp(48px, 14vw, 72px);
-        margin-bottom: 12px;
-      }
-
-      .hero-sub {
-        font-size: 17px;
-        margin-bottom: 32px;
-      }
-
-      .hero-illustration svg {
-        width: 100%;
-        height: auto;
-        max-width: 360px;
-      }
-
-      .hero-meta {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-        padding-top: 28px;
-      }
-
-      .hero-meta-right {
-        text-align: left;
-      }
-
-      .section {
-        padding: 60px 0;
-      }
-
-      .section h2 {
-        font-size: clamp(32px, 9vw, 42px);
-      }
-
-      .section p {
-        font-size: 15.5px;
-      }
-
-      p.lead {
-        font-size: 17px;
-      }
-
-      .stats-banner {
-        padding: 40px 0;
-      }
-
-      .stats-inner {
-        flex-direction: column;
-        gap: 28px;
-        padding: 0 20px;
-      }
-
-      .layer {
-        flex-direction: column;
-        gap: 12px;
-        margin-bottom: 32px;
-        padding-bottom: 32px;
-      }
-
-      .layer-sketch {
-        width: auto;
-      }
-
-      .layer-content h3 {
-        font-size: 26px;
-      }
-
-      .layer-content p {
-        font-size: 15px;
-      }
-
-      .tools-callout {
-        padding: 24px 20px;
-        margin: 28px 0;
-      }
-
-      .channel-grid {
-        grid-template-columns: 1fr;
-        gap: 14px;
-        margin: 24px 0;
-      }
-
-      .case-study {
-        flex-direction: column;
-        gap: 4px;
-      }
-
-      .case-location {
-        min-width: auto;
-        font-size: 22px;
-      }
-
-      .metric-row {
-        flex-direction: column;
-        gap: 4px;
-        padding: 16px 0;
-      }
-
-      .metric-name {
-        min-width: auto;
-        font-size: 24px;
-      }
-
-      .timeline-phase {
-        flex-direction: column;
-        gap: 4px;
-        padding: 20px 0;
-      }
-
-      .phase-label,
-      .phase-time {
-        min-width: auto;
-      }
-
-      .tool-links {
-        flex-direction: column;
-      }
-
-      .closing {
-        padding: 60px 0 80px;
-      }
-
-      .closing-quote {
-        font-size: 17px;
-      }
-
-      .section-illustration svg {
-        width: 100%;
-        height: auto;
-        max-width: 300px;
+      .hamburger { display: flex; }
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .wrap { padding: 0 20px; }
+      .hero { min-height: auto; padding: 100px 0 60px; }
+      .hero h1 { font-size: clamp(48px, 14vw, 72px); margin-bottom: 12px; }
+      .hero-sub { font-size: 17px; margin-bottom: 32px; }
+      .hero-illustration svg { width: 100%; height: auto; max-width: 360px; }
+      .hero-meta { flex-direction: column; align-items: flex-start; gap: 12px; padding-top: 28px; }
+      .hero-meta-right { text-align: left; }
+      .section { padding: 60px 0; }
+      .section h2 { font-size: clamp(32px, 9vw, 42px); }
+      .section p { font-size: 15.5px; }
+      p.lead { font-size: 17px; }
+      .stats-banner { padding: 40px 0; }
+      .stats-inner { flex-direction: column; gap: 28px; padding: 0 20px; }
+      .gap-grid { grid-template-columns: 1fr; }
+      .bvf-grid { grid-template-columns: 1fr; }
+      .nav-features { grid-template-columns: 1fr; }
+      .loop-diagram { flex-direction: column; gap: 0; }
+      .loop-arrow { transform: rotate(90deg); width: 100%; height: 36px; }
+      .case-study { flex-direction: column; gap: 4px; }
+      .case-location { min-width: auto; font-size: 22px; }
+      .metric-row { flex-direction: column; gap: 4px; padding: 16px 0; }
+      .metric-name { min-width: auto; font-size: 24px; }
+      .timeline-phase { flex-direction: column; gap: 4px; padding: 20px 0; }
+      .phase-label, .phase-time { min-width: auto; }
+      .closing { padding: 60px 0 80px; }
+      .closing-quote { font-size: 17px; }
+      .partner-benefits { padding: 24px 20px; margin: 28px 0; }
+      .tool-card { flex-direction: column; gap: 12px; }
+      @media (max-width: 600px) {
+        .calc-step [style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
       }
     }
   </style>
@@ -1313,7 +617,7 @@
   </svg>
 
   <!-- ═══════ MODALS ═══════ -->
-  <!-- Food Assistance Calculator Modal (Full Version) -->
+  <!-- Food Assistance Calculator Modal -->
   <div class="modal-backdrop" id="calcModal">
     <div class="modal-container" style="max-width: 700px;">
       <div class="modal-header">
@@ -1324,230 +628,142 @@
           </svg>
         </button>
       </div>
-      <!-- Progress Bar -->
       <div style="height: 5px; background: var(--lighter); width: 100%;">
-        <div id="calcProgressBar"
-          style="height: 100%; width: 0%; background: var(--green); transition: width 0.3s ease;"></div>
+        <div id="calcProgressBar" style="height: 100%; width: 0%; background: var(--green); transition: width 0.3s ease;"></div>
       </div>
       <div class="modal-body">
 
         <!-- Step 1: Location & Language -->
         <div class="calc-step active" id="calcStep1">
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <div
-              style="width: 40px; height: 40px; border-radius: 50%; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 18px;">
-              📍</div>
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 18px;">📍</div>
             <span style="font-size: 18px; font-weight: 700; color: var(--ink);">Location & Language</span>
           </div>
-
           <div class="modal-form-group">
             <label class="modal-label">Language Preference</label>
             <div class="calc-radio-grid">
-              <label class="calc-radio-card">
-                <input type="radio" name="calcLang" value="en" checked>
-                <div class="calc-radio-content">English</div>
-              </label>
-              <label class="calc-radio-card">
-                <input type="radio" name="calcLang" value="es">
-                <div class="calc-radio-content">Español</div>
-              </label>
+              <label class="calc-radio-card"><input type="radio" name="calcLang" value="en" checked><div class="calc-radio-content">English</div></label>
+              <label class="calc-radio-card"><input type="radio" name="calcLang" value="es"><div class="calc-radio-content">Español</div></label>
             </div>
           </div>
-
           <div class="modal-form-group">
             <label class="modal-label">ZIP Code</label>
-            <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">Used to find resources near you.
-            </div>
+            <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">Used to find resources near you.</div>
             <input type="text" id="calcZip" class="modal-input" placeholder="e.g. 44240" maxlength="5" pattern="[0-9]*">
           </div>
-
-          <div
-            style="display: flex; justify-content: flex-end; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
-            <button class="modal-btn" style="width: auto; padding: 12px 28px;" onclick="calcNextStep(2)">Next Step
-              →</button>
+          <div style="display: flex; justify-content: flex-end; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
+            <button class="modal-btn" style="width: auto; padding: 12px 28px;" onclick="calcNextStep(2)">Next Step →</button>
           </div>
         </div>
 
         <!-- Step 2: Household -->
         <div class="calc-step" id="calcStep2">
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <div
-              style="width: 40px; height: 40px; border-radius: 50%; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 18px;">
-              🏠</div>
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 18px;">🏠</div>
             <span style="font-size: 18px; font-weight: 700; color: var(--ink);">Household Members</span>
           </div>
-
           <div class="modal-form-group">
             <label class="modal-label">Total Household Size</label>
             <input type="number" id="calcHousehold" class="modal-input" value="1" min="1" max="20">
           </div>
-
           <div class="modal-form-group">
             <label class="modal-label">Children under 5</label>
             <input type="number" id="calcChildren" class="modal-input" value="0" min="0">
           </div>
-
           <div class="modal-form-group">
             <label class="modal-label">Adults 60+ or with disabilities?</label>
             <div class="calc-radio-grid">
-              <label class="calc-radio-card">
-                <input type="radio" name="calcSenior" value="yes">
-                <div class="calc-radio-content">Yes</div>
-              </label>
-              <label class="calc-radio-card">
-                <input type="radio" name="calcSenior" value="no" checked>
-                <div class="calc-radio-content">No</div>
-              </label>
+              <label class="calc-radio-card"><input type="radio" name="calcSenior" value="yes"><div class="calc-radio-content">Yes</div></label>
+              <label class="calc-radio-card"><input type="radio" name="calcSenior" value="no" checked><div class="calc-radio-content">No</div></label>
             </div>
           </div>
-
           <div class="modal-form-group">
             <label class="modal-label">Work-Eligible Adults (Ages 18-59)</label>
-            <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">Adults who are able to work and not
-              disabled. This may affect SNAP work requirements.</div>
+            <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">Adults who are able to work and not disabled. This may affect SNAP work requirements.</div>
             <input type="number" id="calcWorkAdults" class="modal-input" value="0" min="0">
           </div>
-
-          <div
-            style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
-            <button class="modal-btn"
-              style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);"
-              onclick="calcPrevStep(1)">← Back</button>
-            <button class="modal-btn" style="width: auto; padding: 12px 28px;" onclick="calcNextStep(3)">Next Step
-              →</button>
+          <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
+            <button class="modal-btn" style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);" onclick="calcPrevStep(1)">← Back</button>
+            <button class="modal-btn" style="width: auto; padding: 12px 28px;" onclick="calcNextStep(3)">Next Step →</button>
           </div>
         </div>
 
         <!-- Step 3: Income & Expenses -->
         <div class="calc-step" id="calcStep3">
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
-            <div
-              style="width: 40px; height: 40px; border-radius: 50%; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 18px;">
-              💰</div>
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 18px;">💰</div>
             <span style="font-size: 18px; font-weight: 700; color: var(--ink);">Income & Expenses</span>
           </div>
-
           <div class="modal-form-group">
             <label class="modal-label">Gross Monthly Income (Before Taxes)</label>
-            <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">Include wages, social security,
-              unemployment, etc.</div>
+            <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">Include wages, social security, unemployment, etc.</div>
             <div style="position: relative;">
-              <span
-                style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500;">$</span>
+              <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500;">$</span>
               <input type="number" id="calcIncome" class="modal-input" style="padding-left: 28px;" placeholder="0">
             </div>
           </div>
-
           <div class="modal-form-group">
             <label class="modal-label">Monthly Rent or Mortgage</label>
             <div style="position: relative;">
-              <span
-                style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500;">$</span>
+              <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500;">$</span>
               <input type="number" id="calcRent" class="modal-input" style="padding-left: 28px;" placeholder="0">
             </div>
           </div>
-
           <div class="modal-form-group">
             <label class="modal-label">Monthly Childcare / Dependent Care</label>
             <div style="position: relative;">
-              <span
-                style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500;">$</span>
+              <span style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-weight: 500;">$</span>
               <input type="number" id="calcChildcare" class="modal-input" style="padding-left: 28px;" placeholder="0">
             </div>
           </div>
-
-          <div
-            style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
-            <button class="modal-btn"
-              style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);"
-              onclick="calcPrevStep(2)">← Back</button>
-            <button class="modal-btn" style="width: auto; padding: 12px 28px;" onclick="runCalculator()">See
-              Results</button>
+          <div style="display: flex; justify-content: space-between; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
+            <button class="modal-btn" style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);" onclick="calcPrevStep(2)">← Back</button>
+            <button class="modal-btn" style="width: auto; padding: 12px 28px;" onclick="runCalculator()">See Results</button>
           </div>
         </div>
 
         <!-- Step 4: Results -->
         <div class="calc-step" id="calcResults" style="display: none;">
-          <div
-            style="text-align: center; padding-bottom: 24px; border-bottom: 1px solid var(--lighter); margin-bottom: 24px;">
-            <div id="calcStatusBadge"
-              style="display: inline-block; padding: 8px 16px; border-radius: 50px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; background: #d1fae5; color: #065f46;">
-              Likely Eligible</div>
-            <h3 id="calcResultTitle"
-              style="font-family: 'DM Sans'; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">
-              You are likely eligible for SNAP</h3>
-            <div id="calcBenefitAmount"
-              style="font-family: 'DM Sans'; font-size: 42px; font-weight: 700; color: var(--ink); letter-spacing: -1px;">
-              $0 - $0</div>
-            <div
-              style="font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px;">
-              Estimated Monthly Benefit</div>
-            <p id="calcResultExplanation" style="color: var(--muted); font-size: 14px; margin-top: 12px;">Based on your
-              household size and income.</p>
+          <div style="text-align: center; padding-bottom: 24px; border-bottom: 1px solid var(--lighter); margin-bottom: 24px;">
+            <div id="calcStatusBadge" style="display: inline-block; padding: 8px 16px; border-radius: 50px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; background: #d1fae5; color: #065f46;">Likely Eligible</div>
+            <h3 id="calcResultTitle" style="font-family: 'DM Sans'; font-size: 22px; font-weight: 700; color: var(--ink); margin-bottom: 8px;">You are likely eligible for SNAP</h3>
+            <div id="calcBenefitAmount" style="font-family: 'DM Sans'; font-size: 42px; font-weight: 700; color: var(--ink); letter-spacing: -1px;">$0 - $0</div>
+            <div style="font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px;">Estimated Monthly Benefit</div>
+            <p id="calcResultExplanation" style="color: var(--muted); font-size: 14px; margin-top: 12px;">Based on your household size and income.</p>
           </div>
-
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-            <!-- Places Nearby -->
             <div style="background: var(--lighter); padding: 20px; border-radius: 10px;">
-              <h4
-                style="font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">
-                🛒 Places Nearby</h4>
+              <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">🛒 Places Nearby</h4>
               <div id="calcPlacesList"></div>
-              <a id="calcMapLink" href="#" target="_blank" rel="noopener noreferrer"
-                style="display: block; margin-top: 14px; padding: 10px; background: var(--bg); color: var(--ink); text-align: center; text-decoration: none; font-weight: 600; border-radius: 6px; border: 1.5px solid var(--light); font-size: 14px; transition: all 0.2s;">View
-                Full Map</a>
+              <a id="calcMapLink" href="#" target="_blank" rel="noopener noreferrer" style="display: block; margin-top: 14px; padding: 10px; background: var(--bg); color: var(--ink); text-align: center; text-decoration: none; font-weight: 600; border-radius: 6px; border: 1.5px solid var(--light); font-size: 14px; transition: all 0.2s;">View Full Map</a>
             </div>
-
-            <!-- Next Steps -->
             <div style="background: var(--lighter); padding: 20px; border-radius: 10px;">
-              <h4
-                style="font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">
-                📝 Next Steps</h4>
+              <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">📝 Next Steps</h4>
               <div id="calcNextSteps"></div>
-
-              <!-- WIC Alert -->
-              <div id="calcWicAlert"
-                style="display: none; margin-top: 16px; background: #fdf2f8; padding: 12px; border-radius: 8px; border: 1px solid #fbcfe8;">
+              <div id="calcWicAlert" style="display: none; margin-top: 16px; background: #fdf2f8; padding: 12px; border-radius: 8px; border: 1px solid #fbcfe8;">
                 <strong style="color: #be185d; font-size: 14px;">👶 You may also qualify for WIC</strong>
-                <p style="font-size: 13px; margin-top: 6px; color: var(--ink);">Since you have children under 5, check
-                  out the Women, Infants, and Children program.</p>
+                <p style="font-size: 13px; margin-top: 6px; color: var(--ink);">Since you have children under 5, check out the Women, Infants, and Children program.</p>
               </div>
-
-              <!-- Local Help Alert -->
-              <div id="calcLocalHelp"
-                style="display: none; margin-top: 16px; background: #eff6ff; padding: 12px; border-radius: 8px; border: 1px solid #bfdbfe;">
+              <div id="calcLocalHelp" style="display: none; margin-top: 16px; background: #eff6ff; padding: 12px; border-radius: 8px; border: 1px solid #bfdbfe;">
                 <strong style="color: #1d4ed8; font-size: 14px;">🤝 Get Free Help Applying</strong>
-                <p id="calcLocalHelpText" style="font-size: 13px; margin-top: 6px; color: var(--ink);">Local
-                  organizations can help you complete your SNAP application for free.</p>
-                <a id="calcLocalHelpLink" href="#" target="_blank" rel="noopener noreferrer"
-                  style="display: inline-block; margin-top: 8px; color: #1d4ed8; font-weight: 600; text-decoration: underline; font-size: 13px;">Get
-                  Application Assistance →</a>
+                <p id="calcLocalHelpText" style="font-size: 13px; margin-top: 6px; color: var(--ink);">Local organizations can help you complete your SNAP application for free.</p>
+                <a id="calcLocalHelpLink" href="#" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-top: 8px; color: #1d4ed8; font-weight: 600; text-decoration: underline; font-size: 13px;">Get Application Assistance →</a>
               </div>
-
-              <a href="https://www.fns.usda.gov/snap/state-directory" target="_blank" class="modal-btn"
-                style="display: block; margin-top: 16px; text-decoration: none; text-align: center; font-size: 14px; padding: 12px;">Apply
-                for SNAP Now</a>
+              <a href="https://www.fns.usda.gov/snap/state-directory" target="_blank" class="modal-btn" style="display: block; margin-top: 16px; text-decoration: none; text-align: center; font-size: 14px; padding: 12px;">Apply for SNAP Now</a>
             </div>
           </div>
-
-          <div
-            style="font-size: 12px; color: var(--muted); text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
-            <strong>Disclaimer:</strong> This calculator provides an estimate only and is not an official application.
-            Final eligibility is determined by your state agency. Income limits and deduction rules vary by state.
+          <div style="font-size: 12px; color: var(--muted); text-align: center; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--lighter);">
+            <strong>Disclaimer:</strong> This calculator provides an estimate only and is not an official application. Final eligibility is determined by your state agency. Income limits and deduction rules vary by state.
           </div>
-
           <div style="margin-top: 16px; text-align: center;">
-            <button class="modal-btn"
-              style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);"
-              onclick="calcReset()">Start Over</button>
+            <button class="modal-btn" style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);" onclick="calcReset()">Start Over</button>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 
-  <!-- Food Desert Analyzer Modal (Full Version) -->
+  <!-- Food Desert Analyzer Modal -->
   <div class="modal-backdrop" id="desertModal">
     <div class="modal-container" style="max-width: 650px;">
       <div class="modal-header">
@@ -1559,125 +775,75 @@
         </button>
       </div>
       <div class="modal-body">
-        <!-- Input Form -->
         <div id="desertForm">
           <div style="text-align: center; margin-bottom: 28px;">
-            <div
-              style="font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 12px;">
-              Free Tool</div>
-            <p style="color: var(--muted); font-size: 15px;">Check food access in your neighborhood. Enter your zip code
-              to see if your area has limited access to fresh, healthy food.</p>
+            <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 12px;">Free Tool</div>
+            <p style="color: var(--muted); font-size: 15px;">Check food access in your neighborhood. Enter your zip code to see if your area has limited access to fresh, healthy food.</p>
           </div>
-
-          <div
-            style="background: var(--lighter); border-radius: 12px; padding: 28px; border: 1.5px solid var(--light);">
+          <div style="background: var(--lighter); border-radius: 12px; padding: 28px; border: 1.5px solid var(--light);">
             <div style="display: flex; gap: 12px;">
-              <input type="text" id="desertZip" class="modal-input" placeholder="Enter Zip Code" maxlength="5"
-                pattern="[0-9]{5}" inputmode="numeric"
-                style="text-align: center; font-weight: 600; letter-spacing: 0.1em; flex: 1;">
-              <button class="modal-btn" style="width: auto; padding: 12px 24px;"
-                onclick="runAnalyzer()">Analyze</button>
+              <input type="text" id="desertZip" class="modal-input" placeholder="Enter Zip Code" maxlength="5" pattern="[0-9]{5}" inputmode="numeric" style="text-align: center; font-weight: 600; letter-spacing: 0.1em; flex: 1;">
+              <button class="modal-btn" style="width: auto; padding: 12px 24px;" onclick="runAnalyzer()">Analyze</button>
             </div>
           </div>
         </div>
-
-        <!-- Results -->
         <div class="modal-result" id="desertResult" style="padding: 0; background: transparent;">
-          <!-- Status Header -->
-          <div
-            style="background: var(--lighter); padding: 24px; border-radius: 12px; margin-bottom: 16px; text-align: center;">
-            <div style="font-size: 14px; color: var(--muted); margin-bottom: 6px;">Results for <strong
-                id="desertZipDisplay" style="color: var(--ink);"></strong></div>
-            <div id="desertBadge"
-              style="display: inline-block; padding: 8px 18px; border-radius: 20px; font-size: 14px; font-weight: 700; background: #FEF3C7; color: #92400E; margin-top: 8px;">
-              🔶 Moderate Access</div>
+          <div style="background: var(--lighter); padding: 24px; border-radius: 12px; margin-bottom: 16px; text-align: center;">
+            <div style="font-size: 14px; color: var(--muted); margin-bottom: 6px;">Results for <strong id="desertZipDisplay" style="color: var(--ink);"></strong></div>
+            <div id="desertBadge" style="display: inline-block; padding: 8px 18px; border-radius: 20px; font-size: 14px; font-weight: 700; background: #FEF3C7; color: #92400E; margin-top: 8px;">🔶 Moderate Access</div>
           </div>
-
-          <!-- 3 Metrics -->
           <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
             <div style="background: var(--bg); border: 1.5px solid var(--lighter); padding: 16px; border-radius: 8px;">
-              <div
-                style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
-                <span>🏪 Grocery Store Access</span>
-                <span id="desertGroceryScore" style="color: var(--muted);">--</span>
+              <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
+                <span>🏪 Grocery Store Access</span><span id="desertGroceryScore" style="color: var(--muted);">--</span>
               </div>
               <div style="height: 8px; background: var(--lighter); border-radius: 4px; overflow: hidden;">
-                <div id="desertGroceryBar"
-                  style="height: 100%; width: 0%; border-radius: 4px; transition: width 0.8s ease;"></div>
+                <div id="desertGroceryBar" style="height: 100%; width: 0%; border-radius: 4px; transition: width 0.8s ease;"></div>
               </div>
             </div>
-
             <div style="background: var(--bg); border: 1.5px solid var(--lighter); padding: 16px; border-radius: 8px;">
-              <div
-                style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
-                <span>🥗 Fresh Food Availability</span>
-                <span id="desertFreshScore" style="color: var(--muted);">--</span>
+              <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
+                <span>🥗 Fresh Food Availability</span><span id="desertFreshScore" style="color: var(--muted);">--</span>
               </div>
               <div style="height: 8px; background: var(--lighter); border-radius: 4px; overflow: hidden;">
-                <div id="desertFreshBar"
-                  style="height: 100%; width: 0%; border-radius: 4px; transition: width 0.8s ease;"></div>
+                <div id="desertFreshBar" style="height: 100%; width: 0%; border-radius: 4px; transition: width 0.8s ease;"></div>
               </div>
             </div>
-
             <div style="background: var(--bg); border: 1.5px solid var(--lighter); padding: 16px; border-radius: 8px;">
-              <div
-                style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
-                <span>🚌 Transportation Access</span>
-                <span id="desertTransportScore" style="color: var(--muted);">--</span>
+              <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px;">
+                <span>🚌 Transportation Access</span><span id="desertTransportScore" style="color: var(--muted);">--</span>
               </div>
               <div style="height: 8px; background: var(--lighter); border-radius: 4px; overflow: hidden;">
-                <div id="desertTransportBar"
-                  style="height: 100%; width: 0%; border-radius: 4px; transition: width 0.8s ease;"></div>
+                <div id="desertTransportBar" style="height: 100%; width: 0%; border-radius: 4px; transition: width 0.8s ease;"></div>
               </div>
             </div>
           </div>
-
-          <!-- Find Resources -->
-          <a href="https://www.feedingamerica.org/find-your-local-foodbank" target="_blank" rel="noopener noreferrer"
-            class="modal-btn"
-            style="display: block; text-decoration: none; text-align: center; margin-bottom: 20px;">Find Food Resources
-            Near You →</a>
-
-          <!-- How It Works -->
+          <a href="https://www.feedingamerica.org/find-your-local-foodbank" target="_blank" rel="noopener noreferrer" class="modal-btn" style="display: block; text-decoration: none; text-align: center; margin-bottom: 20px;">Find Food Resources Near You →</a>
           <div style="border-top: 1px solid var(--lighter); padding-top: 20px; margin-top: 8px;">
-            <h4 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 16px; text-align: center;">
-              How It Works</h4>
+            <h4 style="font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 16px; text-align: center;">How It Works</h4>
             <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
               <div style="background: var(--lighter); padding: 16px; border-radius: 10px; text-align: center;">
                 <div style="font-size: 22px; margin-bottom: 8px;">🏪</div>
                 <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px;">Grocery Access</div>
-                <div style="font-size: 11px; color: var(--muted); line-height: 1.4;">Proximity to supermarkets.
-                  Low-income areas >1mi (urban) or >10mi (rural) = low access.</div>
+                <div style="font-size: 11px; color: var(--muted); line-height: 1.4;">Proximity to supermarkets. Low-income areas >1mi (urban) or >10mi (rural) = low access.</div>
               </div>
               <div style="background: var(--lighter); padding: 16px; border-radius: 10px; text-align: center;">
                 <div style="font-size: 22px; margin-bottom: 8px;">🥗</div>
                 <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px;">Fresh Food</div>
-                <div style="font-size: 11px; color: var(--muted); line-height: 1.4;">Stores selling fresh produce vs.
-                  only convenience stores or fast food.</div>
+                <div style="font-size: 11px; color: var(--muted); line-height: 1.4;">Stores selling fresh produce vs. only convenience stores or fast food.</div>
               </div>
               <div style="background: var(--lighter); padding: 16px; border-radius: 10px; text-align: center;">
                 <div style="font-size: 22px; margin-bottom: 8px;">🚌</div>
                 <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px;">Transportation</div>
-                <div style="font-size: 11px; color: var(--muted); line-height: 1.4;">Public transit & vehicle access
-                  rates compound food challenges.</div>
+                <div style="font-size: 11px; color: var(--muted); line-height: 1.4;">Public transit & vehicle access rates compound food challenges.</div>
               </div>
             </div>
           </div>
-
-          <!-- Disclaimer -->
-          <div
-            style="font-size: 12px; color: var(--muted); text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--lighter);">
-            <strong>Note:</strong> This tool provides an educational estimate based on zip code characteristics. For
-            official food desert data, visit the <a
-              href="https://www.ers.usda.gov/data-products/food-access-research-atlas/" target="_blank"
-              style="color: var(--green); text-decoration: underline;">USDA Food Access Research Atlas</a>.
+          <div style="font-size: 12px; color: var(--muted); text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--lighter);">
+            <strong>Note:</strong> This tool provides an educational estimate based on zip code characteristics. For official food desert data, visit the <a href="https://www.ers.usda.gov/data-products/food-access-research-atlas/" target="_blank" style="color: var(--green); text-decoration: underline;">USDA Food Access Research Atlas</a>.
           </div>
-
-          <!-- Start Over -->
           <div style="margin-top: 16px; text-align: center;">
-            <button class="modal-btn"
-              style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);"
-              onclick="desertReset()">Analyze Another Area</button>
+            <button class="modal-btn" style="width: auto; padding: 12px 28px; background: var(--lighter); color: var(--ink);" onclick="desertReset()">Analyze Another Area</button>
           </div>
         </div>
       </div>
@@ -1695,23 +861,23 @@
     </a>
     <div class="nav-links">
       <a href="#problem">Problem</a>
-      <a href="#solution">Solution</a>
+      <a href="#ai-system">AI System</a>
       <a href="#research">Research</a>
+      <a href="#government">Government</a>
       <a href="#impact">Impact</a>
       <a href="https://finmango.org">finmango.org</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Menu">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
   </nav>
 
   <!-- ═══════ MOBILE MENU ═══════ -->
   <div class="mobile-overlay" id="mobileOverlay">
     <a href="#problem" class="mobile-nav-link">Problem</a>
-    <a href="#solution" class="mobile-nav-link">Solution</a>
+    <a href="#ai-system" class="mobile-nav-link">AI System</a>
     <a href="#research" class="mobile-nav-link">Research</a>
+    <a href="#government" class="mobile-nav-link">Government</a>
     <a href="#impact" class="mobile-nav-link">Impact</a>
     <a href="https://finmango.org" class="mobile-nav-link">finmango.org</a>
   </div>
@@ -1721,83 +887,44 @@
     <!-- ═══════ HERO ═══════ -->
     <section class="hero">
       <h1>freshfind</h1>
-      <div class="hero-sub">helping people find the food assistance they already qualify for</div>
+      <div class="hero-sub">The AI that finds people before they fall through the cracks. And guides them all the way to food.</div>
 
       <div class="hero-illustration">
-        <svg class="sketch-filter" width="560" height="260" viewBox="0 0 420 195" fill="none">
-          <!-- Confused stick figure -->
+        <svg width="560" height="260" viewBox="0 0 420 195" fill="none">
           <g class="stick-confused">
-            <!-- Imperfect head -->
-            <path d="M86 58 C86 49, 80 42, 70 42 C61 43, 54 49, 55 58 C55 67, 61 74, 71 74 C80 73, 86 67, 86 58"
-              stroke="#1a1a1a" stroke-width="1.8" fill="none" stroke-linecap="round" />
-            <!-- Body (slight curve) -->
-            <path d="M70 74 C70.5 85, 69.5 100, 70.5 117" stroke="#1a1a1a" stroke-width="1.7" stroke-linecap="round"
-              fill="none" />
-            <!-- Left arm (reaches out more) -->
-            <path d="M70 89 C65 93, 57 100, 52 106" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"
-              fill="none" />
-            <!-- Right arm (different angle, shorter) -->
-            <path d="M70 87 C75 91, 81 96, 87 99" stroke="#1a1a1a" stroke-width="1.9" stroke-linecap="round"
-              fill="none" />
-            <!-- Left leg -->
-            <path d="M70.5 117 C67 126, 61 138, 56 149" stroke="#1a1a1a" stroke-width="1.7" stroke-linecap="round"
-              fill="none" />
-            <!-- Right leg (slightly different) -->
-            <path d="M70.5 117 C74 127, 79 137, 84 147" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"
-              fill="none" />
+            <path d="M86 58 C86 49, 80 42, 70 42 C61 43, 54 49, 55 58 C55 67, 61 74, 71 74 C80 73, 86 67, 86 58" stroke="#1a1a1a" stroke-width="1.8" fill="none" stroke-linecap="round" />
+            <path d="M70 74 C70.5 85, 69.5 100, 70.5 117" stroke="#1a1a1a" stroke-width="1.7" stroke-linecap="round" fill="none" />
+            <path d="M70 89 C65 93, 57 100, 52 106" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" fill="none" />
+            <path d="M70 87 C75 91, 81 96, 87 99" stroke="#1a1a1a" stroke-width="1.9" stroke-linecap="round" fill="none" />
+            <path d="M70.5 117 C67 126, 61 138, 56 149" stroke="#1a1a1a" stroke-width="1.7" stroke-linecap="round" fill="none" />
+            <path d="M70.5 117 C74 127, 79 137, 84 147" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" fill="none" />
           </g>
-          <!-- Question marks -->
           <g class="question-marks">
             <text x="48" y="42" font-family="Caveat, cursive" font-size="20" fill="#7a7a7a">?</text>
             <text x="90" y="36" font-family="Caveat, cursive" font-size="15" fill="#7a7a7a">?</text>
           </g>
-          <!-- Phone in center -->
           <g class="phone-group">
-            <path
-              d="M192 52 C192 49, 194 48, 196 48 L218 48 C220 48, 222 50, 222 52 L222 90 C222 92, 220 94, 218 94 L196 94 C194 94, 192 92, 192 90 Z"
-              stroke="#1a1a1a" stroke-width="1.5" fill="none" />
+            <path d="M192 52 C192 49, 194 48, 196 48 L218 48 C220 48, 222 50, 222 52 L222 90 C222 92, 220 94, 218 94 L196 94 C194 94, 192 92, 192 90 Z" stroke="#1a1a1a" stroke-width="1.5" fill="none" />
             <rect x="197" y="54" width="20" height="28" rx="1" fill="#e8f5ee" opacity="0.5" />
             <path d="M207 63 L207 58 M204 60.5 L210 60.5" stroke="#2a7d5b" stroke-width="1.3" stroke-linecap="round" />
             <path d="M205 90 C206 91, 208 91, 209 90" stroke="#1a1a1a" stroke-width="0.8" fill="none" />
           </g>
-          <!-- Flow lines -->
-          <path class="flow-line" d="M105 92 C130 78, 155 98, 187 76" stroke="#2a7d5b" stroke-width="1.5"
-            stroke-dasharray="5 4" fill="none" stroke-linecap="round" />
-          <path class="flow-line" d="M227 76 C255 98, 280 78, 310 92" stroke="#2a7d5b" stroke-width="1.5"
-            stroke-dasharray="5 4" fill="none" stroke-linecap="round" />
+          <path class="flow-line" d="M105 92 C130 78, 155 98, 187 76" stroke="#2a7d5b" stroke-width="1.5" stroke-dasharray="5 4" fill="none" stroke-linecap="round" />
+          <path class="flow-line" d="M227 76 C255 98, 280 78, 310 92" stroke="#2a7d5b" stroke-width="1.5" stroke-dasharray="5 4" fill="none" stroke-linecap="round" />
           <path d="M305 94 L313 90 L307 85" stroke="#2a7d5b" stroke-width="1.5" fill="none" stroke-linecap="round" />
-          <!-- Happy stick figure -->
           <g class="stick-happy">
-            <!-- Imperfect head -->
-            <path
-              d="M366 56 C366 48, 360 40, 350 41 C341 41, 334 48, 335 57 C335 65, 341 72, 351 72 C360 71, 366 65, 366 56"
-              stroke="#1a1a1a" stroke-width="1.8" fill="none" stroke-linecap="round" />
-            <!-- Smile -->
-            <path d="M343 62 C345 67, 354 67, 357 62" stroke="#1a1a1a" stroke-width="1.2" fill="none"
-              stroke-linecap="round" />
-            <!-- Body (slight lean) -->
-            <path d="M350 72 C350.5 83, 349.5 98, 350.5 114" stroke="#1a1a1a" stroke-width="1.7" stroke-linecap="round"
-              fill="none" />
-            <!-- Left arm (reaching back) -->
-            <path d="M350 87 C344 91, 337 96, 332 101" stroke="#1a1a1a" stroke-width="1.9" stroke-linecap="round"
-              fill="none" />
-            <!-- Right arm (holding bag, angled up) -->
-            <path d="M350 85 C357 88, 362 90, 365 92" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"
-              fill="none" />
-            <!-- Left leg -->
-            <path d="M350.5 114 C347 124, 341 136, 336 147" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round"
-              fill="none" />
-            <!-- Right leg (wider stance) -->
-            <path d="M350.5 114 C355 124, 360 135, 365 145" stroke="#1a1a1a" stroke-width="1.7" stroke-linecap="round"
-              fill="none" />
-            <!-- Grocery bag (slightly wonky) -->
+            <path d="M366 56 C366 48, 360 40, 350 41 C341 41, 334 48, 335 57 C335 65, 341 72, 351 72 C360 71, 366 65, 366 56" stroke="#1a1a1a" stroke-width="1.8" fill="none" stroke-linecap="round" />
+            <path d="M343 62 C345 67, 354 67, 357 62" stroke="#1a1a1a" stroke-width="1.2" fill="none" stroke-linecap="round" />
+            <path d="M350 72 C350.5 83, 349.5 98, 350.5 114" stroke="#1a1a1a" stroke-width="1.7" stroke-linecap="round" fill="none" />
+            <path d="M350 87 C344 91, 337 96, 332 101" stroke="#1a1a1a" stroke-width="1.9" stroke-linecap="round" fill="none" />
+            <path d="M350 85 C357 88, 362 90, 365 92" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" fill="none" />
+            <path d="M350.5 114 C347 124, 341 136, 336 147" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" fill="none" />
+            <path d="M350.5 114 C355 124, 360 135, 365 145" stroke="#1a1a1a" stroke-width="1.7" stroke-linecap="round" fill="none" />
             <path d="M362 89 L377 89 L381 115 L358 115 Z" stroke="#1a1a1a" stroke-width="1.4" fill="none" />
             <path d="M366 89 L366 83 C366 79 372 79 372 83 L372 89" stroke="#1a1a1a" stroke-width="1.1" fill="none" />
-            <path d="M367 86 C369 79, 377 81, 374 86" stroke="#2a7d5b" stroke-width="1.3" fill="none"
-              stroke-linecap="round" />
+            <path d="M367 86 C369 79, 377 81, 374 86" stroke="#2a7d5b" stroke-width="1.3" fill="none" stroke-linecap="round" />
           </g>
-          <text x="143" y="172" font-family="Caveat, cursive" font-size="16" fill="#7a7a7a">from confused... to
-            connected</text>
+          <text x="143" y="172" font-family="Caveat, cursive" font-size="16" fill="#7a7a7a">from lost... to fed</text>
         </svg>
       </div>
 
@@ -1823,8 +950,8 @@
         <div class="stat-label">Americans are<br>food insecure</div>
       </div>
       <div class="stat">
-        <div class="stat-number" data-target="50" data-suffix="%">0</div>
-        <div class="stat-label">of eligible elderly in IL<br>don't receive SNAP</div>
+        <div class="stat-number" data-target="140" data-prefix="$" data-suffix="B+">0</div>
+        <div class="stat-label">in federal benefits<br>go unclaimed annually</div>
       </div>
       <div class="stat">
         <div class="stat-number" data-target="1.54" data-prefix="$" data-suffix="" data-decimals="2">0</div>
@@ -1835,521 +962,444 @@
 
   <div class="wrap">
 
-    <!-- ═══════ 01 · PROBLEM ═══════ -->
+    <!-- ═══════ 01 · THE GAP ═══════ -->
     <section class="section reveal" id="problem">
       <div class="section-label">01</div>
-      <h2>the problem</h2>
+      <h2>the gap nobody is filling</h2>
       <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2"
-          fill="none" />
+        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none" />
       </svg>
 
-      <p class="lead">Picture a grandmother in rural Kentucky. She qualifies for SNAP, WIC referrals, and food pantry
-        access. She doesn't know about any of them. Not because the information doesn't exist, but because finding it
-        requires navigating a maze of federal, state, and local systems that weren't designed to talk to each other.</p>
+      <p class="lead">Getting approved for SNAP doesn't feed anyone. A SNAP card in a food desert is a card with nowhere to go. And when policy changes hit, the people most affected are always the last to hear.</p>
 
-      <p>She's not alone. 47 million Americans are food insecure right now. Millions of them qualify for benefits
-        they'll never receive. The programs exist. The funding exists. But the path from "you're eligible" to "you're
-        enrolled" is so fragmented that people just... give up.</p>
+      <p>Investment has rightly gone toward getting people enrolled. That matters. But enrollment is only half the problem. The pipeline ends at "you have a card." The actual problem continues: Where do you buy food? Can you get there? Does the store near you actually carry produce, or is it a gas station that accepts EBT? What happens when policy changes yank coverage without warning?</p>
 
-      <p>That's not a knowledge problem. It's a navigation problem. And it's the problem we built FreshFind to solve.
-      </p>
-
-      <div class="section-illustration">
-        <svg class="sketch-filter" width="320" height="155" viewBox="-20 0 360 155" fill="none"
-          style="display:block; margin: 0 auto; transform: translateX(-15px);">
-          <!-- Person looking at signs -->
-          <path d="M61 78 C61 71, 57 67, 50 67 C44 68, 39 72, 39 78 C40 85, 44 89, 51 89 C57 88, 61 84, 61 78"
-            stroke="#1a1a1a" stroke-width="1.5" fill="none" stroke-linecap="round" />
-          <path d="M50 89 C50.5 97, 49.5 108, 50.5 117" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"
-            fill="none" />
-          <path d="M50 99 C46 103, 42 107, 39 111" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"
-            fill="none" />
-          <path d="M50 97 C54 101, 57 104, 61 108" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"
-            fill="none" />
-          <path d="M50.5 117 C48 126, 44 133, 42 139" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"
-            fill="none" />
-          <path d="M50.5 117 C53 127, 55 134, 58 139" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"
-            fill="none" />
-          <!-- Signpost -->
-          <path d="M120 138 C120 100, 120.5 60, 120 38" stroke="#1a1a1a" stroke-width="1.5" fill="none"
-            stroke-linecap="round" />
-          <rect x="125" y="36" width="68" height="21" rx="2" stroke="#1a1a1a" stroke-width="1.2" fill="none"
-            transform="rotate(-5 159 47)" />
-          <text x="132" y="51" font-family="Caveat, cursive" font-size="14" fill="#7a7a7a"
-            transform="rotate(-5 159 47)">SNAP?</text>
-          <rect x="125" y="62" width="52" height="21" rx="2" stroke="#1a1a1a" stroke-width="1.2" fill="none"
-            transform="rotate(3 151 73)" />
-          <text x="132" y="77" font-family="Caveat, cursive" font-size="14" fill="#7a7a7a"
-            transform="rotate(3 151 73)">WIC?</text>
-          <rect x="128" y="88" width="78" height="21" rx="2" stroke="#1a1a1a" stroke-width="1.2" fill="none"
-            transform="rotate(-2 167 99)" />
-          <text x="133" y="103" font-family="Caveat, cursive" font-size="13" fill="#7a7a7a"
-            transform="rotate(-2 167 99)">food bank?</text>
-          <rect x="210" y="48" width="72" height="21" rx="2" stroke="#1a1a1a" stroke-width="1.2" fill="none"
-            transform="rotate(4 246 59)" />
-          <text x="216" y="63" font-family="Caveat, cursive" font-size="13" fill="#7a7a7a"
-            transform="rotate(4 246 59)">Medicaid?</text>
-          <rect x="215" y="76" width="82" height="21" rx="2" stroke="#1a1a1a" stroke-width="1.2" fill="none"
-            transform="rotate(-3 256 87)" />
-          <text x="220" y="91" font-family="Caveat, cursive" font-size="13" fill="#7a7a7a"
-            transform="rotate(-3 256 87)">school meals?</text>
-        </svg>
+      <div class="gap-grid">
+        <div class="gap-card">
+          <div class="gap-card-location">Atlanta, GA</div>
+          <div class="gap-card-stat">Only 38% of SNAP retailers in majority-Black neighborhoods carry fresh produce. In other neighborhoods, it's 75%.</div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-card-location">Twin Falls, ID</div>
+          <div class="gap-card-stat">The bus system went smartphone-only. People who can't use the app are stranded. Most SNAP retailers are convenience stores.</div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-card-location">Wolfe County, KY</div>
+          <div class="gap-card-stat">4 food stores in the entire county. Food insecurity rate: 27.3%. Poverty rate: 38%. The nearest real grocery is 12 miles away.</div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-card-location">Nationally</div>
+          <div class="gap-card-stat">$140B+ in federal benefits go unclaimed every year. Not because people don't qualify. Because the systems are too fragmented to navigate.</div>
+        </div>
       </div>
 
-      <p>We spent two years researching food insecurity in five very different U.S. communities. The same pattern kept
-        showing up everywhere: the programs are there, but the barriers to actually accessing them are enormous. In
-        Illinois, half of eligible elderly residents don't receive SNAP. Half. In Wolfe County, Kentucky, food pantries
-        provide 1 meal for every 9 that SNAP delivers. The county's food insecurity rate is 27.3%.</p>
-
-      <p>And it's getting worse. The 2025 House Budget Plan introduced the largest proposed SNAP cuts in history and
-        expanded work requirements to age 64. That puts 135,000 more Kentuckians at risk of losing benefits. The people
-        most affected by these changes are the ones with the fewest resources to figure out what the changes even mean
-        for them.</p>
+      <p>The programs exist. The funding exists. The path between them is broken. And every existing tool waits for people to show up and ask for help. Nobody is going to them first.</p>
     </section>
 
-    <!-- ═══════ 02 · SOLUTION ═══════ -->
-    <section class="section reveal" id="solution">
+    <!-- ═══════ 02 · THE AI SYSTEM ═══════ -->
+    <section class="section reveal" id="ai-system">
       <div class="section-label">02</div>
-      <h2>the solution</h2>
+      <h2>how freshfind works <span class="annotation">the centerpiece</span></h2>
       <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#2a7d5b" stroke-width="1.2"
-          fill="none" />
+        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none" />
       </svg>
 
-      <p class="lead">Think of FreshFind as the caseworker you wish existed. But one that's available 24/7, knows every
-        program in your area, and can walk you through the entire process from "do I qualify?" to "your application is
-        submitted."</p>
+      <p class="lead">FreshFind is a four-stage autonomous AI system. Each stage triggers the next without human intervention. The loop runs continuously. No one has to ask for help. The system finds them first.</p>
 
-      <p>We built this infrastructure on top of tools we already had in the field. It works with local governments, not
-        around them. FreshFind wraps these foundational tools into a <strong>generative AI</strong> layer — a
-        conversational interface that walks users through the system in plain language, the way a knowledgeable
-        caseworker would.</p>
-
-      <p>The multi-step work is handled by <strong>agentic AI</strong> that acts on the user's behalf without requiring
-        them to understand the underlying complexity. So it does four specific things:</p>
-
-      <div class="layer reveal">
-        <div class="layer-sketch">
-          <svg class="sketch-filter" width="100" height="100" viewBox="0 0 100 100" fill="none">
-            <circle cx="45" cy="45" r="25" stroke="#1a1a1a" stroke-width="1.8" fill="none" />
-            <line x1="63" y1="63" x2="82" y2="82" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" />
-            <path d="M33 42 L41 50 L57 34" stroke="#2a7d5b" stroke-width="2" fill="none" stroke-linecap="round" />
-          </svg>
+      <!-- AGENTIC LOOP DIAGRAM -->
+      <div class="loop-diagram reveal">
+        <div class="loop-stage" style="border-top: 4px solid #2a7d5b;">
+          <div class="loop-stage-num">Stage 1</div>
+          <div class="loop-stage-name">Detect</div>
+          <div class="loop-stage-type">Agentic AI</div>
+          <div class="loop-stage-desc">Monitors policy feeds, disaster declarations, and financial stress signals. Identifies changes before they take effect.</div>
         </div>
-        <div class="layer-content">
-          <div class="layer-number">layer one</div>
-          <h3>it figures out what you qualify for</h3>
-          <p>You answer a few questions. FreshFind checks everything at once: SNAP, WIC, free school meals, food
-            pantries, utility assistance, Medicaid nutrition programs. Instead of applying to six different places and
-            hoping for the best, you get one clear picture of every resource available to you.</p>
-          <div style="margin-top: 20px;">
-            <button onclick="openModal('calcModal')" class="tool-link">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" />
-                <path d="M6 6 L6 10 M8 8 L10 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
-              </svg>
-              Try the Food Assistance Calculator →
-            </button>
+        <div class="loop-arrow">→</div>
+        <div class="loop-stage" style="border-top: 4px solid #1e5e42;">
+          <div class="loop-stage-num">Stage 2</div>
+          <div class="loop-stage-name">Identify</div>
+          <div class="loop-stage-type">Predictive AI</div>
+          <div class="loop-stage-desc">Cross-references policy changes with community data to pinpoint which households in which zip codes are affected.</div>
+        </div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-stage" style="border-top: 4px solid #d4933a;">
+          <div class="loop-stage-num">Stage 3</div>
+          <div class="loop-stage-name">Reach</div>
+          <div class="loop-stage-type">Generative AI</div>
+          <div class="loop-stage-desc">Generates personalized outreach delivered through government channels people already use and trust.</div>
+        </div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-stage" style="border-top: 4px solid #1a1a1a;">
+          <div class="loop-stage-num">Stage 4</div>
+          <div class="loop-stage-name">Navigate</div>
+          <div class="loop-stage-type">Decision Engine</div>
+          <div class="loop-stage-desc">Guided intake, personalized plan, food access routing, application help, and ongoing alerts. Not a chatbot.</div>
+        </div>
+      </div>
+      <div class="loop-return reveal">← continuous loop — when policy changes again, the cycle restarts →</div>
+
+      <!-- STAGE DETAILS -->
+      <div style="margin-top: 48px;">
+        <div class="stage-detail reveal">
+          <div class="stage-detail-header">
+            <div class="stage-detail-name">Detect</div>
+            <div class="stage-detail-type">Agentic AI — Policy Monitoring</div>
           </div>
+          <p>The system reads the Federal Register every day. It monitors state SNAP rule changes, disaster declarations, benefit recertification schedules, and FinMango's Financial Health Barometer, which tracks financial stress signals across all 50 states from BLS, Census, HUD, FRED, and Google Trends data.</p>
+          <p>When SNAP work requirements expand to age 64, or a state changes its income thresholds, or a disaster activates D-SNAP, the system doesn't wait for someone to notice. It parses the change, maps it to affected programs, and triggers the next stage automatically. This is genuine agentic behavior: the system watches, reasons about policy changes, and initiates action on its own.</p>
+        </div>
+
+        <div class="stage-detail reveal">
+          <div class="stage-detail-header">
+            <div class="stage-detail-name">Identify</div>
+            <div class="stage-detail-type">Predictive AI — Population Targeting</div>
+          </div>
+          <p>The AI cross-references detected policy changes with community-level data: FinMango's 2-year UVA field research across 5 communities, Census demographics, USDA food access data, and state-specific eligibility rules.</p>
+          <p>Not "135,000 Kentuckians" as a headline stat. Specific clusters: these zip codes in eastern Kentucky, where 60% of SNAP recipients are ages 55-64, where the nearest grocery store is 12 miles away, where transit doesn't exist. That's the precision that makes proactive outreach work.</p>
+        </div>
+
+        <div class="stage-detail reveal">
+          <div class="stage-detail-header">
+            <div class="stage-detail-name">Reach</div>
+            <div class="stage-detail-type">Generative AI — Personalized Outreach</div>
+          </div>
+          <p>The system generates personalized, plain-language notifications delivered through government channels people already use. Not cold-contact marketing. The state agency sends it under their own name, through their existing communication channels.</p>
+          <p>Each message adapts to the household's location, family composition, program history, and local food access conditions. "The rules changed. Here's what it means for you. Here are 3 programs you still qualify for. Here's where to buy groceries near you that accept EBT and carry fresh produce. Here's how to apply."</p>
+        </div>
+
+        <div class="stage-detail reveal">
+          <div class="stage-detail-header">
+            <div class="stage-detail-name">Navigate</div>
+            <div class="stage-detail-type">AI Decision Engine — Not a Chatbot</div>
+          </div>
+          <p>FreshFind is not a chatbot. Not a "conversational AI." A stressed, overwhelmed person who just lost their benefits doesn't need to figure out how to prompt an AI. They need: "answer these 5 questions, here's your personalized plan."</p>
+
+          <div class="nav-features">
+            <div class="nav-feature">
+              <div class="nav-feature-num">1</div>
+              <div class="nav-feature-text"><strong>Guided intake.</strong> 5-8 structured questions. Household size, location, income, current programs. Clean, simple, fast.</div>
+            </div>
+            <div class="nav-feature">
+              <div class="nav-feature-num">2</div>
+              <div class="nav-feature-text"><strong>Personalized dashboard.</strong> Everything you qualify for, in one view. Every relevant program across federal, state, and local levels.</div>
+            </div>
+            <div class="nav-feature">
+              <div class="nav-feature-num">3</div>
+              <div class="nav-feature-text"><strong>Application assistance.</strong> Pre-filled forms. Document checklists that tell you exactly what to bring. Deadline tracking with reminders.</div>
+            </div>
+            <div class="nav-feature">
+              <div class="nav-feature-num">4</div>
+              <div class="nav-feature-text"><strong>Food access map.</strong> Stores accepting EBT that carry fresh produce. Pantry hours. Transit routes. What's in season nearby.</div>
+            </div>
+            <div class="nav-feature">
+              <div class="nav-feature-num">5</div>
+              <div class="nav-feature-text"><strong>Ongoing alerts.</strong> Text or email when something changes: new program available, recertification due, new store nearby, policy change affecting your benefits.</div>
+            </div>
+          </div>
+
+          <p>Then it stays. Disaster hits? The system automatically activates D-SNAP, emergency food resources, and disaster-specific programs for affected zip codes. New legislation? The loop restarts at Stage 1. This is a full agentic loop. Continuous, autonomous, proactive.</p>
         </div>
       </div>
 
-      <div class="layer reveal">
-        <div class="layer-sketch">
-          <svg class="sketch-filter" width="100" height="100" viewBox="0 0 100 100" fill="none">
-            <path d="M50 20 C35 20, 25 32, 25 42 C25 58, 50 80, 50 80 C50 80, 75 58, 75 42 C75 32, 65 20, 50 20Z"
-              stroke="#1a1a1a" stroke-width="1.8" fill="none" />
-            <circle cx="50" cy="40" r="8" stroke="#2a7d5b" stroke-width="1.5" fill="none" />
-            <circle cx="30" cy="85" r="2" fill="#7a7a7a" />
-            <circle cx="42" cy="90" r="2" fill="#7a7a7a" />
-            <circle cx="55" cy="87" r="2" fill="#7a7a7a" />
-            <circle cx="68" cy="92" r="2" fill="#7a7a7a" />
-          </svg>
+      <!-- BACKEND VS FRONTEND -->
+      <div class="bvf-grid reveal">
+        <div class="bvf-col">
+          <div class="bvf-title">What the AI does (backend)</div>
+          <div class="bvf-item"><span class="bvf-icon">◆</span> Monitors policy feeds autonomously</div>
+          <div class="bvf-item"><span class="bvf-icon">◆</span> Identifies affected populations by zip code</div>
+          <div class="bvf-item"><span class="bvf-icon">◆</span> Generates personalized outreach at scale</div>
+          <div class="bvf-item"><span class="bvf-icon">◆</span> Cross-references food access data</div>
+          <div class="bvf-item"><span class="bvf-icon">◆</span> Tracks deadlines and eligibility changes</div>
         </div>
-        <div class="layer-content">
-          <div class="layer-number">layer two</div>
-          <h3>it finds actual food near you</h3>
-          <p>Knowing you qualify doesn't put groceries on the table. So FreshFind goes further: it finds the nearest
-            stores that accept SNAP and actually carry fresh produce, pulls up food pantry hours, figures out how you'd
-            get there, and checks what's in season. All based on your exact location.</p>
+        <div class="bvf-col">
+          <div class="bvf-title">What the user sees (frontend)</div>
+          <div class="bvf-item"><span class="bvf-icon">→</span> 5 simple questions</div>
+          <div class="bvf-item"><span class="bvf-icon">→</span> "Here's what you qualify for"</div>
+          <div class="bvf-item"><span class="bvf-icon">→</span> Pre-filled applications</div>
+          <div class="bvf-item"><span class="bvf-icon">→</span> Map: stores, pantries, transit</div>
+          <div class="bvf-item"><span class="bvf-icon">→</span> Text alerts when things change</div>
+        </div>
+      </div>
+
+      <p style="font-size: 15px; color: var(--muted); max-width: 780px;">This distinction matters for two audiences. Google.org reviewers have seen 500 chatbot pitches. A backend agentic system with a structured frontend is architecturally different and more credible. And a state SNAP director will worry about chatbot hallucinations and liability. A structured decision engine with deterministic outputs from verified program data is something they can actually approve and deploy.</p>
+    </section>
+
+    <!-- ═══════ 03 · LIVE TOOLS ═══════ -->
+    <section class="section reveal" id="tools">
+      <div class="section-label">03</div>
+      <h2>this isn't a proposal <span class="annotation">it's already built</span></h2>
+      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
+        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none" />
+      </svg>
+
+      <p class="lead">The foundation is already built. These tools are live, functional, and informed by two years of field research.</p>
+
+      <div class="tool-card reveal">
+        <div class="tool-card-content">
+          <div class="tool-card-num">tool one</div>
+          <h3>Food Desert Analyzer</h3>
+          <p>Enter a zip code. See whether your neighborhood has access to grocery stores, fresh food, and transportation. This is the layer nobody else is building. The question isn't "do you qualify?" It's "can you actually buy groceries?"</p>
           <div style="margin-top: 20px;">
             <button onclick="openModal('desertModal')" class="tool-link">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="7" r="5" stroke="currentColor" stroke-width="1.5" fill="none" />
-                <path d="M8 12 L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-              </svg>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="7" r="5" stroke="currentColor" stroke-width="1.5" fill="none" /><path d="M8 12 L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
               Try the Food Desert Analyzer →
             </button>
           </div>
         </div>
       </div>
 
-      <div class="layer reveal">
-        <div class="layer-sketch">
-          <!-- Sleek, SMS-like UI representation instead of hand-drawn sketch -->
-          <div
-            style="background: white; border: 1px solid var(--lighter); border-radius: 16px; padding: 14px; width: 150px; box-shadow: 0 12px 30px rgba(0,0,0,0.06); font-family: 'DM Sans', sans-serif;">
-            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-              <div
-                style="width: 24px; height: 24px; border-radius: 12px; background: var(--green-light); display: flex; align-items: center; justify-content: center;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--green)">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
-                </svg>
-              </div>
-              <div style="flex:1; background: var(--lighter); border-radius: 4px; height: 12px; margin-top: 6px;"></div>
-            </div>
-            <div
-              style="background: var(--green-pale); border-radius: 12px 12px 12px 2px; padding: 10px; font-size: 11px; color: var(--green-dark); margin-bottom: 8px; line-height: 1.4;">
-              Your SNAP app is drafted and ready to submit!
-            </div>
-            <div
-              style="background: var(--green); border-radius: 8px; color: white; text-align: center; padding: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s;">
-              Tap to Sign
-            </div>
+      <div class="tool-card reveal">
+        <div class="tool-card-content">
+          <div class="tool-card-num">tool two</div>
+          <h3>Food Assistance Calculator</h3>
+          <p>Answer a few questions about your household. Get cross-program eligibility results for SNAP, WIC, school meals, food pantries, utility assistance, and more. One intake, every program.</p>
+          <div style="margin-top: 20px;">
+            <button onclick="openModal('calcModal')" class="tool-link">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5" fill="none" /><path d="M6 6 L6 10 M8 8 L10 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" /></svg>
+              Try the Food Assistance Calculator →
+            </button>
           </div>
         </div>
-        <div class="layer-content">
-          <div class="layer-number">layer three</div>
-          <h3>it helps you actually apply <span class="annotation">the real magic ✨</span></h3>
-          <p>This is where the real impact happens. Most people drop off during the application process because it's
-            confusing, the forms are long, and nobody tells you what documents you need until you've already waited in
-            line. FreshFind pre-fills what it can, walks you through the rest via a simple text interface, flags
-            deadlines, and sends reminders when
-            it's time to recertify. It's not a frustrating portal—it's a helpful digital caseworker right on your phone.
-          </p>
-        </div>
       </div>
 
-      <div class="layer reveal">
-        <div class="layer-sketch">
-          <svg class="sketch-filter" width="100" height="100" viewBox="0 0 100 100" fill="none">
-            <path d="M50 18 L50 25" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" />
-            <path d="M32 60 C32 38, 40 28, 50 28 C60 28, 68 38, 68 60 L32 60Z" stroke="#1a1a1a" stroke-width="1.8"
-              fill="none" />
-            <line x1="28" y1="60" x2="72" y2="60" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" />
-            <path d="M44 64 C44 70, 56 70, 56 64" stroke="#1a1a1a" stroke-width="1.5" fill="none" />
-            <path d="M72 40 C78 38, 80 44, 76 48" stroke="#2a7d5b" stroke-width="1.2" fill="none"
-              stroke-linecap="round" />
-            <path d="M78 35 C86 32, 90 42, 84 50" stroke="#2a7d5b" stroke-width="1.2" fill="none"
-              stroke-linecap="round" />
-            <text x="18" y="86" font-family="Caveat, cursive" font-size="13" fill="#7a7a7a">policy changed!</text>
-          </svg>
-        </div>
-        <div class="layer-content">
-          <div class="layer-number">layer four</div>
-          <h3>it watches for policy changes so you don't have to</h3>
-          <p>Policy changes constantly. New work requirements, benefit reductions, rule changes at the state level. Most
-            people find out they've lost benefits after it happens. FreshFind monitors all of it and proactively reaches
-            out to affected households: here's what changed, here's what it means for you, here's what to do next.</p>
+      <div class="tool-card reveal">
+        <div class="tool-card-content">
+          <div class="tool-card-num">tool three</div>
+          <h3>Financial Health Barometer</h3>
+          <p>Real-time financial stress tracking across all 50 states. Data from BLS, Census, HUD, FRED, and Google Trends. This is the signal layer that powers Stage 1 of the agentic loop.</p>
+          <div style="margin-top: 20px;">
+            <a href="https://finmango.org/barometer" target="_blank" rel="noopener noreferrer" class="tool-link">
+              View the Barometer →
+            </a>
+          </div>
         </div>
       </div>
-
     </section>
 
-    <!-- ═══════ 03 · RESEARCH ═══════ -->
+    <!-- ═══════ 04 · RESEARCH ═══════ -->
     <section class="section reveal" id="research">
-      <div class="section-label">03</div>
-      <h2>research foundation <span class="annotation">built on real data</span></h2>
-      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8" style="margin-bottom: 16px;">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2"
-          fill="none" />
+      <div class="section-label">04</div>
+      <h2>built on real data <span class="annotation">not assumptions</span></h2>
+      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
+        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none" />
       </svg>
 
-      <!-- ADD CREDIBILITY BADGE -->
-      <div
-        style="display: inline-flex; align-items: center; gap: 12px; padding: 10px 20px; background: #fff; border: 1.5px solid var(--lighter); border-radius: 100px; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
-        <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3Zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-2.33v8.02Z"
-            fill="var(--green)" />
-        </svg>
-        <span
-          style="font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 600; color: var(--ink); letter-spacing: 0.5px; text-transform: uppercase;">In
-          Collaboration with the University of Virginia</span>
+      <div style="display: inline-flex; align-items: center; gap: 12px; padding: 10px 20px; background: #fff; border: 1.5px solid var(--lighter); border-radius: 100px; margin-bottom: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+        <svg fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3Zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-2.33v8.02Z" fill="var(--green)" /></svg>
+        <span style="font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 600; color: var(--ink); letter-spacing: 0.5px; text-transform: uppercase;">In Collaboration with the University of Virginia</span>
       </div>
 
-      <p>We didn't just read about food insecurity. In collaboration with the University of Virginia, we went to five
-        very different places and mapped what was actually
-        happening on the ground: who's going hungry, why the existing programs aren't reaching them, what's blocking
-        access. That research is what FreshFind's AI actually runs on.</p>
+      <p>We spent two years in five communities mapping what's actually happening on the ground: who's going hungry, why existing programs aren't reaching them, what's blocking access. This research is what FreshFind's AI runs on. No competitor has this data in the food access space.</p>
 
       <div class="case-studies">
         <div class="case-study">
           <div class="case-location">Chicago, IL</div>
-          <div class="case-insight">~500k food insecure residents. 1.88M SNAP recipients with $300M distributed monthly.
-            Every $1 returns $1.54 GDP. Food Depository submitted 21k benefit applications since 2020.</div>
+          <div class="case-insight">~500k food insecure residents. 1.88M SNAP recipients with $300M distributed monthly. Every $1 returns $1.54 GDP. Food Depository submitted 21k benefit applications since 2020.</div>
         </div>
         <div class="case-study">
           <div class="case-location">Atlanta, GA</div>
-          <div class="case-insight">13.7% food insecurity rate. Only 38% of SNAP retailers in majority-Black
-            neighborhoods carry produce vs. 75% elsewhere. Highest wealth inequality in the nation.</div>
+          <div class="case-insight">13.7% food insecurity rate. Only 38% of SNAP retailers in majority-Black neighborhoods carry produce vs. 75% elsewhere. Highest wealth inequality in the nation.</div>
         </div>
         <div class="case-study">
           <div class="case-location">Kansas City, MO</div>
-          <div class="case-insight">~79k food insecure adults. Strong nonprofit ecosystem but limited government
-            initiatives. Min wage disparity between KCMO and KCKS creates economic divide.</div>
+          <div class="case-insight">~79k food insecure adults. Strong nonprofit ecosystem but limited government initiatives. Min wage disparity between KCMO and KCKS creates economic divide.</div>
         </div>
         <div class="case-study">
           <div class="case-location">Twin Falls, ID</div>
-          <div class="case-insight">~10% food insecurity rate driven by structural access barriers, not supply. SNAP
-            retailers mostly convenience stores. Bus system replaced by smartphone-only microtransit.</div>
+          <div class="case-insight">~10% food insecurity rate driven by structural access barriers, not supply. SNAP retailers mostly convenience stores. Bus system replaced by smartphone-only microtransit.</div>
         </div>
         <div class="case-study">
           <div class="case-location">Wolfe Co., KY</div>
-          <div class="case-insight">27.3% food insecurity — highest in Kentucky. 38% poverty rate. 4 food stores in
-            entire county. 135k Kentuckians at risk of losing SNAP. $1.1M annual food budget shortfall.</div>
+          <div class="case-insight">27.3% food insecurity — highest in Kentucky. 38% poverty rate. 4 food stores in entire county. 135k Kentuckians at risk of losing SNAP under H.R. 1. $1.1M annual food budget shortfall.</div>
         </div>
       </div>
     </section>
 
-    <!-- ═══════ 04 · PARTNERSHIP ═══════ -->
-    <section class="section reveal">
-      <div class="section-label">04</div>
-      <h2>government partnership</h2>
+    <!-- ═══════ 05 · GOVERNMENT ═══════ -->
+    <section class="section reveal" id="government">
+      <div class="section-label">05</div>
+      <h2>how it reaches people</h2>
       <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2"
-          fill="none" />
+        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none" />
       </svg>
 
-      <p>We don't ask people to download another app or visit another website. FreshFind plugs into places where people
-        are already showing up. The goal is to meet folks where they are, not where we wish they were.</p>
+      <p class="lead">FreshFind never faces the public as an unknown brand. It always shows up through an institution people already trust. The government partner owns the relationship. FreshFind powers what's behind it.</p>
 
-      <div class="channel-grid">
-        <div class="channel">
-          <h4>health departments</h4>
-          <p>Families are already there for WIC and nutrition visits. Why not check everything else while they're at it?
-          </p>
+      <div class="gov-channel reveal">
+        <div class="gov-channel-tag">Primary Partnership</div>
+        <h4>State SNAP & Medicaid Agencies</h4>
+        <p>The state agency already has enrollment rolls with contact info for every SNAP and Medicaid household. When policy changes hit, they're legally required to notify affected households. Most states have no automated system to do this at scale. FreshFind is that system.</p>
+        <p>The agency shares permissioned household data through a secure pipeline. FreshFind identifies affected households, generates personalized outreach content. The agency sends it under their own name through their existing channels. Respondents land in FreshFind's Navigate experience. The agency gets outcome reporting: how many people were reached, how many enrolled in alternative programs, how many accessed food resources.</p>
+      </div>
+
+      <div class="gov-channel reveal">
+        <h4>211 Call Centers</h4>
+        <p>Someone calls 211 asking for food help. This happens millions of times a year. The 211 operator has FreshFind open on their screen as a real-time support tool. They enter the caller's zip code and basic household info. Instant cross-program eligibility results, a map of nearby stores that accept EBT and carry fresh produce, food pantry hours, and transit options. The 211 center stays the entry point. FreshFind provides the depth.</p>
+      </div>
+
+      <div class="gov-channel reveal">
+        <h4>Health Departments</h4>
+        <p>A family comes in for a WIC appointment, immunization, or nutrition counseling. They're already in the building. The caseworker runs a 2-minute FreshFind screening during the visit. "You're here for WIC, but you also qualify for SNAP, there's a food pantry with Saturday hours 3 miles from your house, and you're eligible for utility assistance you're not receiving." One visit, complete picture. Family leaves with a printed or texted summary of everything they qualify for.</p>
+      </div>
+
+      <div class="gov-channel reveal">
+        <h4>School Districts</h4>
+        <p>The district already knows which kids get free or reduced-price lunch. That data is a strong signal that the family qualifies for more. FreshFind cross-references the district's free lunch data with broader program eligibility rules. It generates personalized outreach for each family, sent through the school's existing parent communication system. "Based on your child's enrollment, your family may qualify for 3 additional programs." The school is the trusted messenger. FreshFind is the intelligence behind the message.</p>
+      </div>
+
+      <div class="gov-channel reveal">
+        <h4>Public Libraries</h4>
+        <p>In rural areas especially, the library is often the only public building with internet, AC, and trusted staff. FreshFind runs on library computer terminals as a kiosk-style interface. Someone walks in, sits down, and the guided intake walks them through everything. Structured questions, personalized results, food routing, document checklists, application help. Library staff can assist but don't need to be experts in benefit programs.</p>
+      </div>
+
+      <!-- PARTNER BENEFITS -->
+      <div class="partner-benefits reveal">
+        <h3>What Government Partners Get</h3>
+        <div class="partner-benefit-item">
+          <div class="partner-benefit-num">1</div>
+          <div>A tool to fulfill notification mandates they can't currently handle at scale. H.R. 1 requires states to notify affected households. Most states have no automated system for this.</div>
         </div>
-        <div class="channel">
-          <h4>public libraries</h4>
-          <p>In rural areas especially, the library is the one place everyone trusts and everyone can get to</p>
+        <div class="partner-benefit-item">
+          <div class="partner-benefit-num">2</div>
+          <div>Fewer incomplete applications clogging caseworker queues. Pre-screened, informed applicants with correct documentation arrive ready.</div>
         </div>
-        <div class="channel">
-          <h4>school districts</h4>
-          <p>If a kid qualifies for free lunch, the family probably qualifies for a lot more</p>
+        <div class="partner-benefit-item">
+          <div class="partner-benefit-num">3</div>
+          <div>Real data on food access gaps in their jurisdiction. Not just enrollment numbers, but whether enrolled people can actually buy groceries.</div>
         </div>
-        <div class="channel">
-          <h4>211 centers</h4>
-          <p>People already call 211 for help. FreshFind makes that help more specific and more complete</p>
+        <div class="partner-benefit-item">
+          <div class="partner-benefit-num">4</div>
+          <div>Scalable surge capacity. When a disaster hits or a major policy change takes effect, FreshFind absorbs the spike that would otherwise overwhelm caseworkers and call centers.</div>
+        </div>
+        <div class="partner-benefit-item">
+          <div class="partner-benefit-num">5</div>
+          <div>No new infrastructure required. FreshFind integrates with existing systems and communication channels. The agency doesn't need to build, buy, or maintain new technology.</div>
         </div>
       </div>
 
-      <p>Here's what government partners actually get: fewer incomplete applications clogging the system, more people
-        enrolled, and real data on what their community actually needs. Caseworkers spend less time on intake and more
-        time on the work that requires a human.</p>
-
-      <div class="tools-callout reveal" style="margin-top: 32px; padding: 24px;">
-        <div class="tools-callout-label" style="color: var(--ink);">Data & Security</div>
-        <h3 style="font-size: 24px; margin-bottom: 8px;">Built for Government Compliance</h3>
-        <p style="font-size: 15px; margin-bottom: 0;">FreshFind doesn't sell or retain user data. We operate with strict
-          privacy controls, complying with state and federal data guidelines (including HIPAA/PII protocols where
-          required), and integrate securely with the systems you already rely on.</p>
+      <!-- DATA SECURITY -->
+      <div class="security-callout reveal">
+        <p><strong>Data & Security:</strong> FreshFind doesn't sell or retain user data. Built for HIPAA/PII compliance with government-grade security standards. Integrates securely with existing government systems through compliant data pipelines.</p>
       </div>
     </section>
 
-    <!-- ═══════ 05 · IMPACT ═══════ -->
+    <!-- ═══════ 06 · IMPACT ═══════ -->
     <section class="section reveal" id="impact">
-      <div class="section-label">05</div>
-      <h2>how we'll know it's working</h2>
+      <div class="section-label">06</div>
+      <h2>how we'll measure it</h2>
       <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#2a7d5b" stroke-width="1.2"
-          fill="none" />
+        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none" />
       </svg>
 
       <div>
         <div class="metric-row">
-          <div class="metric-name">enrollment</div>
-          <div class="metric-desc">Are more eligible people actually getting enrolled? We'll measure SNAP and WIC
-            enrollment before and after FreshFind launches in each community.</div>
+          <div class="metric-name">food access</div>
+          <div class="metric-desc">Are enrolled people actually able to buy fresh groceries? Food desert score improvements in pilot communities. Percentage of SNAP households within 1 mile of a store that carries produce.</div>
         </div>
         <div class="metric-row">
-          <div class="metric-name">access</div>
-          <div class="metric-desc">How much faster do people go from "I might qualify" to actually receiving benefits?
-            And are they getting connected to stores that sell real food, not just the nearest gas station?</div>
+          <div class="metric-name">proactive reach</div>
+          <div class="metric-desc">Percentage of affected households contacted before policy changes take effect. Time from policy change detection to household notification. Target: under 72 hours.</div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-name">benefits unlocked</div>
+          <div class="metric-desc">Total dollars in benefits unlocked across all programs. Application completion rates through FreshFind vs. baseline. Cross-program enrollment (households connected to 2+ programs they weren't previously receiving).</div>
         </div>
         <div class="metric-row">
           <div class="metric-name">efficiency</div>
-          <div class="metric-desc">Fewer abandoned applications. Less time per enrollment for caseworkers. More people
-            successfully recertifying instead of accidentally losing benefits.</div>
-        </div>
-        <div class="metric-row">
-          <div class="metric-name">economic</div>
-          <div class="metric-desc">Every dollar of SNAP benefits generates $1.54 in GDP. So when we help someone enroll,
-            we're not just feeding a family — we're putting money into the local economy. We'll track total benefit
-            dollars unlocked.</div>
+          <div class="metric-desc">Caseworker time saved per enrollment. Reduction in incomplete applications. Higher recertification rates. Fewer people losing benefits due to missed deadlines.</div>
         </div>
       </div>
     </section>
 
-    <!-- ═══════ 06 · SCALABILITY ═══════ -->
-    <section class="section reveal">
-      <div class="section-label">06</div>
-      <h2>can this work everywhere?</h2>
-      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2"
-          fill="none" />
-      </svg>
-
-      <p>That's the question we asked ourselves before we started. So we deliberately picked five communities that have
-        almost nothing in common: a major metro (Chicago), a high-inequality city (Atlanta), a mid-size metro (Kansas
-        City), a growing rural hub (Twin Falls), and a deep-rural Appalachian county (Wolfe County, KY). The same
-        approach worked in all of them.</p>
-
-      <p>Here's why it scales for governments: FreshFind is built as a replicable toolkit, not a custom project. Any
-        state SNAP agency, county health department, or city 211 system can deploy it by supplying their local data —
-        which stores accept SNAP, where food pantries are, how transit works, what the state rules are. The AI builds a
-        local model on the same core infrastructure. No rebuilding. No new codebase. Just a new deployment. One
-        government's success becomes another government's starting point.</p>
-
-      <div class="section-illustration">
-        <svg width="300" height="95" viewBox="0 0 300 95" fill="none">
-          <path
-            d="M30 48 C40 33, 70 28, 100 33 C130 26, 160 30, 190 28 C220 26, 250 33, 270 43 C275 53, 265 63, 250 66 C230 70, 210 68, 190 70 C170 72, 150 68, 130 70 C110 72, 80 70, 60 66 C40 62, 28 56, 30 48Z"
-            stroke="#1a1a1a" stroke-width="1.2" fill="none" opacity="0.2" />
-          <circle cx="210" cy="40" r="5" fill="#2a7d5b" opacity="0.7" />
-          <circle cx="215" cy="53" r="5" fill="#2a7d5b" opacity="0.7" />
-          <circle cx="165" cy="46" r="5" fill="#2a7d5b" opacity="0.7" />
-          <circle cx="105" cy="40" r="5" fill="#2a7d5b" opacity="0.7" />
-          <circle cx="220" cy="46" r="5" fill="#2a7d5b" opacity="0.7" />
-          <circle cx="160" cy="48" r="30" stroke="#2a7d5b" stroke-width="0.8" fill="none" opacity="0.2"
-            stroke-dasharray="3 3" />
-          <circle cx="160" cy="48" r="50" stroke="#2a7d5b" stroke-width="0.6" fill="none" opacity="0.12"
-            stroke-dasharray="3 3" />
-          <text x="70" y="90" font-family="Caveat, cursive" font-size="15" fill="#7a7a7a">5 pilots → any government
-            deployment</text>
-        </svg>
-      </div>
-
-      <p>And the model travels. FinMango has operated in 13+ countries, and the government navigation problem is
-        universal. India's Public Distribution System, Brazil's Bolsa Família — the FreshFind architecture is designed
-        so that any government running a social benefits program can replicate it. At the end of the 18-month grant
-        period, we'll publish a full open-source toolkit so any city, state, or national government can deploy this
-        without starting from scratch.</p>
-    </section>
-
-    <!-- ═══════ 07 · ABOUT ═══════ -->
+    <!-- ═══════ 07 · SCALABILITY ═══════ -->
     <section class="section reveal">
       <div class="section-label">07</div>
-      <h2>about FinMango</h2>
+      <h2>built to replicate</h2>
       <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2"
-          fill="none" />
+        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none" />
       </svg>
 
-      <p>FinMango was founded in 2017 at Kent State. The original idea was simple: build free tools that help
-        people navigate financial systems that weren't designed with them in mind. That idea turned into a 501(c)(3)
-        nonprofit that's now reached over 1 million people in 13+ countries.</p>
+      <p>FreshFind is a toolkit, not a custom project. Any state supplies local data: which stores accept SNAP, food pantry locations, transit routes, state eligibility rules. The same core AI infrastructure deploys. No rebuilding. No new codebase. The scaling unit is the government partnership, not the individual user. One government's success becomes another government's starting point.</p>
 
-      <p>Along the way, our team started publishing original research on financial inequality, built the Food Assistance
-        Calculator and Food Desert Analyzer, and grew a network of student ambassadors. We've partnered with Google
-        Health, the World Health Organization, the World Bank, and the IMF. But the core lesson we keep coming back to
-        is this:
-        the tools are only useful if people can actually find and use them.</p>
+      <p>When a presidential disaster declaration drops, FreshFind automatically activates D-SNAP, emergency food resources, and crisis programs for affected zip codes. That's an automatic scaling trigger that fires 60+ times per year in the U.S.</p>
 
-      <p>FreshFind is the most ambitious thing our organization has ever tried to build. It takes everything we've
-        learned — the
-        research, the tools, the community relationships — and puts AI to work on the specific problem of getting food
-        assistance to people who need it. Not studying the problem. Solving it.</p>
+      <p>The model travels. FinMango already operates in 13+ countries. India's Public Distribution System, Brazil's Bolsa Família, EU food assistance programs. The government navigation problem is universal. At the end of the 18-month grant period, we'll publish a full open-source toolkit so any city, state, or national government can deploy this without starting from scratch.</p>
     </section>
 
-    <!-- ═══════ 08 · TIMELINE ═══════ -->
+    <!-- ═══════ 08 · ABOUT ═══════ -->
     <section class="section reveal">
       <div class="section-label">08</div>
-      <h2>the roadmap</h2>
+      <h2>about FinMango</h2>
       <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
-        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#2a7d5b" stroke-width="1.2"
-          fill="none" />
+        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none" />
       </svg>
 
-      <p class="lead">The Google.org Impact Challenge awards grants of $1M–$3M to projects using AI for government
-        innovation. We're requesting $1.5M to take FreshFind from working prototypes to a deployed, scaled product over
-        18 months — and we're looking for 2–3 forward-thinking government partners to pilot with us.</p>
+      <p>Founded in 2017 at Kent State. The original idea: build free tools that help people navigate financial systems that weren't designed with them in mind. That became a 501(c)(3) nonprofit that's reached over 1 million people in 13+ countries.</p>
+
+      <p>Partnered with Google Health, WHO, World Bank, and IMF. Published original research on financial inequality. TEDx speaker (Brazil, Togo). 30+ public GitHub repos. Open source everything. The thread through everything: the navigation problem. People are entitled to help that exists, but the systems are so fragmented that millions never access it. FreshFind is the most ambitious thing this organization has ever tried to build.</p>
+    </section>
+
+    <!-- ═══════ 09 · ROADMAP ═══════ -->
+    <section class="section reveal">
+      <div class="section-label">09</div>
+      <h2>the roadmap</h2>
+      <svg class="wavy" width="200" height="8" viewBox="0 0 200 8">
+        <path d="M0 4 C20 0, 40 8, 60 4 C80 0, 100 8, 120 4 C140 0, 160 8, 180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none" />
+      </svg>
+
+      <p class="lead">$1.5M over 18 months. From working prototypes to deployed, scaled infrastructure.</p>
 
       <div>
         <div class="timeline-phase">
           <div class="phase-label">build</div>
           <div class="phase-time">months 1–6</div>
-          <div class="phase-desc">Build the secure, HIPAA/PII-compliant AI infrastructure required for government use.
-            Develop the unified eligibility engine that seamlessly checks state/federal programs while integrating live
-            produce data directly into the resource routing. Complete compliance audits and collaborate with 2-3
-            government
-            partners.</div>
+          <div class="phase-desc">Secure HIPAA/PII-compliant AI infrastructure. Build the policy monitoring engine (Stage 1) and population targeting layer (Stage 2). Complete compliance audits. Onboard 2-3 government partners from the communities where the UVA research was conducted.</div>
         </div>
         <div class="timeline-phase">
           <div class="phase-label">deploy</div>
           <div class="phase-time">months 7–12</div>
-          <div class="phase-desc">Execute physical deployments in 2–3 partner communities. This includes training county
-            caseworkers, establishing secure kiosk access in health departments and libraries, and launching the
-            Application Assistant so users can legally submit documentation directly through FreshFind. Iterate based on
-            live operator feedback.</div>
+          <div class="phase-desc">Launch the proactive outreach system (Stage 3) with pilot partners. Deploy the full Navigate experience (Stage 4) through health departments, libraries, and 211 centers. Test against real policy changes with real households and caseworkers. Iterate based on live feedback.</div>
         </div>
         <div class="timeline-phase">
           <div class="phase-label">scale</div>
           <div class="phase-time">months 13–18</div>
-          <div class="phase-desc">Implement the legal framework analysis required for automated policy monitoring so the
-            system can accurately alert households to state rule changes. Expand field operations to 5+ new communities.
-            Package the enterprise-grade ecosystem into an open-source toolkit complete with technical and security
-            documentation for national replication.</div>
+          <div class="phase-desc">Expand to 5+ state partners. Activate disaster-mode for new declarations. Publish open-source toolkit and impact report for national replication. Package the system for international deployment.</div>
         </div>
       </div>
     </section>
 
     <!-- ═══════ CLOSING ═══════ -->
     <section class="closing reveal">
-      <svg class="sketch-filter" width="260" height="130" viewBox="0 0 260 130" fill="none"
-        style="display:block; margin: 0 auto 40px;">
-        <!-- Left person -->
-        <path d="M84 38 C84 31, 79 24, 70 25 C62 25, 56 31, 57 39 C57 46, 62 52, 71 52 C79 51, 84 45, 84 38"
-          stroke="#1a1a1a" stroke-width="1.5" fill="none" stroke-linecap="round" />
+      <svg width="260" height="130" viewBox="0 0 260 130" fill="none" style="display:block; margin: 0 auto 40px;">
+        <path d="M84 38 C84 31, 79 24, 70 25 C62 25, 56 31, 57 39 C57 46, 62 52, 71 52 C79 51, 84 45, 84 38" stroke="#1a1a1a" stroke-width="1.5" fill="none" stroke-linecap="round" />
         <path d="M64 43 C66 47, 74 47, 76 43" stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linecap="round" />
-        <path d="M70 52 C70.5 62, 69.5 76, 70.5 87" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"
-          fill="none" />
+        <path d="M70 52 C70.5 62, 69.5 76, 70.5 87" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" fill="none" />
         <path d="M70 65 C65 69, 58 74, 54 79" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" fill="none" />
         <path d="M70 63 C76 67, 83 71, 89 74" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" fill="none" />
-        <path d="M70.5 87 C67 97, 62 107, 57 115" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"
-          fill="none" />
-        <path d="M70.5 87 C74 97, 78 106, 83 114" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"
-          fill="none" />
-        <!-- Right person -->
-        <path
-          d="M204 38 C204 31, 198 24, 190 25 C182 26, 177 32, 177 39 C178 46, 183 52, 191 51 C199 51, 204 45, 204 38"
-          stroke="#1a1a1a" stroke-width="1.5" fill="none" stroke-linecap="round" />
-        <path d="M184 43 C186 47, 194 47, 196 43" stroke="#1a1a1a" stroke-width="1" fill="none"
-          stroke-linecap="round" />
-        <path d="M190 52 C190.5 62, 189.5 76, 190.5 87" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"
-          fill="none" />
-        <path d="M190 64 C184 68, 177 72, 171 76" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round"
-          fill="none" />
-        <path d="M190 65 C196 69, 201 73, 206 77" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"
-          fill="none" />
-        <path d="M190.5 87 C187 97, 182 107, 177 115" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"
-          fill="none" />
-        <path d="M190.5 87 C194 96, 198 106, 203 114" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"
-          fill="none" />
-        <!-- Bowl (slightly wonky) -->
-        <path d="M110 78 C112 84, 120 89, 130 89 C140 89, 148 84, 150 78" stroke="#1a1a1a" stroke-width="1.5"
-          fill="none" stroke-linecap="round" />
+        <path d="M70.5 87 C67 97, 62 107, 57 115" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" fill="none" />
+        <path d="M70.5 87 C74 97, 78 106, 83 114" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" fill="none" />
+        <path d="M204 38 C204 31, 198 24, 190 25 C182 26, 177 32, 177 39 C178 46, 183 52, 191 51 C199 51, 204 45, 204 38" stroke="#1a1a1a" stroke-width="1.5" fill="none" stroke-linecap="round" />
+        <path d="M184 43 C186 47, 194 47, 196 43" stroke="#1a1a1a" stroke-width="1" fill="none" stroke-linecap="round" />
+        <path d="M190 52 C190.5 62, 189.5 76, 190.5 87" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" fill="none" />
+        <path d="M190 64 C184 68, 177 72, 171 76" stroke="#1a1a1a" stroke-width="1.6" stroke-linecap="round" fill="none" />
+        <path d="M190 65 C196 69, 201 73, 206 77" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" fill="none" />
+        <path d="M190.5 87 C187 97, 182 107, 177 115" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" fill="none" />
+        <path d="M190.5 87 C194 96, 198 106, 203 114" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" fill="none" />
+        <path d="M110 78 C112 84, 120 89, 130 89 C140 89, 148 84, 150 78" stroke="#1a1a1a" stroke-width="1.5" fill="none" stroke-linecap="round" />
         <path d="M108 78 L152 78" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" />
-        <path d="M128 70 C130 62, 138 64, 135 70" stroke="#2a7d5b" stroke-width="1.3" fill="none"
-          stroke-linecap="round" />
-        <path d="M122 72 C120 66, 126 62, 126 70" stroke="#2a7d5b" stroke-width="1.3" fill="none"
-          stroke-linecap="round" />
-        <path d="M125 18 C125 12, 130 8, 135 13 C140 8, 145 12, 145 18 C145 26, 135 32, 135 32 C135 32, 125 26, 125 18Z"
-          stroke="#2a7d5b" stroke-width="1.2" fill="#2a7d5b" opacity="0.15" />
+        <path d="M128 70 C130 62, 138 64, 135 70" stroke="#2a7d5b" stroke-width="1.3" fill="none" stroke-linecap="round" />
+        <path d="M122 72 C120 66, 126 62, 126 70" stroke="#2a7d5b" stroke-width="1.3" fill="none" stroke-linecap="round" />
+        <path d="M125 18 C125 12, 130 8, 135 13 C140 8, 145 12, 145 18 C145 26, 135 32, 135 32 C135 32, 125 26, 125 18Z" stroke="#2a7d5b" stroke-width="1.2" fill="#2a7d5b" opacity="0.15" />
       </svg>
 
-      <p class="closing-quote">Billions in food assistance goes unclaimed every year. Not because people don't need it.
-        Because finding it is just too hard. We can fix that.</p>
+      <p class="closing-quote">The system sees the problem coming. It reaches the people affected. It guides them all the way to food on the table. No one has to navigate alone. No one gets forgotten when the policy changes.</p>
 
       <svg width="100" height="8" viewBox="0 0 100 8" style="display:block; margin: 0 auto 30px;">
-        <path d="M10 4 C25 0, 35 8, 50 4 C65 0, 75 8, 90 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"
-          opacity="0.4" />
+        <path d="M10 4 C25 0, 35 8, 50 4 C65 0, 75 8, 90 4" stroke="#2a7d5b" stroke-width="1.2" fill="none" opacity="0.4" />
       </svg>
 
       <div style="margin-bottom: 40px;">
-        <a href="mailto:scott@finmango.org?subject=FreshFind%20Pilot%20Partnership" class="tool-link"
-          style="font-size: 16px; padding: 14px 28px;">
+        <a href="mailto:scott@finmango.org?subject=FreshFind%20Pilot%20Partnership" class="tool-link" style="font-size: 16px; padding: 14px 28px;">
           Become a Pilot Partner →
         </a>
       </div>
@@ -2363,7 +1413,7 @@
   </div>
 
   <script>
-    // ─── Reveal on scroll ───
+    // Reveal on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -2371,7 +1421,7 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // ─── Progress bar + nav scroll ───
+    // Progress bar + nav scroll
     const progressBar = document.getElementById('progressBar');
     window.addEventListener('scroll', () => {
       document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
@@ -2381,7 +1431,7 @@
       progressBar.style.width = progress + '%';
     });
 
-    // ─── Hamburger menu ───
+    // Hamburger menu
     const hamburger = document.getElementById('hamburger');
     const mobileOverlay = document.getElementById('mobileOverlay');
     hamburger.addEventListener('click', () => {
@@ -2397,7 +1447,7 @@
       });
     });
 
-    // ─── Animated stat counters ───
+    // Animated stat counters
     function animateCounter(el) {
       const target = parseFloat(el.dataset.target);
       const prefix = el.dataset.prefix || '';
@@ -2405,23 +1455,17 @@
       const decimals = parseInt(el.dataset.decimals) || 0;
       const duration = 1800;
       const startTime = performance.now();
-
       function update(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        // Ease-out cubic
         const eased = 1 - Math.pow(1 - progress, 3);
         const current = eased * target;
-
         if (decimals > 0) {
           el.textContent = prefix + current.toFixed(decimals) + suffix;
         } else {
           el.textContent = prefix + Math.floor(current) + suffix;
         }
-
-        if (progress < 1) {
-          requestAnimationFrame(update);
-        }
+        if (progress < 1) requestAnimationFrame(update);
       }
       requestAnimationFrame(update);
     }
@@ -2431,62 +1475,51 @@
       entries.forEach(entry => {
         if (entry.isIntersecting && !statsAnimated) {
           statsAnimated = true;
-          document.querySelectorAll('.stat-number[data-target]').forEach(el => {
-            animateCounter(el);
-          });
+          document.querySelectorAll('.stat-number[data-target]').forEach(el => animateCounter(el));
         }
       });
     }, { threshold: 0.3 });
     const statsSection = document.getElementById('stats');
     if (statsSection) statsObserver.observe(statsSection);
 
-    // ─── Modals Logic ───
+    // Modals
     function openModal(id) {
       document.getElementById(id).classList.add('open');
       document.body.style.overflow = 'hidden';
       if (id === 'calcModal') { calcReset(); }
       else { desertReset(); }
     }
-
     function closeModal(id) {
       document.getElementById(id).classList.remove('open');
       document.body.style.overflow = '';
     }
-
     document.querySelectorAll('.modal-backdrop').forEach(modal => {
       modal.addEventListener('click', (e) => {
         if (e.target === modal) closeModal(modal.id);
       });
     });
-
-    // Enter key for desert zip
     document.getElementById('desertZip').addEventListener('keypress', (e) => { if (e.key === 'Enter') runAnalyzer(); });
 
-    // ─── Calculator: Multi-Step Wizard ───
+    // Calculator: Multi-Step Wizard
     let calcCurrentStep = 1;
     const calcTotalSteps = 3;
-
     function calcUpdateProgress() {
       const pct = ((calcCurrentStep - 1) / calcTotalSteps) * 100;
       document.getElementById('calcProgressBar').style.width = pct + '%';
     }
-
     function calcNextStep(step) {
       document.querySelector('.calc-step.active').classList.remove('active');
       document.getElementById('calcStep' + step).classList.add('active');
       calcCurrentStep = step;
       calcUpdateProgress();
     }
-
     function calcPrevStep(step) {
       document.querySelector('.calc-step.active').classList.remove('active');
       document.getElementById('calcStep' + step).classList.add('active');
       calcCurrentStep = step;
       calcUpdateProgress();
     }
-
     function calcReset() {
-      // Hide results, show step 1
       document.querySelectorAll('.calc-step').forEach(s => s.classList.remove('active'));
       document.getElementById('calcStep1').classList.add('active');
       document.getElementById('calcResults').style.display = 'none';
@@ -2494,7 +1527,7 @@
       calcUpdateProgress();
     }
 
-    // ─── Calculator: Full SNAP Eligibility Logic ───
+    // Calculator: Full SNAP Eligibility Logic
     function runCalculator() {
       const income = parseFloat(document.getElementById('calcIncome').value) || 0;
       const rent = parseFloat(document.getElementById('calcRent').value) || 0;
@@ -2502,20 +1535,12 @@
       const householdSize = parseInt(document.getElementById('calcHousehold').value) || 1;
       const childrenUnder5 = parseInt(document.getElementById('calcChildren').value) || 0;
       const zip = document.getElementById('calcZip').value || '00000';
-
-      // Federal 130% FPL 2024
       const baseLimit = 1580;
       const perPerson = 557;
       const grossLimit = baseLimit + ((householdSize - 1) * perPerson);
-
-      // Deductions
       const adjustedIncome = Math.max(0, income - (rent * 0.5) - childcare);
-
       let status = 'unlikely', minBenefit = 0, maxBenefit = 0;
-
-      // Max allotment 2024
       const maxAllotment = 291 + ((householdSize - 1) * 244);
-
       if (income < grossLimit) {
         status = 'likely';
         const deduction = adjustedIncome * 0.3;
@@ -2528,14 +1553,11 @@
         minBenefit = 23;
         maxBenefit = 150;
       }
-
-      // Render results
       const badge = document.getElementById('calcStatusBadge');
       const title = document.getElementById('calcResultTitle');
       const amount = document.getElementById('calcBenefitAmount');
       const explanation = document.getElementById('calcResultExplanation');
       const nextSteps = document.getElementById('calcNextSteps');
-
       if (status === 'likely') {
         badge.innerText = 'Likely Eligible';
         badge.style.background = '#d1fae5'; badge.style.color = '#065f46';
@@ -2562,17 +1584,9 @@
         nextSteps.innerHTML = '<div class="calc-checklist"><span class="calc-checklist-icon">→</span> Check local food pantries</div>' +
           '<div class="calc-checklist"><span class="calc-checklist-icon">→</span> Look for community food banks</div>';
       }
-
-      // WIC check
       document.getElementById('calcWicAlert').style.display = childrenUnder5 > 0 ? 'block' : 'none';
-
-      // Nearby places
       calcRenderPlaces(zip);
-
-      // Local help resources
       calcRenderLocalHelp(zip);
-
-      // Show results
       document.querySelector('.calc-step.active').classList.remove('active');
       document.getElementById('calcResults').style.display = 'block';
       document.getElementById('calcResults').classList.add('active');
@@ -2584,7 +1598,6 @@
       const isEven = parseInt(zip) % 2 === 0;
       const mapLink = document.getElementById('calcMapLink');
       mapLink.href = 'https://www.google.com/maps/search/grocery+stores+accepting+snap+near+' + zip;
-
       if (isEven) {
         list.innerHTML = '<div class="calc-place"><div class="calc-place-name"><span>Giant Eagle</span><span>0.4 mi</span></div><div class="calc-place-meta">Supermarket • ' + zip + ' Main St</div><div class="calc-place-tags"><span class="calc-tag">SNAP</span><span class="calc-tag calc-tag-wic">WIC</span></div></div>' +
           '<div class="calc-place"><div class="calc-place-name"><span>Community Market</span><span>1.2 mi</span></div><div class="calc-place-meta">Farmers Market • ' + zip + ' Park Ave</div><div class="calc-place-tags"><span class="calc-tag">SNAP</span><span class="calc-tag">Double Bucks</span></div></div>';
@@ -2598,8 +1611,6 @@
       const alert = document.getElementById('calcLocalHelp');
       const text = document.getElementById('calcLocalHelpText');
       const link = document.getElementById('calcLocalHelpLink');
-
-      // Metro-specific resources
       const metro = {
         '606': { n: 'Greater Chicago Food Depository', u: 'https://www.chicagosfoodbank.org/get-help/benefits-outreach/snap-referral/' },
         '607': { n: 'Greater Chicago Food Depository', u: 'https://www.chicagosfoodbank.org/get-help/benefits-outreach/snap-referral/' },
@@ -2633,8 +1644,6 @@
         '280': { n: 'Second Harvest Food Bank of Metrolina', u: 'https://www.secondharvestmetrolina.org/get-help' },
         '970': { n: 'Oregon Food Bank', u: 'https://www.oregonfoodbank.org/get-help/' }
       };
-
-      // State-level fallback
       const states = {
         IL: 'Feeding Illinois', IN: 'Feeding Indiana', OH: 'Ohio Association of Foodbanks',
         CA: 'California Association of Food Banks', TX: 'Feeding Texas', FL: 'Feeding Florida',
@@ -2654,7 +1663,6 @@
         NH: 'New Hampshire Food Bank', AK: 'Food Bank of Alaska', DC: 'Capital Area Food Bank',
         LA: 'Feeding Louisiana', SC: 'Feeding South Carolina', UT: 'Utah Food Bank'
       };
-
       function getState(z) {
         const p = parseInt(z.substring(0, 3));
         if (p >= 600 && p <= 629) return 'IL'; if (p >= 460 && p <= 479) return 'IN';
@@ -2685,10 +1693,8 @@
         if (p >= 840 && p <= 847) return 'UT';
         return null;
       }
-
       const prefix = zip.substring(0, 3);
       let resource = metro[prefix];
-
       if (resource) {
         text.innerText = resource.n + ' offers free assistance to help you complete your SNAP application.';
         link.href = resource.u;
@@ -2710,26 +1716,21 @@
       }
     }
 
-    // ─── Desert Analyzer: Full Logic with 3 Metrics ───
+    // Desert Analyzer
     function runAnalyzer() {
       const zip = document.getElementById('desertZip').value;
       if (zip.length !== 5 || !/^\d{5}$/.test(zip)) { alert('Please enter a valid 5-digit zip code'); return; }
-
       document.getElementById('desertZipDisplay').innerText = zip;
-
       const seed = parseInt(zip);
       const grocery = 25 + (seed % 55);
       const fresh = 20 + ((seed * 7) % 60);
       const transport = 30 + ((seed * 13) % 50);
-
       document.getElementById('desertForm').style.display = 'none';
       document.getElementById('desertResult').classList.add('visible');
-
       setTimeout(() => {
         updateDesertMetric('Grocery', grocery);
         updateDesertMetric('Fresh', fresh);
         updateDesertMetric('Transport', transport);
-
         const avg = (grocery + fresh + transport) / 3;
         const badge = document.getElementById('desertBadge');
         if (avg < 42) {
@@ -2758,7 +1759,6 @@
       document.getElementById('desertForm').style.display = 'block';
       document.getElementById('desertResult').classList.remove('visible');
       document.getElementById('desertZip').value = '';
-      // Reset bars
       ['Grocery', 'Fresh', 'Transport'].forEach(m => {
         document.getElementById('desert' + m + 'Bar').style.width = '0%';
         document.getElementById('desert' + m + 'Score').innerText = '--';
@@ -2767,5 +1767,4 @@
   </script>
 
 </body>
-
 </html>
