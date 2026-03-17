@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreshFind — Full Overview</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    :root{--green:#2a7d5b;--green-dark:#1e5e42;--green-light:#e8f5ee;--green-pale:#f4faf7;--ink:#1a1a1a;--text:#3a3a3a;--muted:#7a7a7a;--light:#d0d0d0;--lighter:#e8e8e8;--bg:#faf9f6;--amber:#d4933a}
+    *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:17px;overflow-x:hidden}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 60px;display:flex;justify-content:space-between;align-items:center;background:rgba(250,249,246,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color 0.3s}
+    nav.scrolled{border-bottom-color:var(--lighter)}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}.nav-logo img{height:26px}.nav-logo span{font-family:'Caveat',cursive;font-size:16px;color:var(--muted);padding-left:10px;border-left:1px solid var(--lighter)}
+    .nav-links{display:flex;align-items:center;gap:36px}.nav-links a{font-size:13.5px;color:var(--muted);text-decoration:none;font-weight:400;transition:color 0.2s}.nav-links a:hover{color:var(--ink)}
+    .wrap{max-width:1100px;margin:0 auto;padding:0 60px}
+    .section{padding:100px 0}.section-label{font-family:'Caveat',cursive;font-size:16px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+    .section h2{font-family:'DM Sans',sans-serif;font-size:clamp(38px,5vw,48px);letter-spacing:-1.5px;font-weight:700;color:var(--ink);line-height:1.05;margin-bottom:12px}
+    .annotation{font-family:'Caveat',cursive;font-size:clamp(20px,4vw,24px);color:var(--amber);transform:rotate(-3deg);display:inline-block;margin-left:12px;font-weight:500}
+    .section p{font-size:17px;line-height:1.75;color:var(--text);margin-bottom:20px;max-width:860px}
+    p.lead{font-size:20px;color:var(--ink);font-weight:400;line-height:1.65;margin-bottom:28px}
+    .wavy{display:block;margin:6px 0 28px;opacity:0.5}
+    .arch-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:32px 0}.arch-card{padding:24px;background:white;border-radius:12px;border:1.5px solid var(--lighter)}.arch-card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:8px}.arch-card-title{font-family:'Caveat',cursive;font-size:22px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.2}.arch-card-desc{font-size:14px;color:var(--text);line-height:1.55}
+    .tool-card{display:flex;gap:28px;align-items:flex-start;padding:36px 0}.tool-card:not(:last-child){border-bottom:1.5px dashed var(--light)}.tool-card-content{flex:1}.tool-card-num{font-family:'Caveat',cursive;font-size:15px;color:var(--muted);margin-bottom:2px}.tool-card-content h3{font-family:'Caveat',cursive;font-size:30px;font-weight:600;color:var(--ink);line-height:1.1;margin-bottom:10px}.tool-card-content p{font-size:16px;max-width:720px}
+    .tool-link{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1.5px solid var(--green);border-radius:255px 15px 225px 15px/15px 225px 15px 255px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--green);text-decoration:none;transition:all 0.2s;background-color:transparent;cursor:pointer}.tool-link:hover{background:var(--green);color:white;transform:translateY(-2px)}
+    .case-studies{margin:40px 0}.case-study{display:flex;gap:24px;padding:22px 0;align-items:baseline;position:relative}.case-study:not(:last-child)::after{content:'';position:absolute;bottom:0;left:0;right:0;border-bottom:1.5px dashed var(--light)}.case-location{font-family:'Caveat',cursive;font-size:26px;font-weight:600;color:var(--ink);min-width:170px;flex-shrink:0}.case-insight{font-size:14.5px;color:var(--text);line-height:1.6}
+    .gov-channel{padding:32px 0}.gov-channel:not(:last-child){border-bottom:1.5px dashed var(--light)}.gov-channel h4{font-family:'Caveat',cursive;font-size:26px;font-weight:600;color:var(--ink);margin-bottom:8px}.gov-channel-tag{display:inline-block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--green);background:var(--green-light);padding:3px 10px;border-radius:4px;margin-bottom:12px}.gov-channel p{font-size:15px;max-width:780px;line-height:1.7}
+    .partner-benefits{background:var(--green-pale);padding:32px 36px;margin:44px 0;border-radius:4px;position:relative}.partner-benefits::before{content:'';position:absolute;inset:0;border-left:3px solid var(--green);pointer-events:none}.partner-benefits h3{font-family:'Caveat',cursive;font-size:26px;font-weight:600;color:var(--ink);margin-bottom:16px}.partner-benefit-item{display:flex;gap:12px;margin-bottom:12px;font-size:15px;color:var(--text);line-height:1.6}.partner-benefit-num{font-family:'Caveat',cursive;font-size:20px;font-weight:700;color:var(--green);flex-shrink:0;width:24px}
+    .security-callout{margin-top:32px;padding:24px 28px;background:white;border:1.5px solid var(--lighter);border-radius:8px}.security-callout p{font-size:15px;margin-bottom:0;color:var(--text)}.security-callout strong{color:var(--ink)}
+    .metric-row{display:flex;gap:20px;align-items:baseline;padding:20px 0;position:relative}.metric-row:not(:last-child)::after{content:'';position:absolute;bottom:0;left:0;right:0;border-bottom:1.5px dashed var(--light)}.metric-name{font-family:'Caveat',cursive;font-size:28px;font-weight:600;color:var(--green);min-width:160px;flex-shrink:0}.metric-desc{font-size:15px;color:var(--text);line-height:1.6}
+    .timeline-phase{display:flex;gap:28px;align-items:flex-start;padding:28px 0;position:relative}.timeline-phase:not(:last-child)::after{content:'';position:absolute;bottom:0;left:0;right:0;border-bottom:1.5px dashed var(--light)}.phase-label{font-family:'Caveat',cursive;font-size:32px;font-weight:700;color:var(--green);min-width:100px;flex-shrink:0}.phase-time{font-family:'Caveat',cursive;font-size:20px;color:var(--muted);min-width:110px;flex-shrink:0;padding-top:8px}.phase-desc{font-size:15px;color:var(--text);line-height:1.65;padding-top:6px}
+    .diff-callout{margin:40px 0;padding:28px 32px;background:#fefce8;border-left:3px solid var(--amber);border-radius:0 8px 8px 0}.diff-callout h4{font-family:'Caveat',cursive;font-size:22px;font-weight:600;color:var(--ink);margin-bottom:10px}.diff-callout p{font-size:15px;color:var(--text);line-height:1.65;margin-bottom:0;max-width:780px}
+    .scenario-box{margin:36px 0;padding:28px 32px;background:var(--ink);color:var(--bg);border-radius:12px;position:relative}.scenario-box::before{content:'EXAMPLE SCENARIO';position:absolute;top:-10px;left:28px;font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--bg);background:var(--green);padding:2px 12px;border-radius:4px}.scenario-box p{font-size:15px;color:var(--light);line-height:1.7;max-width:100%;margin-bottom:12px}.scenario-box p:last-child{margin-bottom:0}.scenario-box strong{color:var(--bg)}.scenario-highlight{color:var(--green-light);font-weight:500}
+    .layer-diagram{display:flex;flex-direction:column;gap:0;margin:48px 0}
+    .layer-card{display:flex;gap:0;background:white;border:1.5px solid var(--lighter);transition:transform 0.2s,box-shadow 0.2s}.layer-card:first-child{border-radius:12px 12px 0 0}.layer-card:last-child{border-radius:0 0 12px 12px}.layer-card:not(:last-child){border-bottom:none}.layer-card:hover{transform:translateX(4px);box-shadow:-4px 0 24px rgba(42,125,91,0.08)}
+    .layer-card-left{width:200px;flex-shrink:0;padding:28px 24px;display:flex;flex-direction:column;justify-content:center}
+    .layer-card-num{font-family:'Caveat',cursive;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+    .layer-card-name{font-family:'Caveat',cursive;font-size:32px;font-weight:700;color:var(--green);line-height:1.1}
+    .layer-card-type{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-top:6px}
+    .layer-card-right{flex:1;padding:28px 28px 28px 24px;border-left:2px solid var(--lighter)}.layer-card-desc{font-size:15px;color:var(--text);line-height:1.6}
+    .layer-card-existing{display:inline-block;margin-top:10px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;padding:3px 10px;border-radius:4px}
+    .tag-live{color:var(--green);background:var(--green-light)}.tag-new{color:var(--amber);background:#fef3c7}
+    .gap-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
+    .gap-card{padding:24px;background:white;border-radius:12px;border:1.5px solid var(--lighter)}.gap-card-location{font-family:'Caveat',cursive;font-size:20px;font-weight:600;color:var(--ink);margin-bottom:6px}.gap-card-stat{font-size:15px;color:var(--text);line-height:1.55}
+    .back-link{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);text-decoration:none;transition:color 0.2s;margin-top:80px;padding-top:16px}.back-link:hover{color:var(--green)}
+    .page-header{padding:120px 0 60px}.page-header h1{font-family:'DM Sans',sans-serif;font-size:clamp(48px,7vw,72px);letter-spacing:-2px;font-weight:700;color:var(--ink);line-height:0.95;margin-bottom:16px}.page-header p{font-size:20px;color:var(--muted);max-width:700px;line-height:1.6}
+    .closing{padding:90px 0 120px;text-align:center}.closing-contact{font-size:14px;color:var(--muted)}.closing-contact strong{color:var(--ink);font-weight:500}.closing-contact a{color:var(--green);text-decoration:none}.closing-contact a:hover{text-decoration:underline}.closing-brand{margin-top:30px;display:flex;justify-content:center}.closing-brand img{height:24px;opacity:0.4}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;z-index:101}.hamburger span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all 0.3s ease}.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}.hamburger.active span:nth-child(2){opacity:0}.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+    .mobile-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(250,249,246,0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:99;flex-direction:column;justify-content:center;align-items:center;gap:32px;opacity:0;transition:opacity 0.3s ease}.mobile-overlay.open{display:flex;opacity:1}.mobile-overlay a{font-family:'Caveat',cursive;font-size:36px;font-weight:600;color:var(--ink);text-decoration:none}.mobile-overlay a:hover{color:var(--green)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.7s ease,transform 0.7s ease}.reveal.visible{opacity:1;transform:translateY(0)}
+    @media(max-width:1024px){.wrap{padding:0 36px}.section{padding:80px 0}.arch-grid{grid-template-columns:1fr}.layer-card{flex-direction:column}.layer-card-left{width:100%}.layer-card-right{border-left:none;border-top:2px solid var(--lighter)}.gap-grid{grid-template-columns:1fr}}
+    @media(max-width:768px){.hamburger{display:flex}nav{padding:14px 20px}.nav-links{display:none}.wrap{padding:0 20px}.page-header{padding:100px 0 40px}.section{padding:60px 0}.section h2{font-size:clamp(32px,9vw,42px)}.section p{font-size:15.5px}p.lead{font-size:17px}.case-study{flex-direction:column;gap:4px}.case-location{min-width:auto;font-size:22px}.metric-row{flex-direction:column;gap:4px;padding:16px 0}.metric-name{min-width:auto;font-size:24px}.timeline-phase{flex-direction:column;gap:4px;padding:20px 0}.phase-label,.phase-time{min-width:auto}.partner-benefits{padding:24px 20px;margin:28px 0}.tool-card{flex-direction:column;gap:12px}.scenario-box{padding:28px 20px}.arch-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<nav id="nav"><a href="index.html" class="nav-logo"><img src="finmango.png" alt="FinMango"><span>freshfind</span></a><div class="nav-links"><a href="index.html">← Back to Overview</a><a href="#system">Full System</a><a href="#architecture">Architecture</a><a href="#research">Research</a><a href="#government">Government</a><a href="https://finmango.org">finmango.org</a></div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button></nav>
+<div class="mobile-overlay" id="mobileOverlay"><a href="index.html" class="mobile-nav-link">← Overview</a><a href="#system" class="mobile-nav-link">Full System</a><a href="#architecture" class="mobile-nav-link">Architecture</a><a href="#research" class="mobile-nav-link">Research</a><a href="#government" class="mobile-nav-link">Government</a><a href="https://finmango.org" class="mobile-nav-link">finmango.org</a></div>
+
+<div class="wrap">
+
+<div class="page-header">
+  <a href="index.html" class="back-link">← Back to Overview</a>
+  <h1>The Full Story</h1>
+  <p>Technical architecture, research methodology, government use cases, measurement framework, and roadmap.</p>
+</div>
+
+<!-- ═══ FULL SYSTEM DETAIL ═══ -->
+<section class="section reveal" id="system">
+  <div class="section-label">01</div><h2>detect, inform, respond <span class="annotation">the full loop</span></h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"/></svg>
+  <p class="lead">FreshFind is a three-layer AI system that gives governments something they've never had: predictive food security intelligence. It watches the signals, identifies who's at risk, and deploys the response. Continuously. Autonomously.</p>
+  <div class="layer-diagram reveal">
+    <div class="layer-card" style="border-top:4px solid var(--green)"><div class="layer-card-left"><div class="layer-card-num">Layer 1</div><div class="layer-card-name">Detect</div><div class="layer-card-type">Agentic AI</div><span class="layer-card-existing tag-live">Barometer is live</span></div><div class="layer-card-right"><div class="layer-card-desc">The Financial Health Barometer already tracks financial stress across all 50 states using BLS, Census, HUD, FRED, and Google Trends data. The AI upgrade turns it into a forecasting engine. Gemini-powered anomaly detection identifies stress spikes at the zip-code level before they become crises. In parallel, the system parses the Federal Register, state SNAP policy bulletins, and FEMA disaster declarations daily. When stress indicators cross a threshold or a policy change takes effect, the system triggers automatically.</div></div></div>
+    <div class="layer-card"><div class="layer-card-left"><div class="layer-card-num">Layer 2</div><div class="layer-card-name">Inform</div><div class="layer-card-type">Predictive AI</div><span class="layer-card-existing tag-new">Grant builds this</span></div><div class="layer-card-right"><div class="layer-card-desc">The intelligence layer. Cross-references detected signals with community-level data: FinMango's 2-year strategic research collaboration with the University of Virginia, Census demographics, USDA food access data, and state eligibility rules. Produces actionable briefings for government decision-makers. Not "135,000 Kentuckians affected" as a headline. Specific clusters: these zip codes, this many households, this demographic profile, this food access score, these recommended actions. Agentic AI tracks whether actions were taken and measures outcomes.</div></div></div>
+    <div class="layer-card" style="border-bottom:4px solid var(--ink)"><div class="layer-card-left"><div class="layer-card-num">Layer 3</div><div class="layer-card-name">Respond</div><div class="layer-card-type">Decision Engine</div><span class="layer-card-existing tag-live">Tools are live</span></div><div class="layer-card-right"><div class="layer-card-desc">Once the system identifies a need and a government partner activates a response, FreshFind deploys the execution tools. The Food Assistance Calculator screens households across every program at once. The Food Desert Analyzer routes people to stores that carry fresh produce and accept EBT. The application assistant helps people actually enroll. These tools don't sit on a website hoping someone finds them. They're deployed by governments into specific communities where the AI identified the need.</div></div></div>
+  </div>
+  <div class="scenario-box reveal">
+    <p><strong>Detect:</strong> FreshFind's Barometer identifies a <span class="scenario-highlight">35% spike in financial stress indicators</span> across eastern Kentucky zip codes 41271-41274. Simultaneously, the policy parser flags that expanded SNAP work requirements take effect in 60 days.</p>
+    <p><strong>Inform:</strong> The system generates a briefing for the Kentucky SNAP director: <span class="scenario-highlight">2,400 households estimated at risk</span>. 60% of current recipients ages 55-64 in these zip codes. Nearest fresh produce: 12 miles. Recommended: activate targeted outreach, coordinate mobile pantry deployment, alert 211 center for surge capacity.</p>
+    <p><strong>Respond:</strong> The state agency sends personalized notifications through their existing channels. Recipients land in FreshFind's guided intake. Cross-program eligibility check. Food access routing. Application assistance. <span class="scenario-highlight">Families connected to help before the policy change takes effect.</span></p>
+  </div>
+  <div class="diff-callout reveal">
+    <h4>This is not a benefits navigator</h4>
+    <p>Most AI-for-government projects in the benefits space focus on the administrative layer: helping caseworkers process applications faster. That's a different problem. FreshFind gives governments a capability they've never had: predictive intelligence that sees food crises forming and orchestrates a response before they peak. The user isn't a person searching for food help. The user is a state SNAP director, a county emergency manager, a health department administrator deciding where to deploy resources.</p>
+  </div>
+</section>
+
+<!-- ═══ TECHNICAL ARCHITECTURE ═══ -->
+<section class="section reveal" id="architecture">
+  <div class="section-label">02</div><h2>technical architecture <span class="annotation">under the hood</span></h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"/></svg>
+  <p class="lead">A structured pipeline of specialized models. Each stage produces auditable, deterministic outputs. No black boxes. A state SNAP director can trace any recommendation to the specific data source and rule that generated it.</p>
+  <div class="arch-grid reveal">
+    <div class="arch-card"><div class="arch-card-label">Signal Detection</div><div class="arch-card-title">Anomaly Detection on Stress Data</div><div class="arch-card-desc">Gemini-powered time-series analysis over the Barometer's 50-state dataset. Identifies statistically significant stress spikes at zip-code level. Correlates financial signals with food access scores and enrollment data to surface emerging risks before they manifest as caseload spikes.</div></div>
+    <div class="arch-card"><div class="arch-card-label">Policy Parsing</div><div class="arch-card-title">NLP over Federal Register + State Feeds</div><div class="arch-card-desc">Extraction pipeline monitors Federal Register XML, state SNAP bulletins, and FEMA declarations. Structured outputs classify each change by program, demographics, geography, and effective date. Validated against codified rules before triggering downstream actions.</div></div>
+    <div class="arch-card"><div class="arch-card-label">Knowledge Layer</div><div class="arch-card-title">RAG over Verified Program Data</div><div class="arch-card-desc">Retrieval-augmented generation grounded in USDA FNS rules, state eligibility tables, and FinMango's field research. Curated, version-controlled corpus. Every recommendation cites its source. Deterministic where it matters.</div></div>
+  </div>
+  <div class="arch-grid reveal">
+    <div class="arch-card"><div class="arch-card-label">Briefing Engine</div><div class="arch-card-title">Intelligence for Decision-Makers</div><div class="arch-card-desc">Gemini generates structured briefings: affected geography, estimated population impact, demographic profile, food access conditions, available programs, and ranked recommended actions. Pre-approved templates. AI fills specifics within guardrails.</div></div>
+    <div class="arch-card"><div class="arch-card-label">Geospatial Layer</div><div class="arch-card-title">Food Access Intelligence</div><div class="arch-card-desc">USDA Food Access Research Atlas, SNAP retailer database, Google Maps API, local pantry data. Weighted scoring: transit accessibility, store produce quality (not just EBT acceptance), seasonal availability. Powers food access in every briefing and response.</div></div>
+    <div class="arch-card"><div class="arch-card-label">Infrastructure</div><div class="arch-card-title">Google Cloud + Compliance</div><div class="arch-card-desc">Vertex AI for model serving. HIPAA-compliant pipeline with encryption at rest and in transit. FedRAMP-authorized infrastructure. No PII stored beyond session. Government partners control their data. SOC 2 Type II audit Month 4.</div></div>
+  </div>
+</section>
+
+<!-- ═══ EXISTING TOOLS ═══ -->
+<section class="section reveal" id="tools">
+  <div class="section-label">03</div><h2>the response layer is already built <span class="annotation">live now</span></h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"/></svg>
+  <p class="lead">The Detect and Inform layers are what the grant builds. But the Respond layer is already functional. The grant connects these tools to the intelligence system that tells governments where and when to deploy them.</p>
+  <div class="tool-card reveal"><div class="tool-card-content"><div class="tool-card-num">tool one</div><h3>Financial Health Barometer</h3><p>Real-time financial stress tracking across all 50 states. Data from BLS, Census, HUD, FRED, and Google Trends. This is the signal layer that powers the entire Detect stage. It already exists. The grant adds the AI that turns signals into predictions.</p><div style="margin-top:20px"><a href="https://finmango.org/barometer" target="_blank" class="tool-link">View the Barometer →</a></div></div></div>
+  <div class="tool-card reveal"><div class="tool-card-content"><div class="tool-card-num">tool two</div><h3>Food Desert Analyzer</h3><p>Enter a zip code. See whether your neighborhood has access to grocery stores, fresh food, and transportation. Powers the food access component of every intelligence briefing.</p></div></div>
+  <div class="tool-card reveal"><div class="tool-card-content"><div class="tool-card-num">tool three</div><h3>Food Assistance Calculator</h3><p>Cross-program eligibility screening. One intake covers SNAP, WIC, school meals, food pantries, utility assistance, and more. Deployed by governments into communities where the intelligence layer identified the need.</p></div></div>
+</section>
+
+<!-- ═══ RESEARCH ═══ -->
+<section class="section reveal" id="research">
+  <div class="section-label">04</div><h2>calibrated on ground truth <span class="annotation">not assumptions</span></h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none"/></svg>
+  <div style="display:inline-flex;align-items:center;gap:12px;padding:10px 20px;background:#fff;border:1.5px solid var(--lighter);border-radius:100px;margin-bottom:32px"><svg fill="none" height="24" viewBox="0 0 24 24" width="24"><path d="M12 2L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-3Zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-2.33v8.02Z" fill="var(--green)"/></svg><span style="font-size:13.5px;font-weight:600;color:var(--ink);letter-spacing:0.5px;text-transform:uppercase">Strategic Research Collaboration with the University of Virginia</span></div>
+  <p>Predictive models are only as good as their calibration data. We spent two years in five communities mapping what's actually happening: who's food insecure, why programs aren't reaching them, what's blocking access. This is the ground truth that makes FreshFind's predictions credible. It's also why these five communities are our pilot targets.</p>
+  <div class="case-studies">
+    <div class="case-study"><div class="case-location">Chicago, IL</div><div class="case-insight">~500k food insecure residents. 1.88M SNAP recipients. $300M distributed monthly. Every $1 returns $1.54 GDP. Dense infrastructure but severe access gaps by neighborhood.</div></div>
+    <div class="case-study"><div class="case-location">Atlanta, GA</div><div class="case-insight">13.7% food insecurity rate. Only 38% of SNAP retailers in majority-Black neighborhoods carry produce vs. 75% elsewhere. Highest wealth inequality in the nation.</div></div>
+    <div class="case-study"><div class="case-location">Kansas City, MO</div><div class="case-insight">~79k food insecure adults. Strong nonprofit ecosystem but limited government coordination. Min wage disparity between KCMO and KCKS creates cross-border economic divide.</div></div>
+    <div class="case-study"><div class="case-location">Twin Falls, ID</div><div class="case-insight">~10% food insecurity driven by structural access barriers. SNAP retailers mostly convenience stores. Bus system replaced by smartphone-only microtransit.</div></div>
+    <div class="case-study"><div class="case-location">Wolfe Co., KY</div><div class="case-insight">27.3% food insecurity. 38% poverty rate. 4 food stores in entire county. 135k Kentuckians at risk under H.R. 1. $1.1M annual food budget shortfall. This is where the model was stress-tested.</div></div>
+  </div>
+</section>
+
+<!-- ═══ GOVERNMENT USERS ═══ -->
+<section class="section reveal" id="government">
+  <div class="section-label">05</div><h2>built for government users</h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none"/></svg>
+  <p class="lead">The primary user is a government decision-maker. A state SNAP director. A county emergency manager. A health department administrator. FreshFind gives them predictive intelligence and response tools. They deploy through channels people already trust.</p>
+  <p>Our pilot strategy starts in the five communities where we have two years of field relationships and research data. We are in active conversations with county health departments in Wolfe County, KY and Twin Falls, ID, and with food bank networks in Chicago and Atlanta, to formalize pilot partnerships. These aren't cold introductions. Our research with the University of Virginia was conducted in collaboration with local agencies in these communities.</p>
+  <div class="gov-channel reveal"><div class="gov-channel-tag">Primary Use Case</div><h4>State SNAP & Medicaid Agencies</h4><p>State agencies are legally required to notify affected households when policy changes hit. Most have no automated system to do this at scale. FreshFind is that system. The Detect layer flags the change. The Inform layer identifies affected households. The agency sends personalized outreach under their name. Respondents are routed into FreshFind's response tools.</p><p>The agency gets a dashboard: households reached, alternative program enrollments, food resources accessed, food access score changes in target zip codes. Real outcomes, not just process metrics.</p></div>
+  <div class="gov-channel reveal"><h4>County Emergency Managers</h4><p>When a disaster declaration drops, FreshFind automatically identifies affected populations and activates D-SNAP screening, emergency food routing, and crisis-specific program recommendations. The emergency manager gets a briefing within hours: who's affected, what's available, where the food access gaps are.</p></div>
+  <div class="gov-channel reveal"><h4>211 Centers, Health Departments, School Districts, Libraries</h4><p>Response deployment channels. 211 operators use FreshFind as real-time support. Health departments run 2-minute screenings during WIC visits. School districts use free lunch data to identify families who qualify for more. Libraries host kiosk-style terminals. The intelligence layer tells governments where to focus. These channels deliver the help.</p></div>
+  <div class="partner-benefits reveal"><h3>What Government Partners Get</h3>
+    <div class="partner-benefit-item"><div class="partner-benefit-num">1</div><div>Predictive intelligence they don't have. See food security risks forming across their jurisdiction before crisis peaks.</div></div>
+    <div class="partner-benefit-item"><div class="partner-benefit-num">2</div><div>Automated policy change response. System identifies who's affected and generates notification content. Agency sends it under their name.</div></div>
+    <div class="partner-benefit-item"><div class="partner-benefit-num">3</div><div>Food access data beyond enrollment. Not just "how many have SNAP" but "can they buy groceries with it?" at the zip-code level.</div></div>
+    <div class="partner-benefit-item"><div class="partner-benefit-num">4</div><div>Disaster surge capacity. FreshFind absorbs the spike that would otherwise overwhelm caseworkers and call centers.</div></div>
+    <div class="partner-benefit-item"><div class="partner-benefit-num">5</div><div>No new infrastructure. Integrates with existing systems and channels. Nothing to build, buy, or maintain.</div></div>
+  </div>
+  <div class="security-callout reveal"><p><strong>Data & Security:</strong> No user data sold or retained. Google Cloud with FedRAMP-authorized, HIPAA-compliant infrastructure. Encrypted at rest and in transit. Government partners control their data. SOC 2 Type II audit Month 4.</p></div>
+</section>
+
+<!-- ═══ METRICS ═══ -->
+<section class="section reveal">
+  <div class="section-label">06</div><h2>how we'll measure it</h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"/></svg>
+  <div>
+    <div class="metric-row"><div class="metric-name">prediction accuracy</div><div class="metric-desc">Does the system correctly identify communities heading toward crises? Measured against subsequent SNAP application spikes, food bank demand surges, and 211 call volume in target geographies.</div></div>
+    <div class="metric-row"><div class="metric-name">response time</div><div class="metric-desc">Policy change detection to government briefing: target under 48 hours. Briefing to first household contact: target under 72 hours. Measured for every policy event and disaster declaration.</div></div>
+    <div class="metric-row"><div class="metric-name">benefits unlocked</div><div class="metric-desc">Total benefit dollars unlocked through proactive outreach. Cross-program enrollment rates. Compared against control communities without FreshFind intelligence.</div></div>
+    <div class="metric-row"><div class="metric-name">food access</div><div class="metric-desc">Food desert score improvements in pilot communities. Percentage of SNAP households connected to stores carrying fresh produce within accessible distance.</div></div>
+    <div class="metric-row"><div class="metric-name">government adoption</div><div class="metric-desc">Partners actively using briefings. Actions taken per briefing. Decision-maker satisfaction. Time saved vs. manual analysis. The metric that determines whether this scales.</div></div>
+  </div>
+</section>
+
+<!-- ═══ REPLICATION ═══ -->
+<section class="section reveal">
+  <div class="section-label">07</div><h2>built to replicate</h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none"/></svg>
+  <p>The Barometer already covers all 50 states. Adding a government partner means pointing the intelligence layer at their geography and plugging in local food access data. The scaling unit is the government partnership. One state's success becomes another state's blueprint.</p>
+  <p>Every presidential disaster declaration is an automatic scaling trigger. 60+ per year in the U.S. Each activates the full Detect-Inform-Respond loop without manual intervention.</p>
+  <p>The model travels. FinMango operates in 13+ countries. India's Public Distribution System, Brazil's Bolsa Família, EU food assistance programs. Every country with social benefit programs has the same blind spot. At the end of the 18-month grant, we publish a full open-source toolkit for national and international replication.</p>
+</section>
+
+<!-- ═══ ROADMAP ═══ -->
+<section class="section reveal">
+  <div class="section-label">08</div><h2>the roadmap</h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"/></svg>
+  <p class="lead">$1.5M over 18 months. The Barometer and response tools are live. The grant builds the intelligence layer that connects them.</p>
+  <div>
+    <div class="timeline-phase"><div class="phase-label">build</div><div class="phase-time">months 1–6</div><div class="phase-desc">Hire AI/ML engineers. Build Gemini-powered anomaly detection on the Barometer. Deploy policy parsing pipeline (Federal Register, state feeds, FEMA API). Build government-facing intelligence dashboard. SOC 2 Type II audit. Formalize 2-3 pilot partnerships in communities where the University of Virginia research was conducted.</div></div>
+    <div class="timeline-phase"><div class="phase-label">deploy</div><div class="phase-time">months 7–12</div><div class="phase-desc">Launch the Inform layer with pilot partners. Deliver first predictive briefings to government decision-makers. Deploy response tools through partner channels. Test against real policy changes and disasters. Iterate on decision-maker feedback. Publish interim accuracy metrics.</div></div>
+    <div class="timeline-phase"><div class="phase-label">scale</div><div class="phase-time">months 13–18</div><div class="phase-desc">Expand to 5+ state partners. Activate automatic disaster response for new declarations. Publish impact report with prediction accuracy, response times, and benefits unlocked. Release open-source toolkit for national and international replication.</div></div>
+  </div>
+</section>
+
+<!-- ═══ CLOSING ═══ -->
+<section class="closing reveal">
+  <svg width="100" height="8" viewBox="0 0 100 8" style="display:block;margin:0 auto 30px"><path d="M10 4 C25 0,35 8,50 4 C65 0,75 8,90 4" stroke="#2a7d5b" stroke-width="1.2" fill="none" opacity="0.4"/></svg>
+  <p class="closing-contact">Scott Glasgow · Sarah Cherian · Soham Patel · Tony Ramos</p>
+  <p class="closing-contact" style="margin-top:6px">FinMango · <a href="https://finmango.org">finmango.org</a></p>
+  <div class="closing-brand"><img src="finmango.png" alt="FinMango"></div>
+</section>
+
+</div>
+
+<script>
+const observer=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40)});
+const hamburger=document.getElementById('hamburger'),mobileOverlay=document.getElementById('mobileOverlay');hamburger.addEventListener('click',()=>{hamburger.classList.toggle('active');mobileOverlay.classList.toggle('open');document.body.style.overflow=mobileOverlay.classList.contains('open')?'hidden':''});document.querySelectorAll('.mobile-nav-link').forEach(l=>{l.addEventListener('click',()=>{hamburger.classList.remove('active');mobileOverlay.classList.remove('open');document.body.style.overflow=''})});
+</script>
+</body>
+</html>
