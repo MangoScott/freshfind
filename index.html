@@ -177,7 +177,7 @@
   <div class="section-label">03</div><h2>how the AI actually works <span class="annotation">the data is real</span></h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"/></svg>
   <p class="lead">The Inform step is the core of the grant — and the hardest part. Here's how it works, and why we're confident it can.</p>
 
-  <p>The AI doesn't generate predictions from thin air. It cross-references signals from the Detect step against five layers of public data to produce specific, actionable briefings. Every data source below is either already integrated into the Barometer or publicly available through federal APIs.</p>
+  <p>The AI doesn't generate predictions from thin air. It cross-references <em>fast-moving signals</em> against <em>deep contextual data</em> to produce specific, actionable briefings. Not every source updates daily — and that's by design. The real-time layers (Google Trends, FEMA, Federal Register) are the <strong>triggers</strong>. The slower layers (Census, BLS) provide the <strong>context</strong> that makes those triggers actionable. Every source below is either already integrated into the Barometer or publicly available through federal APIs.</p>
 
   <div style="margin:40px 0">
     <div style="font-family:'Caveat',cursive;font-size:22px;font-weight:600;color:var(--ink);margin-bottom:20px">The data pipeline</div>
@@ -190,7 +190,7 @@
           <span class="layer-card-existing tag-live" style="width:fit-content">Already collecting</span>
         </div>
         <div style="flex:1;padding:20px 24px;border-left:2px solid var(--lighter)">
-          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> Bureau of Labor Statistics employment data, Census income surveys, HUD housing cost indices, FRED economic indicators, Google Trends search patterns for financial distress terms.<br><strong>How we use it:</strong> The Barometer already aggregates this into zip-code-level stress scores across all 50 states. The AI layer adds anomaly detection — when a score spikes beyond normal seasonal variation, it triggers the pipeline.</div>
+          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> Bureau of Labor Statistics employment data, Census income surveys, HUD housing cost indices, FRED economic indicators, Google Trends search patterns for financial distress terms.<br><strong>Update cadence:</strong> <span style="color:var(--green);font-weight:600">Google Trends: daily</span> · FRED: daily to monthly · BLS: monthly · Census: annual. The Barometer blends these into a composite score that updates as fast as its fastest input.<br><strong>How we use it:</strong> The Barometer already aggregates this into zip-code-level stress scores across all 50 states. The AI layer adds anomaly detection — when a score spikes beyond normal seasonal variation, it triggers the pipeline.</div>
         </div>
       </div>
 
@@ -201,7 +201,7 @@
           <span class="layer-card-existing tag-new" style="width:fit-content">Grant builds</span>
         </div>
         <div style="flex:1;padding:20px 24px;border-left:2px solid var(--lighter)">
-          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> Federal Register XML feed (machine-readable, updated daily), state SNAP policy bulletins, FEMA disaster declaration API.<br><strong>How we use it:</strong> NLP pipeline classifies every change by program, affected population, geography, and effective date. A new SNAP work requirement in Kentucky doesn't just get flagged — it gets matched to the specific households it will affect.</div>
+          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> Federal Register XML feed (machine-readable, updated daily), state SNAP policy bulletins, FEMA disaster declaration API.<br><strong>Update cadence:</strong> <span style="color:var(--green);font-weight:600">Federal Register: daily</span> · <span style="color:var(--green);font-weight:600">FEMA declarations: real-time</span> · State bulletins: as published. These are the fastest-moving trigger signals in the system.<br><strong>How we use it:</strong> NLP pipeline classifies every change by program, affected population, geography, and effective date. A new SNAP work requirement in Kentucky doesn't just get flagged — it gets matched to the specific households it will affect.</div>
         </div>
       </div>
 
@@ -212,7 +212,7 @@
           <span class="layer-card-existing tag-live" style="width:fit-content">Public data</span>
         </div>
         <div style="flex:1;padding:20px 24px;border-left:2px solid var(--lighter)">
-          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> Census American Community Survey (age, income, household size, disability status by zip code), SNAP Quality Control data (recipient demographics by state), USDA FNS enrollment data.<br><strong>How we use it:</strong> When a stress spike or policy change is detected, the system overlays demographic data to estimate: how many households, what age groups, what program eligibility. This turns a signal into a population estimate.</div>
+          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> Census American Community Survey (age, income, household size, disability status by zip code), SNAP Quality Control data (recipient demographics by state), USDA FNS enrollment data.<br><strong>Update cadence:</strong> Census ACS: annual · SNAP QC: annual · FNS enrollment: monthly. This data changes slowly — demographics don't shift overnight. Annual updates are appropriate for the <em>context layer</em> role these sources play.<br><strong>How we use it:</strong> When a stress spike or policy change is detected, the system overlays demographic data to estimate: how many households, what age groups, what program eligibility. This turns a signal into a population estimate.</div>
         </div>
       </div>
 
@@ -223,7 +223,7 @@
           <span class="layer-card-existing tag-live" style="width:fit-content">Public data</span>
         </div>
         <div style="flex:1;padding:20px 24px;border-left:2px solid var(--lighter)">
-          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> USDA Food Access Research Atlas, SNAP retailer location database (260k+ stores), Google Maps transit/distance API, Feeding America food bank network data.<br><strong>How we use it:</strong> Every briefing includes a food access score: can people in the affected area actually reach a store that carries fresh food and accepts EBT? This is the difference between "people need SNAP" and "people need SNAP and the nearest grocery is 12 miles away."</div>
+          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> USDA Food Access Research Atlas, SNAP retailer location database (260k+ stores), Google Maps transit/distance API, Feeding America food bank network data.<br><strong>Update cadence:</strong> USDA Atlas: updated periodically · <span style="color:var(--green);font-weight:600">SNAP retailers: quarterly</span> · <span style="color:var(--green);font-weight:600">Google Maps: real-time</span> · Feeding America: quarterly. Store-level access is the most dynamic piece — Google Maps keeps this current.<br><strong>How we use it:</strong> Every briefing includes a food access score: can people in the affected area actually reach a store that carries fresh food and accepts EBT? This is the difference between "people need SNAP" and "people need SNAP and the nearest grocery is 12 miles away."</div>
         </div>
       </div>
 
@@ -234,7 +234,7 @@
           <span class="layer-card-existing tag-live" style="width:fit-content">We built this</span>
         </div>
         <div style="flex:1;padding:20px 24px;border-left:2px solid var(--lighter)">
-          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> Two years of field research with the University of Virginia across five communities — mapping actual food access barriers, program enrollment gaps, and community-specific factors that public data misses.<br><strong>How we use it:</strong> This is what calibrates the model. Public data says Wolfe County, KY has 4 grocery stores. Our research says 2 of them don't carry fresh produce. That calibration is the difference between a useful system and a naive one.</div>
+          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> Two years of field research with the University of Virginia across five communities — mapping actual food access barriers, program enrollment gaps, and community-specific factors that public data misses.<br><strong>Update cadence:</strong> Ongoing research relationship. Calibration data refreshed with each new pilot community. This is the <em>correction layer</em> — it doesn't need to be real-time, it needs to be <em>right</em>.<br><strong>How we use it:</strong> This is what calibrates the model. Public data says Wolfe County, KY has 4 grocery stores. Our research says 2 of them don't carry fresh produce. That calibration is the difference between a useful system and a naive one.</div>
         </div>
       </div>
     </div>
