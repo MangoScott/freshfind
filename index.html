@@ -64,7 +64,7 @@
     @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}nav{display:none}.hero{padding-top:40px;min-height:auto}.reveal{opacity:1;transform:none}}
     @media(min-width:1400px){.wrap{max-width:1200px}.stats-inner{max-width:1200px}.hero h1{font-size:130px}.section h2{font-size:60px}}
     @media(max-width:1024px){.wrap{padding:0 36px}.stats-inner{padding:0 36px}.section{padding:80px 0}.layer-card{flex-direction:column}.layer-card-left{width:100%}.layer-card-right{border-left:none;border-top:2px solid var(--lighter)}.proof-grid{grid-template-columns:1fr}}
-    @media(max-width:768px){.hamburger{display:flex}nav{padding:14px 20px}.nav-links{display:none}.wrap{padding:0 20px}.hero{min-height:auto;padding:100px 0 60px}.hero h1{font-size:clamp(48px,14vw,72px);margin-bottom:12px}.hero-sub{font-size:17px;margin-bottom:16px}.hero-meta{flex-direction:column;align-items:flex-start;gap:12px;padding-top:28px}.hero-meta-right{text-align:left}.section{padding:60px 0}.section h2{font-size:clamp(32px,9vw,42px)}.section p{font-size:15.5px}p.lead{font-size:17px}.stats-banner{padding:40px 0}.stats-inner{flex-direction:column;gap:28px;padding:0 20px}.layer-card{flex-direction:column}.layer-card-left{width:100%}.layer-card-right{border-left:none;border-top:2px solid var(--lighter)}.closing{padding:60px 0 80px}.closing-quote{font-size:17px}.tool-card{flex-direction:column;gap:12px}.scenario-box{padding:28px 20px}.proof-grid{grid-template-columns:1fr}}
+    @media(max-width:768px){.hamburger{display:flex}nav{padding:14px 20px}.nav-links{display:none}.wrap{padding:0 20px}.hero{min-height:auto;padding:100px 0 60px}.hero h1{font-size:clamp(48px,14vw,72px);margin-bottom:12px}.hero-sub{font-size:17px;margin-bottom:16px}.hero-meta{flex-direction:column;align-items:flex-start;gap:12px;padding-top:28px}.hero-meta-right{text-align:left}.section{padding:60px 0}.section h2{font-size:clamp(32px,9vw,42px)}.section p{font-size:15.5px}p.lead{font-size:17px}.stats-banner{padding:40px 0}.stats-inner{flex-direction:column;gap:28px;padding:0 20px}.layer-card{flex-direction:column}.layer-card-left{width:100%}.layer-card-right{border-left:none;border-top:2px solid var(--lighter)}.closing{padding:60px 0 80px}.closing-quote{font-size:17px}.tool-card{flex-direction:column;gap:12px}.scenario-box{padding:28px 20px}.proof-grid{grid-template-columns:1fr}#how-it-works [style*="display:flex;gap:0;background:white"]{flex-direction:column}#how-it-works [style*="min-width:180px"]{min-width:auto}#how-it-works [style*="border-left:2px solid"]{border-left:none;border-top:2px solid var(--lighter)}}
   </style>
 </head>
 <body>
@@ -85,8 +85,8 @@
 
 <div class="progress-bar" id="progressBar"></div>
 
-<nav id="nav"><a href="#" class="nav-logo"><img src="finmango.png" alt="FinMango"><span>freshfind</span></a><div class="nav-links"><a href="#problem">Problem</a><a href="#solution">Solution</a><a href="#tools">Try It</a><a href="details.html">Full Details</a><a href="https://finmango.org">finmango.org</a></div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button></nav>
-<div class="mobile-overlay" id="mobileOverlay"><a href="#problem" class="mobile-nav-link">Problem</a><a href="#solution" class="mobile-nav-link">Solution</a><a href="#tools" class="mobile-nav-link">Try It</a><a href="details.html" class="mobile-nav-link">Full Details</a><a href="https://finmango.org" class="mobile-nav-link">finmango.org</a></div>
+<nav id="nav"><a href="#" class="nav-logo"><img src="finmango.png" alt="FinMango"><span>freshfind</span></a><div class="nav-links"><a href="#problem">Problem</a><a href="#solution">Solution</a><a href="#how-it-works">How It Works</a><a href="#tools">Try It</a><a href="details.html">Full Details</a><a href="https://finmango.org">finmango.org</a></div><button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button></nav>
+<div class="mobile-overlay" id="mobileOverlay"><a href="#problem" class="mobile-nav-link">Problem</a><a href="#solution" class="mobile-nav-link">Solution</a><a href="#how-it-works" class="mobile-nav-link">How It Works</a><a href="#tools" class="mobile-nav-link">Try It</a><a href="details.html" class="mobile-nav-link">Full Details</a><a href="https://finmango.org" class="mobile-nav-link">finmango.org</a></div>
 
 <div class="wrap">
 
@@ -172,9 +172,110 @@
   </div>
 </section>
 
+<!-- ═══ HOW THE AI WORKS ═══ -->
+<section class="section reveal" id="how-it-works">
+  <div class="section-label">03</div><h2>how the AI actually works <span class="annotation">the data is real</span></h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"/></svg>
+  <p class="lead">The Inform step is the core of the grant — and the hardest part. Here's how it works, and why we're confident it can.</p>
+
+  <p>The AI doesn't generate predictions from thin air. It cross-references signals from the Detect step against five layers of public data to produce specific, actionable briefings. Every data source below is either already integrated into the Barometer or publicly available through federal APIs.</p>
+
+  <div style="margin:40px 0">
+    <div style="font-family:'Caveat',cursive;font-size:22px;font-weight:600;color:var(--ink);margin-bottom:20px">The data pipeline</div>
+
+    <div style="display:flex;flex-direction:column;gap:0">
+      <div style="display:flex;gap:0;background:white;border:1.5px solid var(--lighter);border-radius:12px 12px 0 0;border-bottom:none">
+        <div style="min-width:180px;padding:20px 24px;display:flex;flex-direction:column;justify-content:center">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:4px">Source 1</div>
+          <div style="font-family:'Caveat',cursive;font-size:24px;font-weight:700;color:var(--ink);line-height:1.1">Financial Stress Signals</div>
+          <span class="layer-card-existing tag-live" style="width:fit-content">Already collecting</span>
+        </div>
+        <div style="flex:1;padding:20px 24px;border-left:2px solid var(--lighter)">
+          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> Bureau of Labor Statistics employment data, Census income surveys, HUD housing cost indices, FRED economic indicators, Google Trends search patterns for financial distress terms.<br><strong>How we use it:</strong> The Barometer already aggregates this into zip-code-level stress scores across all 50 states. The AI layer adds anomaly detection — when a score spikes beyond normal seasonal variation, it triggers the pipeline.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:0;background:white;border:1.5px solid var(--lighter);border-bottom:none">
+        <div style="min-width:180px;padding:20px 24px;display:flex;flex-direction:column;justify-content:center">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:4px">Source 2</div>
+          <div style="font-family:'Caveat',cursive;font-size:24px;font-weight:700;color:var(--ink);line-height:1.1">Policy Changes</div>
+          <span class="layer-card-existing tag-new" style="width:fit-content">Grant builds</span>
+        </div>
+        <div style="flex:1;padding:20px 24px;border-left:2px solid var(--lighter)">
+          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> Federal Register XML feed (machine-readable, updated daily), state SNAP policy bulletins, FEMA disaster declaration API.<br><strong>How we use it:</strong> NLP pipeline classifies every change by program, affected population, geography, and effective date. A new SNAP work requirement in Kentucky doesn't just get flagged — it gets matched to the specific households it will affect.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:0;background:white;border:1.5px solid var(--lighter);border-bottom:none">
+        <div style="min-width:180px;padding:20px 24px;display:flex;flex-direction:column;justify-content:center">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:4px">Source 3</div>
+          <div style="font-family:'Caveat',cursive;font-size:24px;font-weight:700;color:var(--ink);line-height:1.1">Demographics</div>
+          <span class="layer-card-existing tag-live" style="width:fit-content">Public data</span>
+        </div>
+        <div style="flex:1;padding:20px 24px;border-left:2px solid var(--lighter)">
+          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> Census American Community Survey (age, income, household size, disability status by zip code), SNAP Quality Control data (recipient demographics by state), USDA FNS enrollment data.<br><strong>How we use it:</strong> When a stress spike or policy change is detected, the system overlays demographic data to estimate: how many households, what age groups, what program eligibility. This turns a signal into a population estimate.</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:0;background:white;border:1.5px solid var(--lighter);border-bottom:none">
+        <div style="min-width:180px;padding:20px 24px;display:flex;flex-direction:column;justify-content:center">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:4px">Source 4</div>
+          <div style="font-family:'Caveat',cursive;font-size:24px;font-weight:700;color:var(--ink);line-height:1.1">Food Access</div>
+          <span class="layer-card-existing tag-live" style="width:fit-content">Public data</span>
+        </div>
+        <div style="flex:1;padding:20px 24px;border-left:2px solid var(--lighter)">
+          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> USDA Food Access Research Atlas, SNAP retailer location database (260k+ stores), Google Maps transit/distance API, Feeding America food bank network data.<br><strong>How we use it:</strong> Every briefing includes a food access score: can people in the affected area actually reach a store that carries fresh food and accepts EBT? This is the difference between "people need SNAP" and "people need SNAP and the nearest grocery is 12 miles away."</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:0;background:white;border:1.5px solid var(--lighter);border-radius:0 0 12px 12px">
+        <div style="min-width:180px;padding:20px 24px;display:flex;flex-direction:column;justify-content:center">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);margin-bottom:4px">Source 5</div>
+          <div style="font-family:'Caveat',cursive;font-size:24px;font-weight:700;color:var(--ink);line-height:1.1">Ground Truth</div>
+          <span class="layer-card-existing tag-live" style="width:fit-content">We built this</span>
+        </div>
+        <div style="flex:1;padding:20px 24px;border-left:2px solid var(--lighter)">
+          <div style="font-size:15px;color:var(--text);line-height:1.6"><strong>What:</strong> Two years of field research with the University of Virginia across five communities — mapping actual food access barriers, program enrollment gaps, and community-specific factors that public data misses.<br><strong>How we use it:</strong> This is what calibrates the model. Public data says Wolfe County, KY has 4 grocery stores. Our research says 2 of them don't carry fresh produce. That calibration is the difference between a useful system and a naive one.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin:40px 0">
+    <div style="font-family:'Caveat',cursive;font-size:22px;font-weight:600;color:var(--ink);margin-bottom:20px">What the AI produces</div>
+    <p>The output isn't a dashboard or a score. It's a structured briefing for a specific government decision-maker:</p>
+    <div style="background:var(--ink);color:var(--bg);border-radius:12px;padding:28px 32px;margin:20px 0;font-size:14.5px;line-height:1.7;font-family:'DM Sans',monospace">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--green-light);margin-bottom:16px">Sample Intelligence Briefing</div>
+      <div style="color:var(--light)">
+        <strong style="color:var(--bg)">ALERT: Wolfe County, KY — Financial Stress Spike</strong><br>
+        <span style="color:var(--muted)">Generated: March 17, 2026 · Confidence: High</span><br><br>
+        <strong style="color:var(--green-light)">Signal:</strong> Financial stress index +35% over 30-day baseline (zip codes 41301, 41311, 41339)<br>
+        <strong style="color:var(--green-light)">Cause:</strong> Expanded SNAP work requirements effective April 1 (Federal Register 2026-04291)<br>
+        <strong style="color:var(--green-light)">Affected:</strong> Est. 2,400 households · 60% adults ages 55-64 · 73% current SNAP recipients<br>
+        <strong style="color:var(--green-light)">Food access:</strong> Nearest fresh produce 12.3 mi avg · 2 of 4 stores carry produce · No public transit<br><br>
+        <strong style="color:var(--bg)">Recommended actions:</strong><br>
+        1. Activate targeted outreach to affected SNAP recipients in 41301, 41311, 41339<br>
+        2. Coordinate mobile pantry deployment (Feeding America contact: on file)<br>
+        3. Alert 211 center for anticipated call volume increase<br>
+        4. Deploy FreshFind eligibility screener for alternative program enrollment<br><br>
+        <span style="color:var(--muted);font-size:13px">Sources: BLS Local Area Unemployment · Census ACS 2024 · USDA SNAP QC · Federal Register · FinMango Barometer · UVA field research</span>
+      </div>
+    </div>
+    <p style="font-size:15px;color:var(--muted)">Every claim in the briefing traces back to a specific data source. The AI assembles and contextualizes — it doesn't hallucinate. Recommendations follow pre-approved templates that government partners help define.</p>
+  </div>
+
+  <div style="background:var(--green-pale);padding:28px 32px;border-radius:4px;position:relative;margin:32px 0">
+    <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)"></div>
+    <div style="font-family:'Caveat',cursive;font-size:22px;font-weight:600;color:var(--ink);margin-bottom:12px">Why this is feasible</div>
+    <p style="margin-bottom:12px">This isn't speculative. The data sources are public and machine-readable. The Barometer already aggregates financial stress data from 5 federal APIs. Gemini's context window handles the cross-referencing. The UVA research provides the calibration layer that most government AI projects lack.</p>
+    <p style="margin-bottom:0">What the grant builds is the pipeline that connects these sources and the briefing engine that turns raw signals into decisions. The AI doesn't need to be novel — it needs to be reliable, auditable, and fast. That's an engineering problem, not a research problem.</p>
+  </div>
+
+  <p style="margin-top:12px"><a href="details.html#architecture" style="color:var(--green);font-weight:500">See the full technical architecture — model pipeline, infrastructure, and compliance →</a></p>
+</section>
+
 <!-- ═══ TRY THE TOOLS ═══ -->
 <section class="section reveal" id="tools">
-  <div class="section-label">03</div><h2>try it yourself <span class="annotation">live tools</span></h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"/></svg>
+  <div class="section-label">04</div><h2>try it yourself <span class="annotation">live tools</span></h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#2a7d5b" stroke-width="1.2" fill="none"/></svg>
   <p class="lead">The response tools are already built and working. The grant connects them to the intelligence system.</p>
   <div class="tool-card reveal"><div class="tool-card-content"><div class="tool-card-num">tool one</div><h3>Financial Health Barometer</h3><p>Real-time financial stress tracking across all 50 states. This is the data that powers the Detect step.</p><div style="margin-top:20px"><a href="https://finmango.org/barometer" target="_blank" class="tool-link">View the Barometer →</a></div></div></div>
   <div class="tool-card reveal"><div class="tool-card-content"><div class="tool-card-num">tool two</div><h3>Food Desert Analyzer</h3><p>Check whether a neighborhood has real access to grocery stores and fresh food.</p><div style="margin-top:20px"><button onclick="openModal('desertModal')" class="tool-link"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="7" r="5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M8 12 L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Try the Food Desert Analyzer →</button></div></div></div>
@@ -183,7 +284,7 @@
 
 <!-- ═══ WHY IT'S CREDIBLE ═══ -->
 <section class="section reveal" id="proof">
-  <div class="section-label">04</div><h2>built on real research</h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none"/></svg>
+  <div class="section-label">05</div><h2>built on real research</h2><svg class="wavy" width="200" height="8" viewBox="0 0 200 8"><path d="M0 4 C20 0,40 8,60 4 C80 0,100 8,120 4 C140 0,160 8,180 4" stroke="#1a1a1a" stroke-width="1.2" fill="none"/></svg>
   <p>Two years of field research with the University of Virginia across five communities. We mapped who's food insecure, why programs aren't reaching them, and what's blocking access. These communities are our pilot partners.</p>
   <div class="proof-grid reveal">
     <div class="proof-card"><h4>Chicago, IL</h4><p>~500k food insecure. $300M SNAP distributed monthly. Dense infrastructure but severe neighborhood-level access gaps.</p></div>
